@@ -21,6 +21,7 @@ function Login() {
   };
 
   return (
+    <>
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-white px-4">
       <div className="bg-white shadow-lg rounded-xl w-full max-w-sm p-4 sm:p-6">
         {/* Header */}
@@ -146,6 +147,8 @@ function Login() {
         </p>
       </div>
     </div>
+    </>
+
   );
 }
 
