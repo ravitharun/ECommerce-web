@@ -71,6 +71,13 @@ A fully featured and scalable **e-commerce application** built with the **MERN s
 
 
 ---
+##   Images
+
+
+<img width="1366" height="649" alt="image" src="https://github.com/user-attachments/assets/6f1ef8fa-62dd-45c4-845c-fc04df219b68" />
+<p><strong>Note:</strong> The remaining images will be added shortly. Stay tuned!</p>
+
+
 
 ## 🛠️ Tech Stack
 
