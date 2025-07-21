@@ -10,13 +10,9 @@ import UpdatePassword from "./Components/Auth/UpdatePassword";
 function App() {
   return (
     <>
-      <Navbar />
-      <Login />
-      <Sigin />
-      <ForgetPassword />
-      <Contact />
+
       <Home />
-      <UpdatePassword /> {/* ✅ Render this as well */}
+     
     </>
   );
 }
