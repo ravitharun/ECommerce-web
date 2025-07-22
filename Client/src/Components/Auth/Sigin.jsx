@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link } from "react-router-dom";
 function Sigin() {
   const [role, setRole] = useState("customer");
   const [showPass, setShowPass] = useState(false);
@@ -141,9 +142,11 @@ function Sigin() {
           {/* Sign Up Link */}
           <p className="mt-4 text-center text-sm text-gray-600">
             Don’t have an account?{" "}
-            <a href="#" className="text-blue-600 hover:underline font-medium">
-              Sign in
-            </a>
+            <Link to="/login">
+              <a href="#" className="text-blue-600 hover:underline font-medium">
+                Login
+              </a>
+            </Link>
           </p>
         </div>
       </div>

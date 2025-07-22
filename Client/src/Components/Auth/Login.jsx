@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 function Login() {
   const [role, setRole] = useState("customer");
@@ -30,7 +31,7 @@ function Login() {
             Shop<span className="text-gray-800">Zone</span>
           </h1>
           <p className="text-gray-600 mt-1 text-sm sm:text-base">
-            Sign in to your account
+            Login to your account
           </p>
         </div>
 
@@ -114,8 +115,7 @@ function Login() {
           <button
             type="submit"
             className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md text-sm transition"
-          >
-            Sign In
+          >Login
           </button>
         </form>
 
@@ -141,9 +141,11 @@ function Login() {
         {/* Sign Up Link */}
         <p className="mt-4 text-center text-sm text-gray-600">
           Don’t have an account?{" "}
-          <a href="#" className="text-blue-600 hover:underline font-medium">
+          <Link to="/SignUp">
+          <a  className="text-blue-600 hover:underline font-medium">
             Sign Up
           </a>
+          </Link>
         </p>
       </div>
     </div>
