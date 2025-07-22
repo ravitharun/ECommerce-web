@@ -44,7 +44,7 @@ export default function ProductPage() {
     const get_data = async () => {
       console.log(QuerrProduct);
       const reponse_data = await axios.get(
-        `https://dummyjson.com/products/category/fragrances`
+        `https://dummyjson.com/products/category/laptops`
       );
       // console.log(reponse_data.data.products, "use");
       SetDisplayProduct(reponse_data.data.products);
@@ -55,7 +55,7 @@ export default function ProductPage() {
   const CheckData = async () => {
     // 'https://dummyjson.com/products/search?q=phone'
     const reponse_data = await axios.get(
-      `https://dummyjson.com/products/search?q=${QuerrProduct}`
+      `https://dummyjson.com/products/category/${QuerrProduct}`
     );
     if (reponse_data.data.products.length <= 0) {
       toast.error(`No Products Found Related ${QuerrProduct}`);
@@ -65,25 +65,80 @@ export default function ProductPage() {
       SetDisplayProduct(reponse_data.data.products, "QuerrProduct");
     }
   };
-
+  // availabilityStatus
   return (
     <>
       <Navbar />
       <Toaster position="top-center" reverseOrder={true} />{" "}
       <div className="flex flex-col lg:flex-row p-4 gap-4 bg-gray-100 min-h-screen">
         {/* Sidebar Filters (UI only) */}
-        <aside className="lg:w-1/4 w-full bg-white p-4 rounded shadow">
-          <h2 className="text-xl font-semibold mb-4">Filters</h2>
-          <div>
-            <h3 className="font-medium mb-2 text-gray-700">BRAND</h3>
-            {["POCO", "MOTOROLA", "Apple", "vivo", "realme"].map((brand) => (
-              <label key={brand} className="block mb-2 text-sm text-gray-600">
-                <input type="checkbox" className="mr-2" />
-                {brand}
-              </label>
-            ))}
-          </div>
-        </aside>
+       <aside className="lg:w-1/4 w-full bg-white p-4 rounded-xl shadow-md mb-6">
+  <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">Filters</h2>
+
+  {/* Brand Filter */}
+  <div className="mb-6">
+    <h3 className="text-lg font-medium text-gray-700 mb-3">Brand</h3>
+    {["POCO", "MOTOROLA", "Apple", "vivo", "realme"].map((brand) => (
+      <label key={brand} className="flex items-center mb-2 text-sm text-gray-600">
+        <input type="checkbox" className="mr-2 accent-indigo-500" />
+        {brand}
+      </label>
+    ))}
+  </div>
+
+  {/* Price Range Filter */}
+  <div className="mb-6">
+    <h3 className="text-lg font-medium text-gray-700 mb-3">Price Range</h3>
+    <input
+      type="range"
+      min={500}
+      max={1000}
+      value={800}
+      className="w-full accent-indigo-500"
+    />
+    {/* <div className="text-sm text-gray-500 mt-1 text-center">₹500 - ₹1000</div> */}
+  </div>
+
+  {/* Rating Filter */}
+  <div className="mb-6">
+    <h3 className="text-lg font-medium text-gray-700 mb-3">Rating</h3>
+    {[5, 4, 3, 2, 1].map((rating) => (
+      <label key={rating} className="flex items-center mb-2 text-sm text-gray-600">
+        <input
+          type="checkbox"
+          value={rating}
+          className="mr-2 accent-yellow-500"
+          onChange={() => toast.success(`${rating} star selected`)}
+        />
+        {rating}★ & up
+      </label>
+    ))}
+  </div>
+
+  {/* Sort By */}
+  <div className="mb-6">
+    <h3 className="text-lg font-medium text-gray-700 mb-3">Sort By</h3>
+    <select className="w-full p-2 border rounded-md text-sm text-gray-700">
+      <option value="highToLow">Price: High to Low</option>
+      <option value="lowToHigh">Price: Low to High</option>
+    </select>
+  </div>
+
+  {/* Stock Filter */}
+  <div className="mb-4">
+    <h3 className="text-lg font-medium text-gray-700 mb-3">Availability</h3>
+    <select
+      className="w-full p-2 border rounded-md text-sm text-gray-700"
+      onChange={(e) =>
+        toast.error(`Stock selected: ${e.target.value}`)
+      }
+    >
+      <option value="In Stock">In Stock</option>
+      <option value="Low Stock">Low Stock</option>
+    </select>
+  </div>
+</aside>
+
 
         {/* Main Content */}
         <main className="flex-1">
@@ -110,12 +165,6 @@ export default function ProductPage() {
                   Search
                 </button>
               </div>
-
-              {/* Result Text */}
-              <h1 className="text-center text-lg font-bold text-gray-800">
-                Showing {ProductDisplayui.length} results for{" "}
-                <span className="text-blue-600">{QuerrProduct}</span>
-              </h1>
             </div>
           </div>
 
@@ -125,7 +174,9 @@ export default function ProductPage() {
             {ProductDisplayui.map((product) => (
               <div
                 key={product.id}
-                onClick={()=>toast.success(` The product  id is ${product.id}`)}
+                onClick={() =>
+                  toast.success(` The product  id is ${product.id}`)
+                }
                 className="relative bg-white flex flex-col sm:flex-row p-4 rounded shadow hover:shadow-md transition"
               >
                 {/* 🎯 Discount Badge (Top-Right Corner) */}
