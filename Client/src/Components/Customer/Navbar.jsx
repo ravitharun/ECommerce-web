@@ -66,18 +66,15 @@ function Navbar() {
       {/* Mobile Menu */}
       {menuOpen && (
         <div className="md:hidden bg-white px-4 py-4 space-y-2 shadow-md">
-          <Link to="">
+          <Link to="/">
             <a href="#" className="block text-gray-700 hover:text-blue-600">
               Home
             </a>
           </Link>
-          <a href="#" className="block text-gray-700 hover:text-blue-600">
+          <a href="/Products" className="block text-gray-700 hover:text-blue-600">
             Products
           </a>
-          <a href="#" className="block text-gray-700 hover:text-blue-600">
-            Categories
-          </a>
-          <a href="#" className="block text-gray-700 hover:text-blue-600">
+          <a href="/Contact" className="block text-gray-700 hover:text-blue-600">
             Contact
           </a>
         </div>

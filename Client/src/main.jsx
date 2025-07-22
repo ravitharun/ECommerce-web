@@ -7,11 +7,13 @@ import Home from "./Components/Customer/Home.jsx";
 import Products from "./Components/Customer/Products.jsx";
 import Login from "./Components/Auth/Login";
 import Sigin from "./Components/Auth/Sigin.jsx";
+import ProductDetails from "./Components/Customer/ProductDetails.jsx";
 createRoot(document.getElementById("root")).render(
   <Router>
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/Products" element={<Products />} />
+      <Route path="/ProductDetails" element={<ProductDetails />} />
       <Route path="/login" element={<Login />} />
       <Route path="/SignUp" element={<Sigin />} />
     </Routes>

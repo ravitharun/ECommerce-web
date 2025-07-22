@@ -4,6 +4,7 @@ import axios from "axios";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
 import SpinnerLoader from "../SpinnerLoader";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const [categories, setCategories] = useState({});
@@ -52,7 +53,7 @@ function Home() {
       ));
     };
   }, []);
-
+  const navigate = useNavigate("");
   useEffect(() => {
     const categoryData = {
       genral: [
@@ -171,7 +172,6 @@ function Home() {
         );
         BestofDeals(reponse.data.products);
         BestofDealsoffurniture(reponse_furniture.data.products);
-        console.log(reponse_furniture);
       } catch (error) {
         toast.error(error.message);
       } finally {
@@ -191,13 +191,49 @@ function Home() {
       });
     }
   };
+  const SearchProduct = useRef();
+
+  const Search_product = () => {
+    console.log(SearchProduct.current.value, "SearchProduct");
+
+    navigate("/Products", { state: SearchProduct.current.value });
+  };
+  const fetchCategoryProducts = (id) => {
+    navigate("/ProductDetails", { state: id });
+    
+  };
 
   return (
     <>
+      {/* Navbar */}
       <div className="sticky top-0 z-50 bg-white shadow">
         <Navbar />
       </div>
-      <div className="px-4 py-6 bg-gray-50  sticky ">
+
+      {/* Centered Form Section */}
+      <div className="w-full px-4 py-6">
+        <label
+          htmlFor="search"
+          className="block text-gray-800 font-medium mb-2"
+        >
+          Search for Products
+        </label>
+        <input
+          type="text"
+          id="search"
+          placeholder="Search for phones, fashion, electronics..."
+          ref={SearchProduct}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") {
+              Search_product();
+            }
+          }}
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
+        />
+      </div>
+
+      {/* Category Scroll Section */}
+      <div className="px-4 py-6 bg-gray-50 relative">
         {/* Arrows */}
         <button
           className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white shadow rounded-full p-2 z-10 hover:scale-105"
@@ -212,7 +248,6 @@ function Home() {
           <ChevronRight size={20} />
         </button>
 
-        {/* Scrollable container */}
         <div
           ref={scrollRef}
           className="flex overflow-x-auto gap-6 scrollbar-hide px-10 py-2 relative z-10"
@@ -266,6 +301,8 @@ function Home() {
             </div>
           ))}
         </div>
+
+        {/* Dropdowns */}
         <div className="ml-5 relative">
           {open === "mens" && (
             <div className="absolute top-full left-0 mt-2 z-50 bg-white shadow-lg rounded-md p-3 w-44">
@@ -280,127 +317,108 @@ function Home() {
               ))}
             </div>
           )}
-          <div className="ml-26 relative">
-            {open === "womens" && (
-              <div className="absolute top-full left-0 mt-2 z-50 bg-white shadow-lg rounded-md p-3 w-44">
-                {categories.womens?.map((data, index) => (
-                  <div
-                    key={index}
-                    className="flex items-center gap-2 hover:bg-gray-100 px-2 py-1 rounded cursor-pointer"
-                  >
-                    <img src={data.img} alt={data.name} className="w-6 h-6" />
-                    <p className="text-sm">{data.name}</p>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          {open === "womens" && (
+            <div className="absolute top-full left-0 mt-2 z-50 bg-white shadow-lg rounded-md p-3 w-44">
+              {categories.womens?.map((data, index) => (
+                <div
+                  key={index}
+                  className="flex items-center gap-2 hover:bg-gray-100 px-2 py-1 rounded cursor-pointer"
+                >
+                  <img src={data.img} alt={data.name} className="w-6 h-6" />
+                  <p className="text-sm">{data.name}</p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
+      {/* Toast and Deals */}
       <Toaster position="top-right" reverseOrder={true} />
-     {Isloadingpage?<SpinnerLoader/>: <div>
-        <div className="mt-5 p-5">
-          <div>
+
+      {Isloadingpage ? (
+        <SpinnerLoader />
+      ) : (
+        <div>
+          {/* Electronics Deals */}
+          <div className="mt-5 p-5">
             <h3 className="text-xl font-semibold mb-4">Best of Electronics</h3>
-          </div>
-
-          <div className="overflow-x-auto py-4 px-2">
-            <div className="flex gap-4 justify-center">
-              {Deals.length > 0 ? (
-                Deals.map((DealsData, index) => (
-                  <div
-                    key={index}
-                    className="relative min-w-[200px] max-w-[200px] bg-white rounded shadow p-3 text-center cursor-pointer"
-                    onClick={() =>
-                      toast(`The id is ${DealsData.id}`, {
-                        icon: "👏",
-                        style: {
-                          borderRadius: "10px",
-                          background: "#333",
-                          color: "#fff",
-                        },
-                      })
-                    }
-                  >
-                    <img
-                      src={DealsData.thumbnail}
-                      alt={DealsData.brand}
-                      className="h-40 w-full object-contain rounded"
-                    />
-                    <p className="text-sm font-medium mt-2">
-                      {DealsData.brand}
-                    </p>
-                    <p className="text-green-600 font-semibold">
-                      ₹{DealsData.price}
-                    </p>
-                    {DealsData.discountPercentage > 5 && (
-                      <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-[1px] rounded shadow-lg z-10">
-                        {DealsData.discountPercentage}% OFF
-                      </div>
-                    )}
-                  </div>
-                ))
-              ) : (
-                <p className="text-center text-gray-500 w-full">
-                  No electronics deals found.
-                </p>
-              )}
+            <div className="overflow-x-auto py-4 px-2">
+              <div className="flex gap-4 justify-center">
+                {Deals.length > 0 ? (
+                  Deals.map((DealsData, index) => (
+                    <div
+                      key={index}
+                      className="relative min-w-[200px] max-w-[200px] bg-white rounded shadow p-3 text-center cursor-pointer"
+                      onClick={() => fetchCategoryProducts(DealsData.id)}
+                    >
+                      <img
+                        src={DealsData.thumbnail}
+                        alt={DealsData.brand}
+                        className="h-40 w-full object-contain rounded"
+                      />
+                      <p className="text-sm font-medium mt-2">
+                        {DealsData.brand}
+                      </p>
+                      <p className="text-green-600 font-semibold">
+                        ₹{DealsData.price}
+                      </p>
+                      {DealsData.discountPercentage > 5 && (
+                        <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-[1px] rounded shadow-lg z-10">
+                          {DealsData.discountPercentage}% OFF
+                        </div>
+                      )}
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-center text-gray-500 w-full">
+                    No electronics deals found.
+                  </p>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-        <div className="mt-5 p-5">
-          <div>
+
+          {/* Furniture Deals */}
+          <div className="mt-5 p-5">
             <h3 className="text-xl font-semibold mb-4">Furniture Deals</h3>
-          </div>
-
-          <div className="overflow-x-auto py-4 px-2">
-            <div className="flex gap-4 justify-center">
-              {Dealsoffurniture.length > 0 ? (
-                Dealsoffurniture.map((DealsData, index) => (
-                  <div
-                    key={index}
-                    className="relative min-w-[200px] max-w-[200px] bg-white rounded shadow p-3 text-center cursor-pointer"
-                    onClick={() =>
-                      toast(`The id is ${DealsData.id}`, {
-                        icon: "👏",
-                        style: {
-                          borderRadius: "10px",
-                          background: "#333",
-                          color: "#fff",
-                        },
-                      })
-                    }
-                  >
-                    {/* Discount Badge - top-right */}
-                    {DealsData.discountPercentage >= 5 && (
-                      <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-[1px] rounded shadow-lg z-10">
-                        {DealsData.discountPercentage}% OFF
-                      </div>
-                    )}
-
-                    <img
-                      src={DealsData.thumbnail}
-                      alt={DealsData.brand}
-                      className="h-40 w-full object-contain rounded"
-                    />
-                    <p className="text-sm font-medium mt-2">
-                      {DealsData.brand}
-                    </p>
-                    <p className="text-green-600 font-semibold">
-                      ₹{DealsData.price}
-                    </p>
-                  </div>
-                ))
-              ) : (
-                <p className="text-center text-gray-500 w-full">
-                  No Furniture deals found.
-                </p>
-              )}
+            <div className="overflow-x-auto py-4 px-2">
+              <div className="flex gap-4 justify-center">
+                {Dealsoffurniture.length > 0 ? (
+                  Dealsoffurniture.map((DealsData, index) => (
+                    <div
+                      key={index}
+                      onClick={() => fetchCategoryProducts(DealsData.id)}
+                      className="relative min-w-[200px] max-w-[200px] bg-white rounded shadow p-3 text-center cursor-pointer"
+                    >
+                      {DealsData.discountPercentage >= 5 && (
+                        <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-[1px] rounded shadow-lg z-10">
+                          {DealsData.discountPercentage}% OFF
+                        </div>
+                      )}
+                      <img
+                        src={DealsData.thumbnail}
+                        alt={DealsData.brand}
+                        className="h-40 w-full object-contain rounded"
+                      />
+                      <p className="text-sm font-medium mt-2">
+                        {DealsData.brand}
+                      </p>
+                      <p className="text-green-600 font-semibold">
+                        ₹{DealsData.price}
+                      </p>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-center text-gray-500 w-full">
+                    No Furniture deals found.
+                  </p>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>}
+      )}
     </>
   );
 }
