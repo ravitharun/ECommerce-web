@@ -1,8 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { useLocation } from "react-router-dom";
-import ReactImageMagnify from "react-image-magnify";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
 import SpinnerLoader from "../SpinnerLoader";
 
 function ProductDetails() {
@@ -21,7 +22,7 @@ function ProductDetails() {
           `https://dummyjson.com/products/${productId}`
         );
         setProduct(response.data);
-        setImage(response.data.thumbnail); // Set default main image
+        setImage(response.data.thumbnail);
       } catch (error) {
         console.error("Error fetching product:", error);
         toast.error("Failed to load product");
@@ -33,8 +34,22 @@ function ProductDetails() {
     getProductById();
   }, [productId]);
 
+  // checkQuantity
+  const checkQuantity = (qt) => {
+    const minQty = product.minimumOrderQuantity || 1;
+    console.log(minQty, "minQty");
+
+    if (minQty == qt) {
+      toast.success(`✔️ You accepted the minimum order quantity.`);
+
+    } else {
+      toast.error(`🚫 You can only order ${product.minimumOrderQuantity}.`);
+    }
+  };
+
   return (
     <>
+      <Toaster />
       {Loader ? (
         <SpinnerLoader />
       ) : (
@@ -57,34 +72,13 @@ function ProductDetails() {
                 ))}
               </div>
               <div className="w-full max-w-md mx-auto p-4">
-                <ReactImageMagnify
-                  {...{
-                    smallImage: {
-                      alt: product.title || "Product Image",
-                      isFluidWidth: true,
-                      src: image, // ✅ Use selected image
-                    },
-                    largeImage: {
-                      src: image,
-                      width: 1200,
-                      height: 1800,
-                    },
-                    enlargedImageContainerStyle: {
-                      background: "#fff",
-                      zIndex: 1000,
-                      border: "1px solid #ddd",
-                      boxShadow: "0 0 15px rgba(0,0,0,0.1)",
-                    },
-                    enlargedImageContainerDimensions: {
-                      width: "200%",
-                      height: "100%",
-                    },
-                    lensStyle: {
-                      backgroundColor: "rgba(0,0,0,.1)",
-                      border: "1px solid #ccc",
-                    },
-                  }}
-                />
+                <Zoom>
+                  <img
+                    src={image}
+                    alt={product.title || "Product Image"}
+                    className="w-full object-contain rounded"
+                  />
+                </Zoom>
               </div>
             </div>
 
@@ -95,16 +89,15 @@ function ProductDetails() {
               </h2>
               <p className="text-gray-600">{product.description}</p>
               <p className="text-xl font-semibold text-green-600">
-                ₹{product.price}
+                ₹{product.price.toLocaleString()}
               </p>
               <p className="text-sm text-gray-500">
                 {product.discountPercentage}% off
               </p>
               <p className="text-sm text-gray-700">Rating: {product.rating}</p>
               <p className="text-sm text-gray-700">
-                Min Order: {product.minimumOrderQuantity || "1"}
+                Min Order: {product.minimumOrderQuantity || "one"}
               </p>
-
               <div className="mb-4">
                 <label
                   htmlFor="quantity"
@@ -116,11 +109,8 @@ function ProductDetails() {
                   id="quantity"
                   name="quantity"
                   className="w-full px-4 py-2 text-sm text-gray-800 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  onChange={(event) => console.log(event.target.value)}
+                  onClick={(event) => checkQuantity(event.target.value)}
                 >
-                  <option value="" disabled selected>
-                    Select one
-                  </option>
                   {[...Array(10)].map((_, i) => (
                     <option key={i + 1} value={i + 1}>
                       {i + 1}
@@ -133,7 +123,14 @@ function ProductDetails() {
                 Warranty: {product.warrantyInformation || "1 year standard"}
               </p>
               <p className="text-sm text-gray-700">
-                stock: {product.stock <=5?<div className="font-mono text-red-500">Only {product.stock}Left</div>:<b className="text-green-500 font-mono">{product.stock}</b>}
+                Stock:{" "}
+                {product.stock <= 5 ? (
+                  <span className="font-mono text-red-500">
+                    Only {product.stock} Left
+                  </span>
+                ) : (
+                  <b className="text-green-500 font-mono">{product.stock}</b>
+                )}
               </p>
               <p className="text-sm text-gray-700">
                 Shipping: {product.shippingInformation || "Free Shipping"}

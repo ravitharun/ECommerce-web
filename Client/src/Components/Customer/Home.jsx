@@ -63,74 +63,73 @@ function Home() {
         },
         {
           name: "fragrances",
-          img: "https://rukminim2.flixcart.com/flap/64/64/image/22fddf3c7da4c4f4.png?q=100",
+          img: "https://media.glamourmagazine.co.uk/photos/639362467b473e3dc755fb1e/16:9/w_2580,c_limit/BEST%20PERFUME%20FOR%20WOMEN%2091222_SF.jpg?mbid=social_retweet",
         },
         {
           name: "furniture",
-          img: "https://rukminim1.flixcart.com/fk-p-flap/64/64/image/0d75b34f7d8fbcb3.png?q=100",
+          img: "https://tse3.mm.bing.net/th/id/OIP.tsL3Jz8jzvfsKsg6TR-TLQHaFS?pid=Api&P=0&h=180",
         },
         {
           name: "home-decoration",
-          img: "https://rukminim1.flixcart.com/flap/64/64/image/69c6589653afdb9a.png?q=100",
+          img: "https://tse2.mm.bing.net/th/id/OIP.6dF-_Y0FYdjcyot4uaDFmgHaHa?pid=Api&P=0&h=180",
         },
         {
           name: "kitchen-accessories",
-          img: "https://rukminim1.flixcart.com/flap/64/64/image/ab7e2b022a4587dd.jpg?q=100",
+          img: "https://tse3.mm.bing.net/th/id/OIP.Mq9c-8delxxRRfRBQRo9PAAAAA?pid=Api&P=0&h=180",
         },
         {
           name: "laptops",
-          img: "https://rukminim1.flixcart.com/fk-p-flap/64/64/image/0139228b2f7eb413.jpg?q=100",
+          img: "https://tse3.mm.bing.net/th/id/OIP.DLRLitiNsit7bTV1G3tv-gHaGD?pid=Api&P=0&h=180",
         },
         {
           name: "mobile-accessories",
-          img: "https://rukminim1.flixcart.com/flap/64/64/image/dff3f7adcf3a90c6.png?q=100",
+          img: "https://cdn.dummyjson.com/product-images/mobile-accessories/tv-studio-camera-pedestal/thumbnail.webp",
         },
-        { name: "Two Wheelers", img: "bike.png" },
         {
           name: "motorcycle",
-          img: "https://rukminim1.flixcart.com/flap/64/64/image/dff3f7adcf3a90c6.png?q=100",
+          img: "https://cdn.dummyjson.com/product-images/motorcycle/generic-motorcycle/thumbnail.webp",
         },
         {
           name: "skin-care",
-          img: "https://rukminim1.flixcart.com/flap/64/64/image/dff3f7adcf3a90c6.png?q=100",
+          img: "https://cdn.dummyjson.com/product-images/skin-care/attitude-super-leaves-hand-soap/thumbnail.webp",
         },
         {
           name: "smartphones",
-          img: "https://rukminim1.flixcart.com/flap/64/64/image/dff3f7adcf3a90c6.png?q=100",
+          img: "https://cdn.dummyjson.com/product-images/smartphones/iphone-5s/thumbnail.webp",
         },
         {
           name: "sports-accessories",
-          img: "https://rukminim1.flixcart.com/flap/64/64/image/dff3f7adcf3a90c6.png?q=100",
+          img: "https://cdn.dummyjson.com/product-images/sports-accessories/cricket-bat/thumbnail.webp",
         },
         {
           name: "sunglasses",
-          img: "https://rukminim1.flixcart.com/flap/64/64/image/dff3f7adcf3a90c6.png?q=100",
+          img: "https://cdn.dummyjson.com/product-images/sunglasses/black-sun-glasses/thumbnail.webp",
         },
         {
           name: "tablets",
-          img: "https://rukminim1.flixcart.com/flap/64/64/image/dff3f7adcf3a90c6.png?q=100",
+          img: "https://cdn.dummyjson.com/product-images/tablets/ipad-mini-2021-starlight/thumbnail.webp",
         },
         {
           name: "tops",
-          img: "https://rukminim1.flixcart.com/flap/64/64/image/dff3f7adcf3a90c6.png?q=100",
+          img: "https://cdn.dummyjson.com/product-images/tops/gray-dress/thumbnail.webp",
         },
         {
           name: "vehicle",
-          img: "https://rukminim1.flixcart.com/flap/64/64/image/dff3f7adcf3a90c6.png?q=100",
+          img: "https://cdn.dummyjson.com/product-images/vehicle/300-touring/thumbnail.webp",
         },
       ],
       mens: [
         {
           name: "mens-shirts",
-          img: "https://rukminim1.flixcart.com/flap/64/64/image/dff3f7adcf3a90c6.png?q=100",
+          img: "https://cdn.dummyjson.com/product-images/mens-shirts/blue-&-black-check-shirt/thumbnail.webp",
         },
         {
           name: "mens-shoes",
-          img: "https://rukminim1.flixcart.com/flap/64/64/image/dff3f7adcf3a90c6.png?q=100",
+          img: "https://cdn.dummyjson.com/product-images/mens-shoes/nike-air-jordan-1-red-and-black/thumbnail.webp",
         },
         {
           name: "mens-watches",
-          img: "https://rukminim1.flixcart.com/flap/64/64/image/dff3f7adcf3a90c6.png?q=100",
+          img: "https://cdn.dummyjson.com/product-images/mens-watches/brown-leather-belt-watch/thumbnail.webp",
         },
       ],
       womens: [
@@ -140,19 +139,19 @@ function Home() {
         },
         {
           name: "womens-dresses",
-          img: "https://rukminim1.flixcart.com/flap/64/64/image/dff3f7adcf3a90c6.png?q=100",
+          img: "https://cdn.dummyjson.com/product-images/womens-dresses/black-women's-gown/thumbnail.webp",
         },
         {
           name: "womens-jewellery",
-          img: "https://rukminim1.flixcart.com/flap/64/64/image/dff3f7adcf3a90c6.png?q=100",
+          img: "https://cdn.dummyjson.com/product-images/womens-jewellery/green-crystal-earring/thumbnail.webp",
         },
         {
           name: "womens-shoes",
-          img: "https://rukminim1.flixcart.com/flap/64/64/image/dff3f7adcf3a90c6.png?q=100",
+          img: "https://cdn.dummyjson.com/product-images/womens-shoes/black-&-brown-slipper/thumbnail.webp",
         },
         {
           name: "womens-watches",
-          img: "https://rukminim1.flixcart.com/flap/64/64/image/dff3f7adcf3a90c6.png?q=100",
+          img: "https://cdn.dummyjson.com/product-images/womens-watches/rolex-cellini-moonphase/thumbnail.webp",
         },
       ],
     };
@@ -200,7 +199,6 @@ function Home() {
   };
   const fetchCategoryProducts = (id) => {
     navigate("/ProductDetails", { state: id });
-    
   };
 
   return (

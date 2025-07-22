@@ -64,7 +64,7 @@ export default function ProductPage() {
 
   const CheckData = async () => {
     try {
-      setisloader(true)
+      setisloader(true);
       const reponse_Products = await axios.get(
         `https://dummyjson.com/products/category/${QuerrProduct}`
       );
@@ -86,6 +86,8 @@ export default function ProductPage() {
   const fetchCategoryProducts = (id) => {
     navigate("/ProductDetails", { state: id });
   };
+
+
   // availabilityStatus
   return (
     <>
