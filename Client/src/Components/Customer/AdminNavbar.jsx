@@ -9,14 +9,15 @@ import {
   FaBars,
   FaTimes,
 } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 // import { a } from "react-router-dom";
-
 const AdminNavbar = () => {
+  const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem("adminToken");
-    window.location.href = "/admin/login";
+    navigate("/login");
   };
 
   return (
@@ -27,27 +28,42 @@ const AdminNavbar = () => {
         {/* Desktop as */}
         <ul className="hidden md:flex gap-6 text-sm font-medium items-center cursor-pointer">
           <li>
-            <a to="/admin/dashboard" className="hover:text-red-400 flex items-center gap-1">
+            <a
+              to="/admin/dashboard"
+              className="hover:text-red-400 flex items-center gap-1"
+            >
               <FaTachometerAlt /> Dashboard
             </a>
           </li>
           <li>
-            <a to="/admin/products" className="hover:text-red-400 flex items-center gap-1">
+            <a
+              to="/admin/products"
+              className="hover:text-red-400 flex items-center gap-1"
+            >
               <FaBoxOpen /> Products
             </a>
           </li>
           <li>
-            <a to="/admin/orders" className="hover:text-red-400 flex items-center gap-1">
+            <a
+              to="/admin/orders"
+              className="hover:text-red-400 flex items-center gap-1"
+            >
               <FaShoppingCart /> Orders
             </a>
           </li>
           <li>
-            <a to="/admin/users" className="hover:text-red-400 flex items-center gap-1">
+            <a
+              to="/admin/users"
+              className="hover:text-red-400 flex items-center gap-1"
+            >
               <FaUsers /> Users
             </a>
           </li>
           <li>
-            <a to="/admin/add-product" className="hover:text-red-400 flex items-center gap-1">
+            <a
+              to="/admin/add-product"
+              className="hover:text-red-400 flex items-center gap-1"
+            >
               <FaPlus /> Add Product
             </a>
           </li>
@@ -74,27 +90,47 @@ const AdminNavbar = () => {
       {isMobileMenuOpen && (
         <ul className="md:hidden mt-4 space-y-3 text-sm font-medium">
           <li>
-            <a to="/admin/dashboard" className="flex items-center gap-2 hover:text-red-400" onClick={() => setIsMobileMenuOpen(false)}>
+            <a
+              to="/admin/dashboard"
+              className="flex items-center gap-2 hover:text-red-400"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
               <FaTachometerAlt /> Dashboard
             </a>
           </li>
           <li>
-            <a to="/admin/products" className="flex items-center gap-2 hover:text-red-400" onClick={() => setIsMobileMenuOpen(false)}>
+            <a
+              to="/admin/products"
+              className="flex items-center gap-2 hover:text-red-400"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
               <FaBoxOpen /> Products
             </a>
           </li>
           <li>
-            <a to="/admin/orders" className="flex items-center gap-2 hover:text-red-400" onClick={() => setIsMobileMenuOpen(false)}>
+            <a
+              to="/admin/orders"
+              className="flex items-center gap-2 hover:text-red-400"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
               <FaShoppingCart /> Orders
             </a>
           </li>
           <li>
-            <a to="/admin/users" className="flex items-center gap-2 hover:text-red-400" onClick={() => setIsMobileMenuOpen(false)}>
+            <a
+              to="/admin/users"
+              className="flex items-center gap-2 hover:text-red-400"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
               <FaUsers /> Users
             </a>
           </li>
           <li>
-            <a to="/admin/add-product" className="flex items-center gap-2 hover:text-red-400" onClick={() => setIsMobileMenuOpen(false)}>
+            <a
+              to="/admin/add-product"
+              className="flex items-center gap-2 hover:text-red-400"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
               <FaPlus /> Add Product
             </a>
           </li>

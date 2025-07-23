@@ -13,7 +13,7 @@ function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   // You can dynamically set this based on login/auth role
-  const role = "customer"; // or 'customer'
+  const role = "admin"; // or 'customer'
 
   if (role == "admin") {
     return <AdminNavbar />;
