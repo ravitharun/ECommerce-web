@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import SpinnerLoader from "../SpinnerLoader";
+import Pay from "./Pay";
 
 function ProductDetails() {
   const location = useLocation();
@@ -45,10 +46,16 @@ function ProductDetails() {
       toast.error(`🚫 You can only order ${product.minimumOrderQuantity}.`);
     }
   };
-
+  const data_product = {
+    order_id: product.id,
+    order_title: product.title,
+    order_amount: product.price,
+  };
+  console.log("data_product", data_product);
   return (
     <>
       <Toaster />
+
       {Loader ? (
         <SpinnerLoader />
       ) : (
@@ -87,7 +94,9 @@ function ProductDetails() {
                 {product.title}
               </h2>
               <p className="text-gray-600">{product.description}</p>
-              <p className="text-xl font-semibold text-green-600">₹{product.price}</p>
+              <p className="text-xl font-semibold text-green-600">
+                ₹{product.price}
+              </p>
               <p className="text-sm text-gray-500">
                 {product.discountPercentage}% off
               </p>
@@ -138,9 +147,8 @@ function ProductDetails() {
                 <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
                   Add to Cart
                 </button>
-                <button className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">
-                  Buy Now
-                </button>
+                <Pay order_id={data_product} />
+
                 <button className="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">
                   Wishlist
                 </button>

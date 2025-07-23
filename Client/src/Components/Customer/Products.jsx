@@ -6,6 +6,7 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
 import SpinnerLoader from "../SpinnerLoader";
+import Pay from "./Pay";
 
 const products = [
   {
@@ -122,10 +123,10 @@ export default function ProductPage() {
   const resetFilters = () => {
     setDisplayProducts(allProducts);
   };
-
   return (
     <>
       <Navbar />
+     
       <Toaster position="top-center" reverseOrder={true} />{" "}
       <div className="flex flex-col lg:flex-row p-4 gap-4 bg-gray-100 min-h-screen">
         {/* Sidebar Filters (UI only) */}
