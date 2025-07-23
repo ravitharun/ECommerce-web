@@ -41,9 +41,12 @@ const products = [
 export default function ProductPage() {
   const location = useLocation();
   const [Loader, setisloader] = useState(false);
+  const [allProducts, setAllProducts] = useState([]); // full list
+
   const Product = location.state || "Phone";
   const [QuerrProduct, setquerryProduct] = useState("phones");
-  const [ProductDisplayui, SetDisplayProduct] = useState([]);
+  const [Rangeshow, setrangeShow] = useState(500);
+  const [ProductDisplayui, setDisplayProducts] = useState([]);
 
   useEffect(() => {
     const getproducts = async () => {
@@ -52,7 +55,8 @@ export default function ProductPage() {
         const reponse_Products = await axios.get(
           `https://dummyjson.com/products/category/laptops`
         );
-        SetDisplayProduct(reponse_Products.data.products);
+        setDisplayProducts(reponse_Products.data.products);
+        setAllProducts(reponse_Products.data.products);
       } catch (error) {
         toast.error(error.message);
       } finally {
@@ -72,9 +76,9 @@ export default function ProductPage() {
       if (reponse_Products.data.products.length <= 0) {
         toast.error(`No Products Found Related ${QuerrProduct}`);
       } else {
-        console.log(reponse_Products.data.products);
-
-        SetDisplayProduct(reponse_Products.data.products);
+        setDisplayProducts(reponse_Products.data.products);
+        setAllProducts(reponse_Products.data.products);
+        reponse_Products.data.products;
       }
     } catch (error) {
       toast.error(error.message);
@@ -87,8 +91,38 @@ export default function ProductPage() {
     navigate("/ProductDetails", { state: id });
   };
 
+  // GetProdcut_ratting
 
-  // availabilityStatus
+  const GetProductByRating = (minRating) => {
+    const filtered = allProducts.filter(
+      (product) => product.rating >= minRating
+    );
+
+    setDisplayProducts(filtered);
+  };
+
+  // SortByPrice
+  const SortByPrice = (sortBy) => {
+    console.log("price by ", sortBy);
+  };
+
+  const PriceRange = (maxPrice) => {
+    setrangeShow(maxPrice); // update UI
+    const filtered = allProducts.filter(
+      (product) => product.price >= 1000 && product.price <= maxPrice
+    );
+
+    if (filtered.length <= 0) {
+      toast.error("⚠️ Based on price range, no product found");
+    }
+
+    setDisplayProducts(filtered);
+  };
+
+  const resetFilters = () => {
+    setDisplayProducts(allProducts);
+  };
+
   return (
     <>
       <Navbar />
@@ -103,12 +137,16 @@ export default function ProductPage() {
           {/* Brand Filter */}
           <div className="mb-6">
             <h3 className="text-lg font-medium text-gray-700 mb-3">Brand</h3>
-            {["POCO", "MOTOROLA", "Apple", "vivo", "realme"].map((brand) => (
+            {["POCO", "MOTOROLA", "Apple", "vivo", "mi"].map((brand) => (
               <label
                 key={brand}
                 className="flex items-center mb-2 text-sm text-gray-600"
               >
-                <input type="checkbox" className="mr-2 accent-indigo-500" />
+                <input
+                  type="checkbox"
+                  className="mr-2 accent-indigo-500"
+                  onClick={() => alert(brand)}
+                />
                 {brand}
               </label>
             ))}
@@ -121,12 +159,15 @@ export default function ProductPage() {
             </h3>
             <input
               type="range"
-              min={500}
-              max={1000}
-              value={800}
+              min={1000}
+              max={20000}
+              value={Rangeshow}
+              onChange={(e) => PriceRange(Number(e.target.value))}
               className="w-full accent-indigo-500"
             />
-            {/* <div className="text-sm text-gray-500 mt-1 text-center">₹500 - ₹1000</div> */}
+            <div className="text-sm text-gray-500 mt-1 text-center">
+              Range: ₹{parseInt(Rangeshow).toLocaleString()}
+            </div>
           </div>
 
           {/* Rating Filter */}
@@ -141,7 +182,7 @@ export default function ProductPage() {
                   type="checkbox"
                   value={rating}
                   className="mr-2 accent-yellow-500"
-                  onChange={() => toast.success(`${rating} star selected`)}
+                  onClick={() => GetProductByRating(rating)}
                 />
                 {rating}★ & up
               </label>
@@ -151,8 +192,13 @@ export default function ProductPage() {
           {/* Sort By */}
           <div className="mb-6">
             <h3 className="text-lg font-medium text-gray-700 mb-3">Sort By</h3>
-            <select className="w-full p-2 border rounded-md text-sm text-gray-700">
-              <option value="highToLow">Price: High to Low</option>
+            <select
+              className="w-full p-2 border rounded-md text-sm text-gray-700"
+              onClick={(event) => SortByPrice(event.target.value)}
+            >
+              <option value="highToLow" selected>
+                Price: High to Low
+              </option>
               <option value="lowToHigh">Price: Low to High</option>
             </select>
           </div>
@@ -170,6 +216,12 @@ export default function ProductPage() {
               <option value="Low Stock">Low Stock</option>
             </select>
           </div>
+          <button
+            onClick={resetFilters}
+            className="bg-blue-500 text-white px-4 py-2 rounded"
+          >
+            Reset Filters
+          </button>
         </aside>
 
         {/* Main Content */}

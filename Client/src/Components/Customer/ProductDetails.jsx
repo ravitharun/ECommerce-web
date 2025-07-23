@@ -41,7 +41,6 @@ function ProductDetails() {
 
     if (minQty == qt) {
       toast.success(`✔️ You accepted the minimum order quantity.`);
-
     } else {
       toast.error(`🚫 You can only order ${product.minimumOrderQuantity}.`);
     }
@@ -88,9 +87,7 @@ function ProductDetails() {
                 {product.title}
               </h2>
               <p className="text-gray-600">{product.description}</p>
-              <p className="text-xl font-semibold text-green-600">
-                ₹{product.price.toLocaleString()}
-              </p>
+              <p className="text-xl font-semibold text-green-600">₹{product.price}</p>
               <p className="text-sm text-gray-500">
                 {product.discountPercentage}% off
               </p>

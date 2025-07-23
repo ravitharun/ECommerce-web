@@ -359,7 +359,7 @@ function Home() {
                         {DealsData.brand}
                       </p>
                       <p className="text-green-600 font-semibold">
-                        ₹{DealsData.price}
+                        ₹{DealsData.price.toLocaleString()}
                       </p>
                       {DealsData.discountPercentage > 5 && (
                         <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-[1px] rounded shadow-lg z-10">
@@ -403,7 +403,7 @@ function Home() {
                         {DealsData.brand}
                       </p>
                       <p className="text-green-600 font-semibold">
-                        ₹{DealsData.price}
+                        ₹{DealsData.price.toLocaleString()}
                       </p>
                     </div>
                   ))
