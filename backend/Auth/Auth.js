@@ -27,8 +27,7 @@ router.post('/login', async (req, res) => {
 });
 
 router.get('/get', (req, res) => {
-    console.log("Test GET hit");
-    res.send("Get route working");
+  console.log("Test GET hit");
+  res.send("Get route working");
 });
-
 module.exports = router;
