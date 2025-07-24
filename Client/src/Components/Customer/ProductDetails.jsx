@@ -51,7 +51,7 @@ function ProductDetails() {
     order_title: product.title,
     order_amount: product.price,
   };
-  console.log("data_product", data_product);
+ 
   return (
     <>
       <Toaster />
