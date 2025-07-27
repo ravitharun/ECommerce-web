@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useRef, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -9,7 +10,7 @@ function Sigin() {
   const Email = useRef();
   const passwordRef = useRef();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const User_info = {
       FullName: FullName.current.value,
@@ -17,7 +18,10 @@ function Sigin() {
       Role: role,
       Password: passwordRef.current.value,
     };
-    console.log("User_info:", User_info);
+    const response = await axios.post("http://localhost:3000/api/e-com/new", {
+      User_info: User_info,
+    });
+    console.log("User_infos:", response.data.message);
   };
   return (
     <>

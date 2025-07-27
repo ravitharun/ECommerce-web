@@ -15,21 +15,22 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const User_info = {
-      FullName: FullName.current.value,
-      Email: Email.current.value,
-      Role: role,
-      Password: passwordRef.current.value,
+      email: Email.current.value,
+      role: role,
+      password: passwordRef.current.value,
     };
-    try {
-      const Login = await axios.post("http://localhost:3000/api/e-com/login", {
-        User_info,
-      });
-      console.log(Login.data.message, "login_response");
 
-      if (
-        Login.data.message == "PLease Fill the form Information"
-      ) {
-        toast.error(Login.data.message);
+    try {
+      const response = await axios.get(
+        "http://localhost:3000/api/e-com/login",
+        {
+          params: User_info,
+        }
+      );
+      console.log(response.data.message, "login_response");
+
+      if (response.data.message == "PLease Fill the form Information") {
+        toast.error(response.data.message);
       }
     } catch (error) {
       console.log("error", error.message);
