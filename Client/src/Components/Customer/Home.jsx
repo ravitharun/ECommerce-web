@@ -6,6 +6,7 @@ import toast, { Toaster } from "react-hot-toast";
 import SpinnerLoader from "../SpinnerLoader";
 import { useNavigate } from "react-router-dom";
 import CheckUser from "../Auth/CheckUser";
+import Marquee from "./Marquee";
 
 function Home() {
   const [categories, setCategories] = useState({});
@@ -202,11 +203,14 @@ function Home() {
     navigate("/ProductDetails", { state: id });
   };
 
+
+  
   return (
     <>
       {/* Navbar */}
       <div className="sticky top-0 z-50 bg-white shadow">
         <Navbar />
+        <Marquee></Marquee>
       </div>
 
       <CheckUser></CheckUser>

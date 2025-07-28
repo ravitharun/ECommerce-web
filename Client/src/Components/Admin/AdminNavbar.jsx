@@ -9,7 +9,7 @@ import {
   FaBars,
   FaTimes,
 } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // import { a } from "react-router-dom";
 const AdminNavbar = () => {
   const navigate = useNavigate();
@@ -28,44 +28,44 @@ const AdminNavbar = () => {
         {/* Desktop as */}
         <ul className="hidden md:flex gap-6 text-sm font-medium items-center cursor-pointer">
           <li>
-            <a
-              to="/admin/dashboard"
+            <Link 
+              to="/admin"
               className="hover:text-red-400 flex items-center gap-1"
             >
               <FaTachometerAlt /> Dashboard
-            </a>
+            </Link>
           </li>
           <li>
-            <a
+            <Link
               to="/admin/products"
               className="hover:text-red-400 flex items-center gap-1"
             >
               <FaBoxOpen /> Products
-            </a>
+            </Link>
           </li>
           <li>
-            <a
+            <Link
               to="/admin/orders"
               className="hover:text-red-400 flex items-center gap-1"
             >
               <FaShoppingCart /> Orders
-            </a>
+            </Link>
           </li>
           <li>
-            <a
+            <Link
               to="/admin/users"
               className="hover:text-red-400 flex items-center gap-1"
             >
               <FaUsers /> Users
-            </a>
+            </Link>
           </li>
           <li>
-            <a
+            <Link
               to="/admin/add-product"
               className="hover:text-red-400 flex items-center gap-1"
             >
               <FaPlus /> Add Product
-            </a>
+            </Link>
           </li>
         </ul>
 

@@ -7,18 +7,26 @@ import {
   FaUser,
 } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi"; // ✅ Logout icon
-import AdminNavbar from "./AdminNavbar";
-import { Link } from "react-router-dom";
+
+import { Link, useNavigate } from "react-router-dom";
+import AdminNavbar from "../Admin/AdminNavbar";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-
+  const Navigate = useNavigate("");
   const role = localStorage.getItem("ROLE");
 
   if (role === "admin") {
     return <AdminNavbar />;
   }
 
+  const Logout = () => {
+    let token = localStorage.removeItem("token");
+    console.log(token)
+    let email = localStorage.removeItem("email");
+    let role = localStorage.removeItem("ROLE");
+    Navigate("/login");
+  };
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -29,13 +37,19 @@ function Navbar() {
           {/* Desktop Links */}
           <div className="hidden md:flex space-x-6 font-medium">
             <Link to="/">
-              <span className="text-gray-700 hover:text-blue-600 cursor-pointer">Home</span>
+              <span className="text-gray-700 hover:text-blue-600 cursor-pointer">
+                Home
+              </span>
             </Link>
             <Link to="/Products">
-              <span className="text-gray-700 hover:text-blue-600 cursor-pointer">Products</span>
+              <span className="text-gray-700 hover:text-blue-600 cursor-pointer">
+                Products
+              </span>
             </Link>
             <Link to="/contact">
-              <span className="text-gray-700 hover:text-blue-600 cursor-pointer">Contact</span>
+              <span className="text-gray-700 hover:text-blue-600 cursor-pointer">
+                Contact
+              </span>
             </Link>
           </div>
 
@@ -49,12 +63,13 @@ function Navbar() {
                 <FaUser className="text-gray-600 hover:text-blue-500 cursor-pointer text-xl" />
               </Link>
             ) : (
-              <Link to="/logout">
-                <button className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-md shadow transition-all">
-                  <FiLogOut size={18} />
-                  Logout
-                </button>
-              </Link>
+              <button
+                className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-md shadow transition-all"
+                onClick={Logout}
+              >
+                <FiLogOut size={18} />
+                Logout
+              </button>
             )}
 
             {/* Hamburger Menu for Mobile */}
@@ -79,13 +94,19 @@ function Navbar() {
       {menuOpen && (
         <div className="md:hidden bg-white px-4 py-4 space-y-2 shadow-md">
           <Link to="/">
-            <span className="block text-gray-700 hover:text-blue-600 cursor-pointer">Home</span>
+            <span className="block text-gray-700 hover:text-blue-600 cursor-pointer">
+              Home
+            </span>
           </Link>
           <Link to="/Products">
-            <span className="block text-gray-700 hover:text-blue-600 cursor-pointer">Products</span>
+            <span className="block text-gray-700 hover:text-blue-600 cursor-pointer">
+              Products
+            </span>
           </Link>
           <Link to="/Contact">
-            <span className="block text-gray-700 hover:text-blue-600 cursor-pointer">Contact</span>
+            <span className="block text-gray-700 hover:text-blue-600 cursor-pointer">
+              Contact
+            </span>
           </Link>
         </div>
       )}

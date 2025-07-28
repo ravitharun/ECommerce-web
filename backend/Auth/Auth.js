@@ -12,15 +12,14 @@ router.get("/login", async (req, res) => {
     try {
         const { email, password, role } = req.query;
         console.log(role, "role")
-        if (email=="" && password=="" && role=="") {
+        if (email == "" && password == "" && role == "") {
             return res.json({ fillMessage: "Please fill all required fields" });
         }
-        const Is_Created_User = await User.findOne({ email });
-
-        if (!Is_Created_User) {
+        const Is_Created_User = await User.findOne({ email: email });
+        console.log(Is_Created_User)
+        if (Is_Created_User == null) {
             return res.status(404).json({ message: "User not found" });
         }
-
         // Compare password
         bcrypt.compare(password, Is_Created_User.password, (err, result) => {
             if (err) {

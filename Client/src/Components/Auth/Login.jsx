@@ -35,7 +35,7 @@ function Login() {
         );
         console.log(response.data.message);
         if (response.data.fillMessage == "Please fill all required fields") {
-          console.log(response.data.fillMessage);
+          toast.error(response.data.fillMessage);
         }
         if (response.data.message == "Login successful") {
           localStorage.setItem("ROLE", response.data.user.role);
@@ -49,7 +49,11 @@ function Login() {
           toast.error(response.data.message);
         }
       } catch (error) {
-        console.log("error", error.message);
+        if (error.message == "Request failed with status code 404") {
+          toast.error("Email not found. Please register or try again.");
+        } else {
+          toast.error(error.message, "no");
+        }
       }
     }
   };
