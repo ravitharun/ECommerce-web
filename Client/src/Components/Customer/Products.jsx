@@ -7,6 +7,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
 import SpinnerLoader from "../SpinnerLoader";
 import Pay from "./Pay";
+import CheckUser from "../Auth/CheckUser";
 
 const products = [
   {
@@ -126,7 +127,7 @@ export default function ProductPage() {
   return (
     <>
       <Navbar />
-     
+      <CheckUser></CheckUser>
       <Toaster position="top-center" reverseOrder={true} />{" "}
       <div className="flex flex-col lg:flex-row p-4 gap-4 bg-gray-100 min-h-screen">
         {/* Sidebar Filters (UI only) */}

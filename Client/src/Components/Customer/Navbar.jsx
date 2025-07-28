@@ -6,18 +6,19 @@ import {
   FaTimes,
   FaUser,
 } from "react-icons/fa";
+import { FiLogOut } from "react-icons/fi"; // ✅ Logout icon
 import AdminNavbar from "./AdminNavbar";
-import { Link } from "react-router-dom"; // ✅ Correct for routing
+import { Link } from "react-router-dom";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // You can dynamically set this based on login/auth role
-  const role = "admin"; // or 'customer'
+  const role = localStorage.getItem("ROLE");
 
-  if (role == "admin") {
+  if (role === "admin") {
     return <AdminNavbar />;
   }
+
   return (
     <nav className="bg-white shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -28,14 +29,13 @@ function Navbar() {
           {/* Desktop Links */}
           <div className="hidden md:flex space-x-6 font-medium">
             <Link to="/">
-              <a className="text-gray-700 hover:text-blue-600">Home</a>
+              <span className="text-gray-700 hover:text-blue-600 cursor-pointer">Home</span>
             </Link>
             <Link to="/Products">
-              <a className="text-gray-700 hover:text-blue-600">Products</a>
+              <span className="text-gray-700 hover:text-blue-600 cursor-pointer">Products</span>
             </Link>
-
             <Link to="/contact">
-              <a className="text-gray-700 hover:text-blue-600">Contact</a>
+              <span className="text-gray-700 hover:text-blue-600 cursor-pointer">Contact</span>
             </Link>
           </div>
 
@@ -43,9 +43,21 @@ function Navbar() {
           <div className="flex items-center space-x-4">
             <FaHeart className="text-gray-600 hover:text-red-500 cursor-pointer text-xl" />
             <FaShoppingCart className="text-gray-600 hover:text-green-500 cursor-pointer text-xl" />
-            <Link to="/login">
-              <FaUser className="text-gray-600 hover:text-blue-500 cursor-pointer text-xl" />
-            </Link>
+
+            {role === "" || role === null ? (
+              <Link to="/login">
+                <FaUser className="text-gray-600 hover:text-blue-500 cursor-pointer text-xl" />
+              </Link>
+            ) : (
+              <Link to="/logout">
+                <button className="flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-md shadow transition-all">
+                  <FiLogOut size={18} />
+                  Logout
+                </button>
+              </Link>
+            )}
+
+            {/* Hamburger Menu for Mobile */}
             <div className="md:hidden">
               {menuOpen ? (
                 <FaTimes
@@ -67,16 +79,14 @@ function Navbar() {
       {menuOpen && (
         <div className="md:hidden bg-white px-4 py-4 space-y-2 shadow-md">
           <Link to="/">
-            <a href="#" className="block text-gray-700 hover:text-blue-600">
-              Home
-            </a>
+            <span className="block text-gray-700 hover:text-blue-600 cursor-pointer">Home</span>
           </Link>
-          <a href="/Products" className="block text-gray-700 hover:text-blue-600">
-            Products
-          </a>
-          <a href="/Contact" className="block text-gray-700 hover:text-blue-600">
-            Contact
-          </a>
+          <Link to="/Products">
+            <span className="block text-gray-700 hover:text-blue-600 cursor-pointer">Products</span>
+          </Link>
+          <Link to="/Contact">
+            <span className="block text-gray-700 hover:text-blue-600 cursor-pointer">Contact</span>
+          </Link>
         </div>
       )}
     </nav>

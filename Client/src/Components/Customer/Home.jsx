@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
 import SpinnerLoader from "../SpinnerLoader";
 import { useNavigate } from "react-router-dom";
+import CheckUser from "../Auth/CheckUser";
 
 function Home() {
   const [categories, setCategories] = useState({});
@@ -208,6 +209,7 @@ function Home() {
         <Navbar />
       </div>
 
+      <CheckUser></CheckUser>
       {/* Centered Form Section */}
       <div className="w-full px-4 py-6">
         <label

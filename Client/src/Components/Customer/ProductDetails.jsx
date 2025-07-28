@@ -6,6 +6,9 @@ import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import SpinnerLoader from "../SpinnerLoader";
 import Pay from "./Pay";
+import CheckUser from "../Auth/CheckUser";
+import RelatedProduct from "./RelatedProduct";
+import Navbar from "./Navbar";
 
 function ProductDetails() {
   const location = useLocation();
@@ -54,11 +57,13 @@ function ProductDetails() {
  
   return (
     <>
+    <Navbar/>
       <Toaster />
 
       {Loader ? (
         <SpinnerLoader />
       ) : (
+
         <div className="p-6 max-w-6xl mx-auto">
           {/* Product Section */}
           <div className="grid lg:grid-cols-2 gap-6">
@@ -86,7 +91,8 @@ function ProductDetails() {
                   />
                 </Zoom>
               </div>
-            </div>
+            </div> <CheckUser></CheckUser>
+
 
             {/* Right: Product Info */}
             <div className="space-y-4">
@@ -218,6 +224,7 @@ function ProductDetails() {
           </div>
         </div>
       )}
+      <RelatedProduct/>
     </>
   );
 }

@@ -1,14 +1,14 @@
 import axios from "axios";
 import React, { useRef, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 
 function Login() {
   const [role, setRole] = useState("customer");
   const [showPass, setShowPass] = useState(false);
-
-  const FullName = useRef();
+  const navigate = useNavigate("");
+  console.log(role);
   const Email = useRef();
   const passwordRef = useRef();
 
@@ -19,21 +19,37 @@ function Login() {
       role: role,
       password: passwordRef.current.value,
     };
-
-    try {
-      const response = await axios.get(
-        "http://localhost:3000/api/e-com/login",
-        {
-          params: User_info,
+    if (
+      User_info.email == "" ||
+      User_info.role == "" ||
+      User_info.password == ""
+    ) {
+      toast.error("fill th required Details");
+    } else {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/e-com/login",
+          {
+            params: User_info,
+          }
+        );
+        console.log(response.data.message);
+        if (response.data.fillMessage == "Please fill all required fields") {
+          console.log(response.data.fillMessage);
         }
-      );
-      console.log(response.data.message, "login_response");
-
-      if (response.data.message == "PLease Fill the form Information") {
-        toast.error(response.data.message);
+        if (response.data.message == "Login successful") {
+          localStorage.setItem("ROLE", response.data.user.role);
+          localStorage.setItem("token", response.data.token);
+          toast.success(response.data.message);
+          setTimeout(() => {
+            navigate("/");
+          }, 1200);
+        } else if (response.data.message == "User not found") {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        console.log("error", error.message);
       }
-    } catch (error) {
-      console.log("error", error.message);
     }
   };
 
@@ -67,19 +83,6 @@ function Login() {
                 <option value="customer">Customer</option>
                 <option value="admin">Admin</option>
               </select>
-            </div>
-
-            {/* Full Name */}
-            <div>
-              <label className="block text-sm text-gray-700 mb-1">
-                Full Name
-              </label>
-              <input
-                ref={FullName}
-                type="text"
-                placeholder="John Doe"
-                className="w-full px-3 py-1.5 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm"
-              />
             </div>
 
             {/* Email */}

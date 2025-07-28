@@ -1,4 +1,5 @@
 import axios from "axios";
+import CheckUser from "../Auth/CheckUser";
 
 function loadScript(src) {
   return new Promise((resolve) => {
@@ -60,12 +61,15 @@ function Pay({ amount = 100 }) {
   }
 
   return (
-    <button
-      onClick={displayRazorpay}
-      className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
-    >
-      Buy Now
-    </button>
+    <>
+      <CheckUser></CheckUser>
+      <button
+        onClick={displayRazorpay}
+        className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"
+      >
+        Buy Now
+      </button>
+    </>
   );
 }
 
