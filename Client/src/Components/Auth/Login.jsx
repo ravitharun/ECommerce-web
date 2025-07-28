@@ -39,6 +39,7 @@ function Login() {
         }
         if (response.data.message == "Login successful") {
           localStorage.setItem("ROLE", response.data.user.role);
+          localStorage.setItem("email", response.data.user.email);
           localStorage.setItem("token", response.data.token);
           toast.success(response.data.message);
           setTimeout(() => {
