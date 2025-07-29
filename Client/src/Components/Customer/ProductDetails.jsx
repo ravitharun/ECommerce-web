@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import SpinnerLoader from "../SpinnerLoader";
@@ -200,9 +200,14 @@ function ProductDetails() {
 
               {/* Action Buttons */}
               <div className="flex flex-wrap gap-4 mt-4">
-                <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                <Link
+                  to="/Add/cart"
+                  className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                >
                   Add to Cart
-                </button>
+                </Link>
+
+                {/* </> */}
                 <Pay order_id={data_product} />
 
                 <button className="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">

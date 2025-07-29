@@ -14,6 +14,8 @@ import ProtectedRoute from "./Components/ProtectedRoute.jsx";
 import Notauth from "./Components/Customer/Notauth.jsx";
 import AddProdcuts from "./Components/Admin/AddProdcuts.jsx";
 import AdminProducts from "./Components/Admin/AdminProducts.jsx";
+import AddCart from "./Components/Customer/AddCart.jsx";
+import Wishlist from "./Components/Customer/Wishlist.jsx";
 
 const role = localStorage.getItem("ROLE");
 const isLoggedIn = !!localStorage.getItem("token");
@@ -38,6 +40,22 @@ createRoot(document.getElementById("root")).render(
           element={
             <ProtectedRoute user={user} allowedRoles={["customer"]}>
               <Products />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/Add/cart"
+          element={
+            <ProtectedRoute user={user} allowedRoles={["customer"]}>
+              <AddCart />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/user/wishlist"
+          element={
+            <ProtectedRoute user={user} allowedRoles={["customer"]}>
+              <Wishlist />
             </ProtectedRoute>
           }
         />

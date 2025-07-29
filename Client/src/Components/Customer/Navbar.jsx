@@ -22,7 +22,7 @@ function Navbar() {
 
   const Logout = () => {
     let token = localStorage.removeItem("token");
-    console.log(token)
+    console.log(token);
     let email = localStorage.removeItem("email");
     let role = localStorage.removeItem("ROLE");
     Navigate("/login");
@@ -55,9 +55,13 @@ function Navbar() {
 
           {/* Icons */}
           <div className="flex items-center space-x-4">
-            <FaHeart className="text-gray-600 hover:text-red-500 cursor-pointer text-xl" />
-            <FaShoppingCart className="text-gray-600 hover:text-green-500 cursor-pointer text-xl" />
 
+            <Link to="/user/wishlist">
+            <FaHeart className="text-gray-600 hover:text-red-500 cursor-pointer text-xl" />
+            </Link>
+            <Link to="/Add/cart">
+              <FaShoppingCart className="text-gray-600 hover:text-green-500 cursor-pointer text-xl" />
+            </Link>{" "}
             {role === "" || role === null ? (
               <Link to="/login">
                 <FaUser className="text-gray-600 hover:text-blue-500 cursor-pointer text-xl" />
@@ -71,7 +75,6 @@ function Navbar() {
                 Logout
               </button>
             )}
-
             {/* Hamburger Menu for Mobile */}
             <div className="md:hidden">
               {menuOpen ? (
