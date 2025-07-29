@@ -16,7 +16,9 @@ const AdminNavbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleLogout = () => {
-    localStorage.removeItem("adminToken");
+    localStorage.removeItem("token");
+    localStorage.removeItem("ROLE");
+    localStorage.removeItem("email");
     navigate("/login");
   };
 
@@ -28,7 +30,7 @@ const AdminNavbar = () => {
         {/* Desktop as */}
         <ul className="hidden md:flex gap-6 text-sm font-medium items-center cursor-pointer">
           <li>
-            <Link 
+            <Link
               to="/admin"
               className="hover:text-red-400 flex items-center gap-1"
             >

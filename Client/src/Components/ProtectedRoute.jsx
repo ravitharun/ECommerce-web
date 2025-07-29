@@ -1,12 +1,11 @@
 import { Navigate } from "react-router-dom";
 
-function ProtectedRoute({ children, user }) {
-    console.log(user.role,"user ")
+function ProtectedRoute({ children, user, allowedRoles = [] }) {
   if (!user?.isLoggedIn) {
     return <Navigate to="/login" />;
   }
 
-  if (user.role != "customer") {
+  if (!allowedRoles.includes(user.role)) {
     return <Navigate to="/not-authorized" />;
   }
 

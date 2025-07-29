@@ -9,44 +9,34 @@ import Login from "./Components/Auth/Login";
 import Sigin from "./Components/Auth/Sigin.jsx";
 import ProductDetails from "./Components/Customer/ProductDetails.jsx";
 import Dashboard from "./Components/Admin/Dashboard.jsx";
-import App from "./App.jsx"; // ✅ Correct default import
+import App from "./App.jsx";
 import ProtectedRoute from "./Components/ProtectedRoute.jsx";
 import Notauth from "./Components/Customer/Notauth.jsx";
 import AddProdcuts from "./Components/Admin/AddProdcuts.jsx";
 import AdminProducts from "./Components/Admin/AdminProducts.jsx";
+
 const role = localStorage.getItem("ROLE");
-const isLoggedIn = !!localStorage.getItem("token"); // or whatever you store
+const isLoggedIn = !!localStorage.getItem("token");
 
 const user = {
   isLoggedIn: isLoggedIn,
   role: role,
 };
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Router>
       <Routes>
         <Route path="/" element={<App />} />
-        {/* <Route path="/ProductDetails" element={<ProductDetails />} /> */}
         <Route path="/login" element={<Login />} />
-        <Route path="/admin" element={<Dashboard />} />
         <Route path="/SignUp" element={<Sigin />} />
         <Route path="/not-authorized" element={<Notauth />} />
-        <Route path="/admin/add-product" element={<AddProdcuts />} />
-        <Route path="/admin/products" element={<AdminProducts />} />
-        {/* Protected route only for customer */}
-        <Route
-          path="/Products"
-          element={
-            <ProtectedRoute user={user}>
-              <Products />
-            </ProtectedRoute>
-          }
-        />
 
+        {/* ✅ Customer Protected Routes */}
         <Route
           path="/Products"
           element={
-            <ProtectedRoute user={user}>
+            <ProtectedRoute user={user} allowedRoles={["customer"]}>
               <Products />
             </ProtectedRoute>
           }
@@ -54,8 +44,27 @@ createRoot(document.getElementById("root")).render(
         <Route
           path="/ProductDetails"
           element={
-            <ProtectedRoute user={user}>
+            <ProtectedRoute user={user} allowedRoles={["customer"]}>
               <ProductDetails />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ✅ Admin Protected Routes */}
+    
+        <Route
+          path="/admin/add-product"
+          element={
+            <ProtectedRoute user={user} allowedRoles={["admin"]}>
+              <AddProdcuts />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/products"
+          element={
+            <ProtectedRoute user={user} allowedRoles={["admin"]}>
+              <AdminProducts />
             </ProtectedRoute>
           }
         />
