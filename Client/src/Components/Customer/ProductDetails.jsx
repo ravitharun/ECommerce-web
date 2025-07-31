@@ -16,6 +16,7 @@ function ProductDetails() {
   const productId = location.state;
   const [product, setProduct] = useState({});
   const [comment, setComment] = useState("");
+  const [Productsqt, setquanty] = useState("");
   const [Location, setLocation] = useState("");
   const [catedories, setCategories] = useState("");
   const [Loader, setisloader] = useState(false);
@@ -35,7 +36,7 @@ function ProductDetails() {
         setImage(response.data.thumbnail);
       } catch (error) {
         console.error("Error fetching product:", error);
-        toast.error("Failed to load product");
+        // toast.error("Failed to load product");
       } finally {
         setisloader(false);
       }
@@ -47,6 +48,7 @@ function ProductDetails() {
   // checkQuantity
   const checkQuantity = (qt) => {
     const minQty = product.minimumOrderQuantity || 1;
+    setquanty(qt);
     console.log(minQty, "minQty");
 
     if (minQty == qt) {
@@ -107,6 +109,7 @@ function ProductDetails() {
   useEffect(() => {
     getLocation();
   }, []);
+  // console.log('product.checkQuantity',product.minimumOrderQuantity)
 
   // add to cart
   const CheckCart = async (
@@ -123,9 +126,20 @@ function ProductDetails() {
       productPrice: productThumbnail,
       productThumbnail: productPrice,
       productTitle: productTitle,
+      Productsqt: Productsqt,
       email: email,
     };
+
     try {
+      if (Productsqt >= product.checkQuantity) {
+        return toast.error(
+          ` the mini is schould be ${product.checkQuantity}qt`
+        );
+      } else if (Prodcut_info.Productsqt == "") {
+        alert(Productsqt, "qt check ");
+        
+      }
+
       setisloader(true);
       const cart_response = await axios.post(
         "http://localhost:3000/api/cart/add",

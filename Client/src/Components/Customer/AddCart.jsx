@@ -1,132 +1,211 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { FaTrash, FaShoppingCart } from "react-icons/fa";
+import { MdSearch } from "react-icons/md";
 import Navbar from "./Navbar";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Wait from "../Wait";
-const initialCartData = [
-  {
-    id: 1,
-    name: "Nike Air Max 270",
-    price: 8999,
-    quantity: 1,
-    image:
-      "https://static.nike.com/a/images/t_prod_ss/w_640,c_limit,f_auto/20c80a2a-3913-48c5-bdf2-6e3481047abf/air-max-270-mens-shoes-KkLcGR.png",
-  },
-  {
-    id: 2,
-    name: "Apple AirPods Pro",
-    price: 24999,
-    quantity: 2,
-    image:
-      "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/airpods-pro-2nd-gen-2023?wid=600&hei=600&fmt=jpeg&qlt=95&.v=1694014871981",
-  },
-];
+import SpinnerLoader from "../SpinnerLoader";
 
 function AddCart() {
-  const [cartData, setCartData] = useState(initialCartData);
+  const [cartData, setCartData] = useState([]);
   const [search, setSearch] = useState("");
+  const [Isloader, setloader] = useState(false);
   const navigate = useNavigate();
-  const handleRemove = (id) => {
-    const updatedCart = cartData.filter((item) => item.id !== id);
-    setCartData(updatedCart);
-  };
 
-  const filteredCart = cartData.filter((item) =>
-    item.name.toLowerCase().includes(search.toLowerCase())
+  // get all crt products saved by particular user by email
+
+  useEffect(() => {
+    const cart_get = async () => {
+      try {
+        setloader(true);
+        const Email = localStorage.getItem("email");
+        const cart_products = await axios.get(
+          "http://localhost:3000/api/cart/GetCartprodcuts",
+          {
+            params: {
+              user_Email: Email,
+            },
+          }
+        );
+        // console.log(cart_products.data.message);
+        setCartData(cart_products.data.message);
+        // setloader(false);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setloader(false);
+        // console.log("loader true");
+      }
+    };
+    cart_get();
+  }, []);
+  const total = cartData.map((data) => data.productPrice);
+  const sum = total.reduce(
+    (previousValue, currentValue, index) => previousValue + currentValue,
+    0
   );
-
   return (
     <>
+      {/* Sticky Navbar */}
       <div className="sticky top-0 z-50 bg-white shadow">
         <Navbar />
       </div>
 
-      <div className="bg-orange-600 text-white text-center py-4 font-mono text-sm sm:text-base">
-        🛠️ Add to Cart is being updated – Available in 2 hours!
-      </div>
-
+      {/* Main Section */}
       <div className="p-4 sm:p-8 bg-gray-100 min-h-screen">
-        <h2 className="text-xl sm:text-2xl font-semibold mb-6 text-gray-800">
-          🛒 Your Cart
+        {/* Cart Heading */}
+        <h2 className="text-2xl font-bold flex items-center gap-2 text-gray-800 mb-6">
+          <FaShoppingCart className="text-orange-500" />
+          Your Cart
         </h2>
 
-        {/* Search Input */}
-        <div className="mb-6">
-          <input
-            type="text"
-            placeholder="Search by product name..."
-            className="w-full sm:w-1/2 px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
+        {/* Search */}
+        <div className="flex justify-center mb-6">
+          <div className="relative w-full sm:w-1/2">
+            <MdSearch className="absolute left-3 top-3 text-gray-400 text-xl" />
+            <input
+              type="text"
+              placeholder="Search by product name..."
+              className="w-full pl-10 pr-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
         </div>
 
-        {filteredCart.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-[60vh] text-center px-4">
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/4072/4072301.png"
-              alt="No items"
-              className="w-32 h-32 mb-4 opacity-80"
+        <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-4 rounded-lg shadow-md mb-4 flex items-start space-x-3 animate-fade-in">
+          <svg
+            className="w-6 h-6 mt-1 text-yellow-600"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M13 16h-1v-4h-1m1-4h.01M12 9v2m0 4h.01M12 18h.01"
             />
-            <h2 className="text-lg font-semibold text-gray-700 mb-2">
-              No items match your search 🧐
-            </h2>
-            <p className="text-sm text-gray-500 mb-6">
-              Looks like your cart is empty or the product you're searching for
-              isn't available.
+          </svg>
+          <div>
+            <p className="font-semibold">Note</p>
+            <p className="text-sm">
+              Click on the image to see more details about the product.
             </p>
-          
+          </div>
+        </div>
+
+        <>
+          {/* Product Table */}
+          {Isloader ? (
+            <SpinnerLoader />
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="min-w-full bg-white rounded-xl shadow">
+                <thead>
+                  <tr className="bg-gray-200 text-left text-sm text-gray-600 uppercase tracking-wider">
+                    <th className="px-4 py-3">productImage</th>
+                    <th className="px-4 py-3">Name</th>
+                    <th className="px-4 py-3">productDescription</th>
+                    <th className="px-4 py-3">Price</th>
+                    <th className="px-4 py-3">Quantity</th>
+                    <th className="px-4 py-3">Total</th>
+                    <th className="px-4 py-3">Action</th>
+                  </tr>
+                </thead>
+                {cartData.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center p-6 bg-gray-50 rounded-md shadow-sm text-center border border-dashed border-gray-300">
+                    <svg
+                      className="w-12 h-12 text-gray-400 mb-3"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M3 3h18M9 3v1m6-1v1M4 7h16l-1.68 12.09a2 2 0 01-1.98 1.91H7.66a2 2 0 01-1.98-1.91L4 7zm5 4v4m6-4v4"
+                      />
+                    </svg>
+                    <p className="text-lg font-semibold text-gray-700">
+                      Your cart is empty
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      Looks like you haven’t added anything yet.
+                    </p>
+                  </div>
+                ) : (
+                  <tbody>
+                    {cartData.map((item) => (
+                      <tr
+                        key={item.id}
+                        className="border-b hover:bg-gray-50 transition "
+                      >
+                        <td className="px-4 py-3">
+                          <img
+                            src={item.productThumbnail}
+                            alt={item.productTitle}
+                            className="w-16 h-16 object-contain rounded cursor-pointer"
+                            onClick={() =>
+                              navigate("/ProductDetails", {
+                                state: item.Productid,
+                              })
+                            }
+                          />
+                        </td>
+                        <td className="px-4 py-3 text-sm font-medium">
+                          {item.productTitle}
+                        </td>
+
+                        <td className="px-4 py-3 text-sm font-medium">
+                          {item.productDescription}
+                        </td>
+                        <td className="px-4 py-3 text-sm">
+                          ₹{item.productPrice.toLocaleString()}
+                        </td>
+                        <td className="px-4 py-3 text-sm">
+                          {item.ProductsQuantity || 1}
+                        </td>
+                        <td className="px-4 py-3 text-sm font-semibold">
+                          ₹
+                          {item.productPrice * item.ProductsQuantity == "Nan"
+                            ? (
+                                item.productPrice * item.ProductsQuantity
+                              ).toLocaleString()
+                            : item.productPrice.toLocaleString()}
+                        </td>
+                        <td className="px-4 py-3">
+                          <button
+                            onClick={() => alert(item._id)}
+                            className="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1 rounded"
+                          >
+                            <FaTrash className="text-sm" /> Remove
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                )}
+              </table>
+            </div>
+          )}
+
+          {/* Total Summary */}
+          <div className="mt-6 text-right pr-4">
+            <h3 className="text-lg font-semibold text-gray-700">
+              Total: ₹{sum.toLocaleString()}
+            </h3>
             <button
-              onClick={() => navigate("/Products")}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-lg transition-all duration-300"
+              onClick={() => alert("Checkout feature coming soon!")}
+              className="mt-4 bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition"
             >
-              Continue Shopping
+              Proceed to Checkout
             </button>
           </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="min-w-full bg-white rounded-lg shadow">
-              <thead>
-                <tr className="bg-gray-200 text-left text-sm text-gray-600 uppercase tracking-wider">
-                  <th className="px-4 py-3">Product</th>
-                  <th className="px-4 py-3">Name</th>
-                  <th className="px-4 py-3">Price</th>
-                  <th className="px-4 py-3">Quantity</th>
-                  <th className="px-4 py-3">Total</th>
-                  <th className="px-4 py-3">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredCart.map((item) => (
-                  <tr key={item.id} className="border-b">
-                    <td className="px-4 py-3">
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="w-16 h-16 object-contain rounded"
-                      />
-                    </td>
-                    <td className="px-4 py-3 text-sm">{item.name}</td>
-                    <td className="px-4 py-3 text-sm">
-                      ₹{item.price.toLocaleString()}
-                    </td>
-                    <td className="px-4 py-3 text-sm">{item.quantity}</td>
-                    <td className="px-4 py-3 text-sm font-semibold">
-                      ₹{(item.price * item.quantity).toLocaleString()}
-                    </td>
-                    <td className="px-4 py-3">
-                      <button
-                        onClick={() => handleRemove(item.id)}
-                        className="bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1 rounded"
-                      >
-                        Remove
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+        </>
       </div>
     </>
   );
