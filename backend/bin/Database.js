@@ -18,9 +18,17 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
 });
+// add to cart
+const UserCart = new mongoose.Schema({
+  Productid: { type: String, require: true },
+  productTitle: { type: String, require: true },
+  productThumbnail: { type: String, require: true },
+  productPrice: { type: String, require: true },
+  useremail: { type: String, require: true }
+})
 
 // Create User model
 const User = mongoose.model("User", userSchema);
-
+const cart = mongoose.model('Cart', UserCart)
 // ✅ Correct export
-module.exports = { User };
+module.exports = { User, cart };

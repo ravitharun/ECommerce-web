@@ -5,7 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var Auth = require('./Auth/Auth');
+var Auth = require('./Auth/Auth'); // ✅ Must be a router
+var Cart = require('./Cart/cart'); // ✅ Must be a router
 var usersRouter = require('./routes/users');
 
 var app = express();
@@ -27,7 +28,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/api/e-com', Auth);
+app.use('/api/e-com', Auth);   // ✅ No crash if Auth is a router
+app.use('/api/cart', Cart);    // ✅ No crash if Cart is a router
 
 
 // catch 404 and forward to error handler

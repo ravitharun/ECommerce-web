@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import SpinnerLoader from "../SpinnerLoader";
@@ -20,7 +20,7 @@ function ProductDetails() {
   const [catedories, setCategories] = useState("");
   const [Loader, setisloader] = useState(false);
   const [image, setImage] = useState("");
-
+  const navigate = useNavigate("");
   useEffect(() => {
     const getProductById = async () => {
       try {
@@ -106,12 +106,91 @@ function ProductDetails() {
   useEffect(() => {
     getLocation();
   }, []);
+  // product.title,product.thumbnail,product.price,product.description,product.id
+
+  // add to cart
+  const CheckCart = async (
+    id,
+    productTitle,
+    productPrice,
+    productDescription,
+    productThumbnail
+  ) => {
+    let email = localStorage.getItem("email");
+    const Prodcut_info = {
+      id: id,
+      productDescription: productDescription,
+      productPrice: productThumbnail,
+      productThumbnail: productPrice,
+      productTitle: productTitle,
+      email: email,
+    };
+    const cart_response = await axios.post(
+      "http://localhost:3000/api/cart/add",
+      { product: Prodcut_info }
+    );
+    console.log("cret_Reponse", cart_response.data.message);
+
+    if (cart_response.data.message == "Cart added successfully") {
+      toast.success(
+        (t) => (
+          <div className="flex items-center gap-4 p-2">
+            {/* 🖼️ Optional product image or icon */}
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/263/263142.png"
+              alt="Cart Icon"
+              className="w-10 h-10"
+            />
+            <div className="flex-1">
+              <p className="font-semibold text-green-700 text-sm sm:text-base">
+                Item successfully added to your cart!
+              </p>
+              <p className="text-xs text-gray-500">
+                You can check your cart anytime from the top right icon.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <button
+                onClick={() => {
+                  toast.dismiss(t.id);
+                  navigate("/Add/cart");
+                }}
+                className="bg-green-600 hover:bg-green-700 text-white text-xs px-3 py-1 rounded"
+              >
+                View Cart
+              </button>
+              <button
+                onClick={() => toast.dismiss(t.id)}
+                className="bg-gray-200 hover:bg-gray-300 text-gray-800 text-xs px-3 py-1 rounded"
+              >
+                Dismiss
+              </button>
+            </div>
+          </div>
+        ),
+        {
+          autoClose: 5000,
+          closeButton: false,
+          hideProgressBar: false,
+          position: "top-center",
+          pauseOnHover: true,
+          draggable: true,
+          style: {
+            borderRadius: "12px",
+            border: "1px solid #d1fae5",
+            backgroundColor: "#f0fdf4",
+            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.05)",
+          },
+        }
+      );
+    }
+  };
 
   return (
     <>
       <Navbar />
-      <Toaster />
-
+      <Toaster position="top-center" reverseOrder={false} />
       {Loader ? (
         <SpinnerLoader />
       ) : (
@@ -200,12 +279,20 @@ function ProductDetails() {
 
               {/* Action Buttons */}
               <div className="flex flex-wrap gap-4 mt-4">
-                <Link
-                  to="/Add/cart"
+                <button
                   className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                  onClick={() =>
+                    CheckCart(
+                      product.id,
+                      product.title,
+                      product.thumbnail,
+                      product.description,
+                      product.price
+                    )
+                  }
                 >
                   Add to Cart
-                </Link>
+                </button>
 
                 {/* </> */}
                 <Pay order_id={data_product} />
