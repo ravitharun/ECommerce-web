@@ -20,6 +20,7 @@ function ProductDetails() {
   const [catedories, setCategories] = useState("");
   const [Loader, setisloader] = useState(false);
   const [image, setImage] = useState("");
+  // const [LoaderPage, isloader] = useState(false);
   const navigate = useNavigate("");
   useEffect(() => {
     const getProductById = async () => {
@@ -106,7 +107,6 @@ function ProductDetails() {
   useEffect(() => {
     getLocation();
   }, []);
-  // product.title,product.thumbnail,product.price,product.description,product.id
 
   // add to cart
   const CheckCart = async (
@@ -125,65 +125,170 @@ function ProductDetails() {
       productTitle: productTitle,
       email: email,
     };
-    const cart_response = await axios.post(
-      "http://localhost:3000/api/cart/add",
-      { product: Prodcut_info }
-    );
-    console.log("cret_Reponse", cart_response.data.message);
+    try {
+      setisloader(true);
+      const cart_response = await axios.post(
+        "http://localhost:3000/api/cart/add",
+        { product: Prodcut_info }
+      );
 
-    if (cart_response.data.message == "Cart added successfully") {
-      toast.success(
-        (t) => (
-          <div className="flex items-center gap-4 p-2">
-            {/* 🖼️ Optional product image or icon */}
-            <img
-              src="https://cdn-icons-png.flaticon.com/512/263/263142.png"
-              alt="Cart Icon"
-              className="w-10 h-10"
-            />
-            <div className="flex-1">
-              <p className="font-semibold text-green-700 text-sm sm:text-base">
-                Item successfully added to your cart!
-              </p>
-              <p className="text-xs text-gray-500">
-                You can check your cart anytime from the top right icon.
-              </p>
+      if (cart_response.data.message == "Cart added successfully") {
+        toast.success(
+          (t) => (
+            <div className="flex items-center gap-4 p-2">
+              {/* 🖼️ Optional product image or icon */}
+
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/263/263142.png"
+                alt="Cart Icon"
+                className="w-10 h-10"
+              />
+              <div className="flex-1">
+                <p className="font-semibold text-green-700 text-sm sm:text-base">
+                  Item successfully added to your cart!
+                </p>
+                <p className="text-xs text-gray-500">
+                  You can check your cart anytime from the top right icon.
+                </p>
+              </div>
+
+              <div className="flex flex-col gap-1">
+                <button
+                  onClick={() => {
+                    toast.dismiss(t.id);
+                    navigate("/Add/cart");
+                  }}
+                  className="bg-green-600 hover:bg-green-700 text-white text-xs px-3 py-1 rounded"
+                >
+                  View Cart
+                </button>
+                <button
+                  onClick={() => toast.dismiss(t.id)}
+                  className="bg-gray-200 hover:bg-gray-300 text-gray-800 text-xs px-3 py-1 rounded"
+                >
+                  Dismiss
+                </button>
+              </div>
             </div>
+          ),
+          {
+            autoClose: 5000,
+            closeButton: false,
+            hideProgressBar: false,
+            position: "top-center",
+            pauseOnHover: true,
+            draggable: true,
+            style: {
+              borderRadius: "12px",
+              border: "1px solid #d1fae5",
+              backgroundColor: "#f0fdf4",
+              boxShadow: "0 4px 10px rgba(0, 0, 0, 0.05)",
+            },
+          }
+        );
+      } else if (
+        cart_response.data.message == "The Product Is Already In Cart"
+      ) {
+        toast.error(
+          (t) => (
+            <div className="flex items-center gap-4 p-4 bg-white border border-gray-200 rounded-lg shadow-lg w-full max-w-md">
+              {/* Product Icon */}
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/891/891462.png"
+                alt="Cart"
+                className="w-12 h-12 object-contain rounded-md border border-gray-300"
+              />
 
-            <div className="flex flex-col gap-1">
-              <button
-                onClick={() => {
-                  toast.dismiss(t.id);
-                  navigate("/Add/cart");
-                }}
-                className="bg-green-600 hover:bg-green-700 text-white text-xs px-3 py-1 rounded"
-              >
-                View Cart
-              </button>
-              <button
-                onClick={() => toast.dismiss(t.id)}
-                className="bg-gray-200 hover:bg-gray-300 text-gray-800 text-xs px-3 py-1 rounded"
-              >
-                Dismiss
-              </button>
+              {/* Text Content */}
+              <div className="flex-1">
+                <p className="text-sm font-semibold text-gray-800">
+                  Already in Your Cart
+                </p>
+                <p className="text-xs text-gray-500">
+                  Looks like you’ve already added this product. Check your cart
+                  to proceed.
+                </p>
+
+                {/* Buttons */}
+                <div className="mt-2 flex gap-2">
+                  <button
+                    onClick={() => {
+                      toast.dismiss(t.id);
+                      navigate("/Add/cart");
+                    }}
+                    className="px-3 py-1 text-xs font-medium bg-black text-white rounded hover:bg-gray-900 transition"
+                  >
+                    View Cart
+                  </button>
+                  <button
+                    onClick={() => toast.dismiss(t.id)}
+                    className="px-3 py-1 text-xs font-medium bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition"
+                  >
+                    Dismiss
+                  </button>
+                </div>
+              </div>
+            </div>
+          ),
+          {
+            autoClose: 4000,
+            position: "top-center",
+            closeButton: false,
+            hideProgressBar: false,
+            pauseOnHover: true,
+            draggable: true,
+            style: {
+              borderRadius: "12px",
+              backgroundColor: "#fff",
+              boxShadow: "0 8px 20px rgba(0, 0, 0, 0.08)",
+            },
+          }
+        );
+      }
+    } catch (error) {
+      toast.error(
+        (t) => (
+          <div className="flex items-start gap-3 p-4 bg-white rounded-lg border border-red-300 shadow-md max-w-md w-full">
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/463/463612.png"
+              alt="Error"
+              className="w-10 h-10 p-1 rounded-full border border-red-200"
+            />
+            <div className="flex flex-col">
+              <p className="text-sm font-semibold text-red-600">
+                {error.message}! 😓
+              </p>
+              <p className="text-xs text-gray-500 mt-1">
+                We're having trouble processing your request. Please try again.
+              </p>
+              <div className="mt-2 flex gap-2">
+                <button
+                  onClick={() => toast.dismiss(t.id)}
+                  className="text-xs px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200 transition"
+                >
+                  Dismiss
+                </button>
+                <button
+                  onClick={() => navigate("/Add/products")}
+                  className="text-xs px-3 py-1 bg-black text-white rounded hover:bg-gray-900 transition"
+                >
+                  Back to Products
+                </button>
+              </div>
             </div>
           </div>
         ),
         {
-          autoClose: 5000,
-          closeButton: false,
-          hideProgressBar: false,
           position: "top-center",
-          pauseOnHover: true,
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeButton: false,
           draggable: true,
-          style: {
-            borderRadius: "12px",
-            border: "1px solid #d1fae5",
-            backgroundColor: "#f0fdf4",
-            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.05)",
-          },
+          pauseOnHover: true,
         }
       );
+    } finally {
+      setisloader(false);
     }
   };
 

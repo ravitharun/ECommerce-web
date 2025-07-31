@@ -24,7 +24,8 @@ const UserCart = new mongoose.Schema({
   productTitle: { type: String, require: true },
   productThumbnail: { type: String, require: true },
   productPrice: { type: String, require: true },
-  useremail: { type: String, require: true }
+  productDescription: { type: String, require: true },
+  useremailAdded: { type: String, require: true }
 })
 
 // Create User model
