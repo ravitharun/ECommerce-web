@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { FaTrash, FaShoppingCart } from "react-icons/fa";
+import { FaTrash, FaShoppingCart, FaClosedCaptioning } from "react-icons/fa";
 import { MdSearch } from "react-icons/md";
 import Navbar from "./Navbar";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SpinnerLoader from "../SpinnerLoader";
+import toast, { Toaster } from "react-hot-toast";
 
 function AddCart() {
   const [cartData, setCartData] = useState([]);
@@ -27,29 +28,66 @@ function AddCart() {
             },
           }
         );
-        // console.log(cart_products.data.message);
         setCartData(cart_products.data.message);
         // setloader(false);
       } catch (error) {
-        console.log(error);
+        console.log("error = ", error.message);
       } finally {
         setloader(false);
-        // console.log("loader true");
       }
     };
     cart_get();
   }, []);
   const total = cartData.map((data) => data.productPrice);
   const sum = total.reduce(
-    (previousValue, currentValue, index) => previousValue + currentValue,
+    (previousValue, currentValue) => previousValue + currentValue,
     0
   );
+  const handelRemove = async (id) => {
+    try {
+      const response = await axios.delete(
+        "http://localhost:3000/api/cart/ProductDelete",
+        {
+          params: { ProductId: id },
+        }
+      );
+      console.log(response.data.message);
+      if (response.data.message === "Your Product has been deleted") {
+        setCartData((prev) => prev.filter((item) => item._id !== id));
+
+        return toast.custom((t) => (
+          <div className="max-w-sm w-full bg-white border-l-4 border-red-500 shadow-lg rounded-md pointer-events-auto flex p-4">
+            <div className="flex-shrink-0 text-red-500 text-2xl">🗑️</div>
+            <div className="ml-3 w-0 flex-1">
+              <p className="text-sm font-bold text-gray-900">
+                Item removed from cart
+              </p>
+              <p className="mt-1 text-sm text-gray-600">
+                You’ve successfully removed the product.
+              </p>
+            </div>
+            <div className="ml-4 flex-shrink-0 flex">
+              <button
+                onClick={() => toast.dismiss(t.id)}
+                className="text-gray-400 hover:text-gray-700 focus:outline-none text-lg"
+              >
+                <FaClosedCaptioning />
+              </button>
+            </div>
+          </div>
+        ));
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <>
       {/* Sticky Navbar */}
       <div className="sticky top-0 z-50 bg-white shadow">
         <Navbar />
       </div>
+      <Toaster position="top-right" reverseOrder={false} />
 
       {/* Main Section */}
       <div className="p-4 sm:p-8 bg-gray-100 min-h-screen">
@@ -68,7 +106,7 @@ function AddCart() {
               placeholder="Search by product name..."
               className="w-full pl-10 pr-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => toast.error("adding soon")}
             />
           </div>
         </div>
@@ -95,7 +133,14 @@ function AddCart() {
             </p>
           </div>
         </div>
-
+        <div className="bg-yellow-100 text-yellow-800 px-4  py-2 rounded-lg shadow-md inline-flex items-center space-x-2 text-sm font-semibold">
+          <span>Total Cart Items:</span>
+          <span className="bg-yellow-300 text-yellow-900 px-2 py-0.5 rounded-full text-xs shadow-inner">
+            {cartData.length}
+          </span>
+        </div>
+        <br />
+        <br />
         <>
           {/* Product Table */}
           {Isloader ? (
@@ -136,6 +181,9 @@ function AddCart() {
                     <p className="text-sm text-gray-500">
                       Looks like you haven’t added anything yet.
                     </p>
+                    <Link to="/Products">
+                      <button>Add Products</button>
+                    </Link>
                   </div>
                 ) : (
                   <tbody>
@@ -179,7 +227,7 @@ function AddCart() {
                         </td>
                         <td className="px-4 py-3">
                           <button
-                            onClick={() => alert(item._id)}
+                            onClick={() => handelRemove(item._id)}
                             className="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white text-xs px-3 py-1 rounded"
                           >
                             <FaTrash className="text-sm" /> Remove

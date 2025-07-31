@@ -41,7 +41,7 @@ router.get('/GetCartprodcuts', async (req, res) => {
         }
         const cartItemsByEmail = await cart.find({ useremailAdded: user_Email })
         if (cartItemsByEmail.length === 0) {
-            res.status(404).json({ message: "No Cart Items Are there" })
+            return res.status(404).json({ message: "No Cart Items Are there" })
         }
         res.json({ message: cartItemsByEmail })
 
@@ -54,13 +54,14 @@ router.get('/GetCartprodcuts', async (req, res) => {
 // cartItemsRmvByEmail by using delete
 router.delete("/ProductDelete", async (req, res) => {
     try {
-        const { id } = req.body
-        if (!id) {
-            return res.status(404).json({ message: "Id is not got" })
+        const { ProductId } = req.query
+        console.log('ProductId', ProductId)
+        if (!ProductId) {
+            return res.json({ message: "Id is not got" })
         }
-        const Delete_Product = await cart.findByIdAndDelete({ _id: id })
+        const Delete_Product = await cart.findByIdAndDelete({ _id: ProductId })
         console.log(Delete_Product)
-        res.json({ message: Delete_Product })
+        res.json({ message: 'Your Product has been deleted' })
     } catch (error) {
         res.json({ message: error.message })
     }
