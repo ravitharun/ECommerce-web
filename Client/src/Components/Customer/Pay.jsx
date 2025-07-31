@@ -11,7 +11,8 @@ function loadScript(src) {
   });
 }
 
-function Pay({ amount = 100 }) {
+function Pay({ order_id }) {
+  console.log("order_id", order_id.order_amount);
   async function displayRazorpay() {
     try {
       const res = await loadScript(
@@ -23,23 +24,26 @@ function Pay({ amount = 100 }) {
       }
 
       // ✅ Step 1: Create order from backend (NO ID passed)
-      const response = await axios.post(
-        "http://localhost:5000/api/create-order",
-        {
-          amount,
-        }
-      );
+      const response = await fetch("http://localhost:3000/api/create-order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ amount: 10000 }),
+      });
 
-      console.log(response.data, "🧾 Razorpay Order");
+      const data = await response.json(); // 🔥 Parse the JSON response
+      console.log(data.message);
+      console.log(data.message.amount);
 
-      // ✅ Step 2: Use Razorpay's order ID
+      // ✅ Now use data instead of response.data
       const options = {
         key: "rzp_test_kWx7lSwo6ofpJI",
-        amount: response.data.amount,
+        amount: data.order.amount,
         currency: "INR",
         name: "Tharun Ravi",
         description: "Test Payment",
-        order_id: response.data.id, // ✅ Razorpay order_id from backend
+        order_id: data.message.id, // correct order ID
         handler: function (res) {
           console.log("✅ Payment Success:", res);
         },
@@ -62,7 +66,7 @@ function Pay({ amount = 100 }) {
 
   return (
     <>
-      <CheckUser></CheckUser>
+      <CheckUser />
       <button
         onClick={displayRazorpay}
         className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600"

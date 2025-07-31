@@ -165,6 +165,7 @@ function ProductDetails() {
                   You can check your cart anytime from the top right icon.
                 </p>
               </div>
+              <CheckUser/>
 
               <div className="flex flex-col gap-1">
                 <button

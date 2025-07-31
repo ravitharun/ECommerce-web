@@ -3,15 +3,33 @@ const { User } = require('../bin/Database');
 const router = express.Router()
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { token } = require('morgan');
 
 const saltRounds = 10;
 const SECRET_KEY = "7f8e2aef0e5d4e3a9d79f82c36b98b7ed8b12e754b53ee61d93acbd1089987cf";
 // it is used to check the Login user is valid or not 
+
+
+const verifyToken = (req, res, next) => {
+    const authHeader = req.headers["authorization"];
+    if (!authHeader) return res.status(401).json({ message: "Token missing" });
+
+    const token = authHeader.split(" ")[1];
+    if (!token) return res.status(401).json({ message: "Token format error" });
+
+    try {
+        const decoded = jwt.verify(token, SECRET_KEY);
+        req.user = decoded;
+        next(); // go to the next route
+    } catch (err) {
+        res.status(403).json({ message: "Invalid or expired token" });
+    }
+};
+
+
 router.get("/login", async (req, res) => {
     try {
         const { email, password, role } = req.query;
-        console.log(role, "role")
+        console.log(email, "role")
         if (email == "" && password == "" && role == "") {
             return res.json({ fillMessage: "Please fill all required fields" });
         }
@@ -69,6 +87,8 @@ router.post("/new", async (req, res) => {
         return res.json({ message: error.message });
     }
 });
-
+router.get("/profile", verifyToken, (req, res) => {
+    res.json({ message: "Protected content", user: req.user });
+});
 
 module.exports = router;

@@ -1,28 +1,31 @@
-const Razorpay = require("razorpay");
 const express = require("express");
-const router = express.Router();
+const Razorpay = require("razorpay");
+const cors = require("cors");
+const router = require("../Auth/Auth");
 
-// Initialize Razorpay instance
+const app = express();
+app.use(cors());
+app.use(express.json());
+
 const razorpay = new Razorpay({
-  key_id: "rzp_test_kWx7lSwo6ofpJI", // your key
-  key_secret: "YOUR_SECRET_KEY",     // your secret
+  key_id: "rzp_test_dOytfbYkx3mnSm",
+  key_secret: "mtEJ7XHApaMPWcf2n3Mb4SLu",
 });
 
 router.post("/api/create-order", async (req, res) => {
+  const { amount } = req.body;
+
   try {
     const { amount } = req.body;
-
-    const options = {
-      amount: amount, // amount in paise (e.g. ₹100 = 10000)
+    const order = await razorpay.orders.create({
+      amount: amount * 100, // convert to paise
       currency: "INR",
       receipt: "receipt_" + Date.now(),
-    };
-    console.log(options, 'options')
-    const order = await razorpay.orders.create(options);
-    res.json(order); // send Razorpay order response
+    });
+    res.json({ success: true, message: order });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to create Razorpay order" });
+    console.error("Payment Error:", err);
+    res.status(500).json({ success: false, error: "Payment failed", details: err.message });
   }
 });
 
