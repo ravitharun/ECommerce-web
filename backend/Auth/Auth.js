@@ -12,8 +12,9 @@ const SECRET_KEY = "7f8e2aef0e5d4e3a9d79f82c36b98b7ed8b12e754b53ee61d93acbd10899
 const verifyToken = (req, res, next) => {
     const authHeader = req.headers["authorization"];
     if (!authHeader) return res.status(401).json({ message: "Token missing" });
-
+    
     const token = authHeader.split(" ")[1];
+    console.log(token,'token')
     if (!token) return res.status(401).json({ message: "Token format error" });
 
     try {

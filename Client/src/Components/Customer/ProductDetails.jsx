@@ -137,7 +137,6 @@ function ProductDetails() {
         );
       } else if (Prodcut_info.Productsqt == "") {
         alert(Productsqt, "qt check ");
-        
       }
 
       setisloader(true);
@@ -165,7 +164,7 @@ function ProductDetails() {
                   You can check your cart anytime from the top right icon.
                 </p>
               </div>
-              <CheckUser/>
+              <CheckUser />
 
               <div className="flex flex-col gap-1">
                 <button
@@ -307,6 +306,35 @@ function ProductDetails() {
     }
   };
 
+  // add to AddtoWhilist
+  const AddtoWhilist = async (
+    id,
+    productTitle,
+    productPrice,
+    productDescription,
+    productThumbnail
+  ) => {
+    try {
+      const data = {
+        id,
+        productTitle,
+        productPrice,
+        productDescription,
+        productThumbnail,
+      };
+
+      const response_Whilis = await axios.post(
+        "http://localhost:3000/api/cart/whilist",
+        { productWhilist: data }
+      );
+      console.log(response_Whilis.data.message, "form api response");
+      console.log(response_Whilis.data.Products, "form api response Products");
+      // console.log("data to add Wishlist", data);
+    } catch (error) {
+      console.log(error.message, "err from the Wishlist ");
+    }
+  };
+
   return (
     <>
       <Navbar />
@@ -417,7 +445,18 @@ function ProductDetails() {
                 {/* </> */}
                 <Pay order_id={data_product} />
 
-                <button className="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">
+                <button
+                  className="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300"
+                  onClick={() =>
+                    AddtoWhilist(
+                      product.id,
+                      product.title,
+                      product.thumbnail,
+                      product.description,
+                      product.price
+                    )
+                  }
+                >
                   Wishlist
                 </button>
               </div>

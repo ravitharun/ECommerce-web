@@ -81,8 +81,8 @@ function AddCart() {
       console.log(error.message);
     }
   };
+  console.log(cartData, "cartData");
 
-  const [Count, setcount] = useState(0);
   return (
     <>
       {/* Sticky Navbar */}
@@ -192,7 +192,7 @@ function AddCart() {
                     {cartData.map((item) => (
                       <tr
                         key={item.id}
-                        className="border-b hover:bg-gray-50 transition "
+                        className="border-b hover:bg-gray-50 transition  "
                       >
                         <td className="px-4 py-3">
                           <img
@@ -213,18 +213,22 @@ function AddCart() {
                         <td className="px-4 py-3 text-sm font-medium">
                           {item.productDescription}
                         </td>
-                        <td className="px-4 py-3 text-sm">
+                        <td className="px-4 py-3 text-sm" title={item.productPrice.toLocaleString()}>
                           ₹{item.productPrice.toLocaleString()}
                         </td>
-                        <td className="px-4 py-3 text-sm">
-                          {item.ProductsQuantity || 1}
-                          <button onClick={() => setcount(Count + 1)}>+</button>
-                          {Count}
-                          <button onClick={() => setcount(Count - 1)}>-</button>
+                        <td className="px-4 py-3 text-sm text-center ">
+                          {item.ProductsQuantity == null
+                            ? 1
+                            : item.ProductsQuantity}
                         </td>
+
                         <td className="px-4 py-3 text-sm font-semibold">
                           ₹
-                        {item.productPrice * item.ProductsQuantity=='Nan'?item.productPrice * item.ProductsQuantity:item.productPrice}
+                          {item.ProductsQuantity == 0
+                            ? (
+                                item.ProductsQuantity * item.productPrice
+                              ).toLocaleString()
+                            : item.productPrice.toLocaleString()}
                         </td>
                         <td className="px-4 py-3">
                           <button

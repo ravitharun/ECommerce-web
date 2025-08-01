@@ -69,5 +69,18 @@ router.delete("/ProductDelete", async (req, res) => {
 })
 
 
+// whilist router
+
+router.post('/whilist', async (req, res) => {
+    const { productWhilist } = req.body
+    if (!productWhilist) 
+    {
+        return res.json({ message: "Product is empty" })
+    }
+    console.log(productWhilist)
+    res.json({message:"Adding the data in DB",Products:productWhilist})
+})
+
+
 
 module.exports = router;
