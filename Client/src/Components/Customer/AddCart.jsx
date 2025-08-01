@@ -81,6 +81,8 @@ function AddCart() {
       console.log(error.message);
     }
   };
+
+  const [Count, setcount] = useState(0);
   return (
     <>
       {/* Sticky Navbar */}
@@ -216,14 +218,13 @@ function AddCart() {
                         </td>
                         <td className="px-4 py-3 text-sm">
                           {item.ProductsQuantity || 1}
+                          <button onClick={() => setcount(Count + 1)}>+</button>
+                          {Count}
+                          <button onClick={() => setcount(Count - 1)}>-</button>
                         </td>
                         <td className="px-4 py-3 text-sm font-semibold">
                           ₹
-                          {item.productPrice * item.ProductsQuantity == "Nan"
-                            ? (
-                                item.productPrice * item.ProductsQuantity
-                              ).toLocaleString()
-                            : item.productPrice.toLocaleString()}
+                        {item.productPrice * item.ProductsQuantity=='Nan'?item.productPrice * item.ProductsQuantity:item.productPrice}
                         </td>
                         <td className="px-4 py-3">
                           <button
