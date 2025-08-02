@@ -6,6 +6,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import SpinnerLoader from "../SpinnerLoader";
 import toast, { Toaster } from "react-hot-toast";
+import Location from "../Location";
 
 function AddCart() {
   const [cartData, setCartData] = useState([]);
@@ -90,7 +91,7 @@ function AddCart() {
         <Navbar />
       </div>
       <Toaster position="top-right" reverseOrder={false} />
-
+<Location/>
       {/* Main Section */}
       <div className="p-4 sm:p-8 bg-gray-100 min-h-screen">
         {/* Cart Heading */}

@@ -1,1 +1,1 @@
-live link https://shopzone-web.netlify.app/
+https://nominatim.openstreetmap.org/reverse?lat=14.636608&lon=78.540256&format=json
