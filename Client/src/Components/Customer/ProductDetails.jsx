@@ -10,6 +10,7 @@ import CheckUser from "../Auth/CheckUser";
 import RelatedProduct from "./RelatedProduct";
 import Navbar from "./Navbar";
 import { MdLocationPin } from "react-icons/md";
+import send from "./Add";
 
 function ProductDetails() {
   const location = useLocation();
@@ -447,12 +448,13 @@ function ProductDetails() {
                 <button
                   className="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300"
                   onClick={() =>
-                    AddtoWhilist(
+                    send(
+                      localStorage.getItem("email"),
                       product.id,
-                      product.title,
-                      product.thumbnail,
                       product.description,
-                      product.price
+                      product.title,
+                      product.price,
+                      product.thumbnail
                     )
                   }
                 >

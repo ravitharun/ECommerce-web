@@ -9,7 +9,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import SpinnerLoader from "../SpinnerLoader";
 import Pay from "./Pay";
 import CheckUser from "../Auth/CheckUser";
-import send from "./AddWhilist";
+import send from "./Add";
 
 const products = [
   {
@@ -275,7 +275,6 @@ export default function ProductPage() {
                       {product.discountPercentage}% OFF
                     </div>
                   )}
-
                   {/* ❤️ Wishlist Icon (Top-Right of Image) */}
                   <div className="relative">
                     <img
@@ -285,7 +284,16 @@ export default function ProductPage() {
                       className="w-32 h-32 object-contain mb-4 sm:mb-0 cursor-pointer sm:mr-4"
                     />
                     <FaHeart
-                      onClick={() => send(product.id)}
+                      onClick={() =>
+                        send(
+                           localStorage.getItem("email"),
+                          product.id,
+                          product.description,
+                          product.title,
+                          product.price,
+                          product.thumbnail
+                        )
+                      }
                       className="absolute top-1 right-1 text-gray-400 hover:text-red-500 cursor-pointer text-lg z-20"
                       title="Add to Wishlist"
                     />
