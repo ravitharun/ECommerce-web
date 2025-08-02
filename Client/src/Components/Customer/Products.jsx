@@ -1,13 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import Navbar from "../Customer/Navbar";
 import axios from "axios";
+import { FaHeart } from "react-icons/fa";
 
 import toast, { Toaster } from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
 import SpinnerLoader from "../SpinnerLoader";
 import Pay from "./Pay";
 import CheckUser from "../Auth/CheckUser";
+import send from "./AddWhilist";
 
 const products = [
   {
@@ -265,56 +267,64 @@ export default function ProductPage() {
               {ProductDisplayui.map((product) => (
                 <div
                   key={product.id}
-                  onClick={() => fetchCategoryProducts(product.id)}
                   className="relative bg-white flex flex-col sm:flex-row p-4 rounded shadow hover:shadow-md transition"
                 >
                   {/* 🎯 Discount Badge (Top-Right Corner) */}
                   {product.discountPercentage >= 10 && (
-                    <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded">
+                    <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-semibold px-2 py-1 rounded z-10">
                       {product.discountPercentage}% OFF
                     </div>
                   )}
 
-                  {/* Product Image */}
-                  <img
-                    src={product.thumbnail}
-                    alt={product.title}
-                    title={product.title}
-                    className="w-32 h-32 object-contain mb-4 sm:mb-0 cursor-pointer sm:mr-4"
-                  />
+                  {/* ❤️ Wishlist Icon (Top-Right of Image) */}
+                  <div className="relative">
+                    <img
+                      src={product.thumbnail}
+                      alt={product.title}
+                      title={product.title}
+                      className="w-32 h-32 object-contain mb-4 sm:mb-0 cursor-pointer sm:mr-4"
+                    />
+                    <FaHeart
+                      onClick={() => send(product.id)}
+                      className="absolute top-1 right-1 text-gray-400 hover:text-red-500 cursor-pointer text-lg z-20"
+                      title="Add to Wishlist"
+                    />
+                  </div>
 
-                  {/* Product Info */}
-                  <div className="flex-1">
-                    <h2 className="text-lg font-semibold text-blue-600 mb-1">
-                      {product.title}
-                    </h2>
+                  {/* 📦 Product Info */}
+                  <div onClick={() => fetchCategoryProducts(product.id)}>
+                    <div className="flex-1">
+                      <h2 className="text-lg font-semibold text-blue-600 mb-1">
+                        {product.title}
+                      </h2>
 
-                    {/* Rating and Brand */}
-                    <div className="flex items-center text-sm text-gray-600 mb-2">
-                      {product.rating && (
-                        <span className="bg-green-600 text-white px-2 py-0.5 rounded text-xs flex items-center mr-2">
-                          {product.rating}
-                          <FaStar className="ml-1 text-yellow-300" />
+                      {/* ⭐ Rating and Brand */}
+                      <div className="flex items-center text-sm text-gray-600 mb-2">
+                        {product.rating && (
+                          <span className="bg-green-600 text-white px-2 py-0.5 rounded text-xs flex items-center mr-2">
+                            {product.rating}
+                            {/* <FaStar className="ml-1 text-yellow-300" /> */}
+                          </span>
+                        )}
+                        <span>{product.brand}</span>
+                      </div>
+
+                      {/* 📝 Description */}
+                      <p className="text-sm text-gray-700 mb-2">
+                        {product.description}
+                      </p>
+
+                      {/* 💰 Price */}
+                      <div className="flex items-center space-x-2">
+                        <span className="text-lg font-bold text-gray-900">
+                          ₹{product.price}
                         </span>
-                      )}
-                      <span>{product.brand}</span>
-                    </div>
-
-                    {/* Description */}
-                    <p className="text-sm text-gray-700 mb-2">
-                      {product.description}
-                    </p>
-
-                    {/* Price */}
-                    <div className="flex items-center space-x-2">
-                      <span className="text-lg font-bold text-gray-900">
-                        ₹{product.price}
-                      </span>
-                      {product.discountPercentage && (
-                        <span className="text-green-600 text-sm font-medium">
-                          {product.discountPercentage}% off
-                        </span>
-                      )}
+                        {product.discountPercentage && (
+                          <span className="text-green-600 text-sm font-medium">
+                            {product.discountPercentage}% off
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>

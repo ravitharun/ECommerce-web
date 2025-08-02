@@ -1,5 +1,5 @@
 const express = require('express');
-const { cart } = require('../bin/Database');
+const { cart,LocationUSer } = require('../bin/Database');
 const router = express.Router()
 
 router.post('/add', async (req, res) => {
