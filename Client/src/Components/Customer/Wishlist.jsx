@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "./Navbar";
+import Location from "../Location";
 
 function Wishlist() {
   const wishlistItems = [
@@ -49,18 +50,7 @@ function Wishlist() {
       </div>
 
       {/* Location Info Bar */}
-      <div className="w-full bg-gray-50 border-t border-b border-gray-200 py-3 px-4 flex items-center justify-between text-sm sm:text-base text-gray-700">
-        <div className="flex items-center gap-2">
-          <span className="font-medium">State:</span>
-          <span>Andhra Pradesh</span>
-          <span className="mx-2">|</span>
-          <span className="font-medium">Pincode:</span>
-          <span>533003</span>
-        </div>
-        <button className="text-blue-600 hover:underline font-medium">
-          Change
-        </button>
-      </div>
+      <Location />
 
       {/* Wishlist Layout */}
       <div className="bg-gray-100 min-h-screen py-10 px-4 sm:px-6 lg:px-8">
@@ -79,7 +69,7 @@ function Wishlist() {
             <p className="text-gray-700">
               <strong>Location:</strong> Andhra Pradesh, 533003
             </p>
-            <button>Change The  </button>
+            <button>Change The </button>
           </div>
 
           {/* Center: Wishlist Items */}
@@ -144,6 +134,11 @@ function Wishlist() {
             </div>
           </div>
         </div>
+      </div>
+      <div>
+        <p>
+          <span>know mroe</span>
+        </p>
       </div>
     </>
   );

@@ -109,7 +109,6 @@ function ProductDetails() {
   useEffect(() => {
     getLocation();
   }, []);
-  // console.log('product.checkQuantity',product.minimumOrderQuantity)
 
   // add to cart
   const CheckCart = async (
