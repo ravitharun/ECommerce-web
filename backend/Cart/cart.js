@@ -1,5 +1,5 @@
 const express = require('express');
-const { cart,LocationUSer } = require('../bin/Database');
+const { cart, LocationUSer } = require('../bin/Database');
 const router = express.Router()
 
 router.post('/add', async (req, res) => {
@@ -73,14 +73,27 @@ router.delete("/ProductDelete", async (req, res) => {
 
 router.post('/whilist', async (req, res) => {
     const { productWhilist } = req.body
-    if (!productWhilist) 
-    {
+    if (!productWhilist) {
         return res.json({ message: "Product is empty" })
     }
     console.log(productWhilist)
-    res.json({message:"Adding the data in DB",Products:productWhilist})
+    res.json({ message: "Adding the data in DB", Products: productWhilist })
 })
 
-
+router.post("/Location/update", async (req, res) => {
+    const { LocationData } = req.body
+    if (LocationData.country == "" || LocationData.State == '' || LocationData.City == '' || LocationData.PostCode == '') {
+        return console.log('the data is null ')
+    }
+    const saveDataLocation = new LocationUSer({
+        USerEmail: LocationData.email,
+        Country: LocationData.country,
+        State: LocationData.State,
+        City: LocationData.City,
+        PostCode: LocationData.PostCode
+    })
+    await saveDataLocation.save()
+    res.json({ message: "Location is Saved" })
+})
 
 module.exports = router;
