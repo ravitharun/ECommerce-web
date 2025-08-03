@@ -106,6 +106,20 @@ router.post('/Location/new', async (req, res) => {
 })
 
 
+router.get('/Get/Location', async (req, res) => {
+    const { UserEmail } = req.query
+    if (!UserEmail) { return res.json({ message: "No email Is required" }) }
+    const response_Location = await LocationUSer.find({ USerEmail: UserEmail })
+    if (response_Location.length === 0) {
+        return res.json({ message: "Oops! We couldn't find your location. Please add it to get started." });
+
+    }
+    res.json({
+        message:
+            response_Location
+    })
+})
+
 
 
 router.patch("/Location/update", async (req, res) => {

@@ -3,6 +3,11 @@ import React, { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { FiEdit, FiPlus } from "react-icons/fi";
 import { FaExclamationCircle, FaMapMarkerAlt, FaTimes } from "react-icons/fa";
+import UserEmail from "./Customer/Getemail";
+import UserLocation from "./Customer/CustomerLocation/UserLocation";
+import GetLocation from "./Customer/CustomerLocation/UserLocation";
+import user from "./Customer/CustomerLocation/UserLocation";
+import useLocation from "./Customer/CustomerLocation/UserLocation";
 
 // Error alert component
 function ErrorAlert({ message, onClose }) {
@@ -158,9 +163,12 @@ function Location() {
       console.log(error.message, "form the new address code ");
     }
   };
+  const locations = useLocation();
 
   return (
     <>
+      {}
+
       <div className="sticky top-0 z-40 bg-white shadow-sm">
         <div className="w-full border-y border-gray-300 py-3 px-4 flex flex-col sm:flex-row items-start sm:items-center justify-between text-sm sm:text-base text-gray-700 gap-2">
           <div className="flex flex-wrap items-center gap-2">
@@ -211,12 +219,44 @@ function Location() {
       {errorMessage && (
         <ErrorAlert message={errorMessage} onClose={() => setError("")} />
       )}
-      <div className="mt-4 flex items-center gap-2 bg-blue-100 text-blue-800 rounded-lg px-4 py-2 shadow-md">
-        <FaMapMarkerAlt className="text-blue-600" />
-        <span className="text-sm font-semibold">
-          Adding the user location soon...
-        </span>
-      </div>
+     <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-xl shadow-md">
+  <div className="flex items-center gap-2 mb-4 text-blue-800">
+    <FaMapMarkerAlt className="text-blue-600 text-lg" />
+    <h2 className="font-semibold text-md">User Location</h2>
+  </div>
+
+  {locations.length === 0 ? (
+    <div className="text-sm text-gray-600 font-medium">No location added.</div>
+  ) : (
+    locations.map((data, index) => (
+      <label
+        key={index}
+        className="flex items-start gap-3 p-4 mb-3 bg-white rounded-lg border border-blue-200 shadow-sm hover:shadow-md transition-all cursor-pointer"
+      >
+        <input
+          type="radio"
+          name="Location_user"
+          className="mt-1 accent-blue-600"
+          onClick={() =>
+            alert(`Hey! I am location ${index + 1} - ${data.State}`)
+          }
+        />
+
+        <div>
+          <div className="text-sm text-blue-900 font-semibold mb-1">
+            📍 Location {index + 1}
+          </div>
+          <div className="text-sm text-gray-700 space-y-1">
+            <p><strong>Country:</strong> {data.Country}</p>
+            <p><strong>City:</strong> {data.City}</p>
+            <p><strong>State:</strong> {data.State}</p>
+            <p><strong>Post Code:</strong> {data.PostCode}</p>
+          </div>
+        </div>
+      </label>
+    ))
+  )}
+</div>
       {/* Modal */}
       {open && (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
