@@ -91,7 +91,7 @@ function AddCart() {
         <Navbar />
       </div>
       <Toaster position="top-right" reverseOrder={false} />
-<Location/>
+
       {/* Main Section */}
       <div className="p-4 sm:p-8 bg-gray-100 min-h-screen">
         {/* Cart Heading */}
