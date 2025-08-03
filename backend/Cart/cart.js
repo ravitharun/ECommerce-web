@@ -80,19 +80,37 @@ router.post('/whilist', async (req, res) => {
     res.json({ message: "Adding the data in DB", Products: productWhilist })
 })
 
-router.post("/Location/update", async (req, res) => {
-    const { LocationData } = req.body
-    if (LocationData.country == "" || LocationData.State == '' || LocationData.City == '' || LocationData.PostCode == '') {
-        return console.log('the data is null ')
+
+router.post('/Location/new', async (req, res) => {
+    const { UserNewLocationData } = req.body;
+    if (UserNewLocationData.email == '') {
+
+        return res.json({ message: "email is not found Please Try again logout and try to login in again" })
+    }
+    const User_maxLocation = await LocationUSer.find({ USerEmail: UserNewLocationData.email }).countDocuments()
+    if (User_maxLocation >= 2) {
+        return res.json({ message: "Only Min 2 Location U Can Add" })
+    }
+
+    if (UserNewLocationData.country == "" || UserNewLocationData.State == '' || UserNewLocationData.City == '' || UserNewLocationData.PostCode == '') {
+        return res.json({ message: "Fill the required Data" })
     }
     const saveDataLocation = new LocationUSer({
-        USerEmail: LocationData.email,
-        Country: LocationData.country,
-        State: LocationData.State,
-        City: LocationData.City,
-        PostCode: LocationData.PostCode
+        USerEmail: UserNewLocationData.email,
+        Country: UserNewLocationData.country,
+        State: UserNewLocationData.State,
+        City: UserNewLocationData.City,
+        PostCode: UserNewLocationData.PostCode
     })
     await saveDataLocation.save()
+})
+
+
+
+
+router.patch("/Location/update", async (req, res) => {
+    const { LocationData } = req.body
+
     res.json({ message: "Location is Saved" })
 })
 
