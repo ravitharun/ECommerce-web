@@ -18,7 +18,7 @@ function RelatedProduct({ Products }) {
         setCategories(response.data.products);
       } catch (error) {
         console.error(error.message);
-        alert("Failed to load related products");
+        
       } finally {
         setLoader(false);
       }

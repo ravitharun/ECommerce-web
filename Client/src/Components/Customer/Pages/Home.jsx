@@ -16,45 +16,6 @@ function Home() {
   const [open, setOpen] = useState(null);
   const [Isloadingpage, Setisloadingpage] = useState(false);
   //
-  useEffect(() => {
-    return () => {
-      toast.custom((t) => (
-        <div
-          className={`${
-            t.visible ? "animate-enter" : "animate-leave"
-          } relative w-full max-w-sm bg-white text-gray-800 px-5 py-4 rounded-xl shadow-xl border border-gray-200`}
-        >
-          {/* Close button */}
-          <button
-            onClick={() => toast.dismiss(t.id)}
-            className="absolute top-2 right-3 text-gray-400 hover:text-gray-700 text-lg font-semibold"
-          >
-            ✕
-          </button>
-
-          {/* Header */}
-          <div className="flex items-center gap-3 mb-2">
-            <span className="text-2xl">🎉</span>
-            <div className="text-base font-semibold">
-              Cashback Reward Unlocked!
-            </div>
-          </div>
-
-          {/* Main Message */}
-          <p className="text-sm text-gray-600 mb-3">
-            You've just earned{" "}
-            <span className="font-bold text-green-600">₹100 cashback</span> on
-            your recent order. It'll be added to your wallet after delivery.
-          </p>
-
-          {/* Action Button */}
-          <button className="text-sm text-blue-600 hover:underline flex items-center gap-1">
-            View My Wallet <span className="text-lg">⬇️</span>
-          </button>
-        </div>
-      ));
-    };
-  }, []);
   const navigate = useNavigate("");
   useEffect(() => {
     const categoryData = {
@@ -338,7 +299,6 @@ function Home() {
       </div>
 
       {/* Toast and Deals */}
-      <Toaster position="top-right" reverseOrder={true} />
 
       {Isloadingpage ? (
         <SpinnerLoader />

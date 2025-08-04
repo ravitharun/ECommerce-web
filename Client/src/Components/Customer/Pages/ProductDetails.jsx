@@ -33,11 +33,10 @@ function ProductDetails() {
         );
         setCategories(response.data.category);
         setProduct(response.data);
-        console.log();
         setImage(response.data.thumbnail);
       } catch (error) {
         console.error("Error fetching product:", error);
-        // toast.error("Failed to load product");
+  
       } finally {
         setisloader(false);
       }
@@ -107,6 +106,7 @@ function ProductDetails() {
       console.log(error);
     }
   };
+  
   useEffect(() => {
     getLocation();
   }, []);
