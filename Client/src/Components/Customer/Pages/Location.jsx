@@ -4,7 +4,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { FiEdit, FiPlus } from "react-icons/fi";
 import { FaExclamationCircle, FaMapMarkerAlt, FaTimes } from "react-icons/fa";
 
-import useLocation from "./Customer/CustomerLocation/UserLocation";
+import useLocation from "../CustomerLocation/UserLocation";
 
 // Error alert component
 function ErrorAlert({ message, onClose }) {

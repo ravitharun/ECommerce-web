@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa";
-import Navbar from "../Customer/Navbar";
+import Navbar from "../Navbar";
 import axios from "axios";
 import { FaHeart } from "react-icons/fa";
 
 import toast, { Toaster } from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
-import SpinnerLoader from "../SpinnerLoader";
-import Pay from "./Pay";
-import CheckUser from "../Auth/CheckUser";
-import send from "./Add";
+import SpinnerLoader from "../Loaders/SpinnerLoader";
+import CheckUser from "../../Auth/CheckUser";
+import send from "../CartUser/Add";
 
 const products = [
   {
@@ -41,6 +40,9 @@ const products = [
     features: ["12 GB RAM | 256 GB ROM", "Full HD+ Display", "Turbo Charging"],
   },
 ];
+
+
+
 
 export default function ProductPage() {
   const location = useLocation();

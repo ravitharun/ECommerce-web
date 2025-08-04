@@ -4,13 +4,13 @@ import toast, { Toaster } from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
-import SpinnerLoader from "../SpinnerLoader";
-import Pay from "./Pay";
-import CheckUser from "../Auth/CheckUser";
+import SpinnerLoader from "../Loaders/SpinnerLoader";
+import Pay from "../USerPayment/Pay";
+import CheckUser from "../../Auth/CheckUser";
 import RelatedProduct from "./RelatedProduct";
-import Navbar from "./Navbar";
+import Navbar from "../Navbar";
 import { MdLocationPin } from "react-icons/md";
-import send from "./Add";
+import send from "../CartUser/Add";
 
 function ProductDetails() {
   const location = useLocation();

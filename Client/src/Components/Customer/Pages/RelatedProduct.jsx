@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import SpinnerLoader from "../SpinnerLoader";
+import SpinnerLoader from "../Loaders/SpinnerLoader";
 import { useNavigate } from "react-router-dom";
 
 function RelatedProduct({ Products }) {

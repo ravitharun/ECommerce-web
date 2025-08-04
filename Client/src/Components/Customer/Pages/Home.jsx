@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import Navbar from "./Navbar";
+import Navbar from "../Navbar";
 import axios from "axios";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
-import SpinnerLoader from "../SpinnerLoader";
+import SpinnerLoader from "../Loaders/SpinnerLoader";
 import { useNavigate } from "react-router-dom";
-import CheckUser from "../Auth/CheckUser";
-import Marquee from "./Marquee";
+import CheckUser from "../../Auth/CheckUser";
+import Marquee from "../Marquee";
 
 function Home() {
   const [categories, setCategories] = useState({});

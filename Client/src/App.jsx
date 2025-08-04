@@ -1,5 +1,5 @@
 import React from "react";
-import Home from "../src/Components/Customer/Home";
+import Home from "../src/Components/Customer/Pages/Home";
 import Dashboard from "./Components/Admin/Dashboard";
 import CheckUser from "./Components/Auth/CheckUser";
 

@@ -3,20 +3,18 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import Home from "./Components/Customer/Home.jsx";
-import Products from "./Components/Customer/Products.jsx";
+import App from "./App.jsx";
+import Products from "./Components/Customer/Pages/Products.jsx";
 import Login from "./Components/Auth/Login";
 import Sigin from "./Components/Auth/Sigin.jsx";
-import ProductDetails from "./Components/Customer/ProductDetails.jsx";
-import Dashboard from "./Components/Admin/Dashboard.jsx";
-import App from "./App.jsx";
-import ProtectedRoute from "./Components/ProtectedRoute.jsx";
-import Notauth from "./Components/Customer/Notauth.jsx";
+import ProductDetails from "./Components/Customer/Pages/ProductDetails.jsx";
+import ProtectedRoute from "../src/Components/Auth/ProtectedRoute";
+import Notauth from "./Components/Auth/Notauth";
 import AddProdcuts from "./Components/Admin/AddProdcuts.jsx";
 import AdminProducts from "./Components/Admin/AdminProducts.jsx";
-import AddCart from "./Components/Customer/AddCart.jsx";
-import Wishlist from "./Components/Customer/Wishlist.jsx";
-import ContactPage from "./Components/Customer/Contact.jsx";
+import AddCart from "./Components/Customer/CartUser/AddCart.jsx";
+import Wishlist from "./Components/Customer/CartUser/Wishlist.jsx";
+import ContactPage from "./Components/Customer/Pages/Contact";
 
 const role = localStorage.getItem("ROLE");
 const isLoggedIn = !!localStorage.getItem("token");

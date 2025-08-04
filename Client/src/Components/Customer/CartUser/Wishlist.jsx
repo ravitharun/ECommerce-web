@@ -1,6 +1,6 @@
 import React from "react";
-import Navbar from "./Navbar";
-import Location from "../Location";
+import Navbar from "../Navbar";
+import Location from "../Pages/Location";
 
 function Wishlist() {
   const wishlistItems = [

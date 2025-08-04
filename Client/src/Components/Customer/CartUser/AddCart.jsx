@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { FaTrash, FaShoppingCart, FaClosedCaptioning } from "react-icons/fa";
 import { MdSearch } from "react-icons/md";
-import Navbar from "./Navbar";
+import Navbar from "../Navbar";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import SpinnerLoader from "../SpinnerLoader";
+import SpinnerLoader from "../Loaders/SpinnerLoader";
 import toast, { Toaster } from "react-hot-toast";
-import Location from "../Location";
+import Location from "../CustomerLocation/UserLocation";
 
 function AddCart() {
   const [cartData, setCartData] = useState([]);
@@ -214,7 +214,10 @@ function AddCart() {
                         <td className="px-4 py-3 text-sm font-medium">
                           {item.productDescription}
                         </td>
-                        <td className="px-4 py-3 text-sm" title={item.productPrice.toLocaleString()}>
+                        <td
+                          className="px-4 py-3 text-sm"
+                          title={item.productPrice.toLocaleString()}
+                        >
                           ₹{item.productPrice.toLocaleString()}
                         </td>
                         <td className="px-4 py-3 text-sm text-center ">

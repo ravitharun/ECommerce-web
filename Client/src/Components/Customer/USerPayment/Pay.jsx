@@ -1,5 +1,5 @@
 import axios from "axios";
-import CheckUser from "../Auth/CheckUser";
+import CheckUser from "../../Auth/CheckUser";
 
 function loadScript(src) {
   return new Promise((resolve) => {
