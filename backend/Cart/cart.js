@@ -1,5 +1,5 @@
 const express = require('express');
-const { cart, LocationUSer } = require('../bin/Database');
+const { cart, LocationUSer, wishlist } = require('../bin/Database');
 const router = express.Router()
 
 router.post('/add', async (req, res) => {
@@ -68,16 +68,42 @@ router.delete("/ProductDelete", async (req, res) => {
 
 })
 
-
+{
+    UserEmail: 'tr565003@gmail.com',
+        id: 78,
+            productTitle: "The MacBook Pro 14 Inch in Space Grey is a powerful and sleek laptop, featuring Apple's M1 Pro chip for exceptional performance and a stunning Retina display.",
+                productPrice: 'Apple MacBook Pro 14 Inch Space Grey',
+                    productDescription: 1999.99,
+                        productThumbnail: 'https://cdn.dummyjson.com/product-images/laptops/apple-macbook-pro-14-inch-space-grey/thumbnail.webp'
+}
 // whilist router
 
 router.post('/whilist', async (req, res) => {
-    const { productWhilist } = req.body
-    if (!productWhilist) {
-        return res.json({ message: "Product is empty" })
+    try {
+        const { productWhilist } = req.body
+        if (!productWhilist) {
+            return res.json({ message: "Product is empty" })
+        }
+        const Ispresent_product = await wishlist.findOne({ ProductId: productWhilist.id })
+        if (!Ispresent_product) {
+            return res.json({ message: "The item is already Added in the wishlist" })
+        }
+
+        const wishlist_reponse = await new wishlist({
+            ProductId: productWhilist.id,
+            productPrice: productWhilist.productPrice,
+            productTitle: productWhilist.productTitle,
+            UserEmail: productWhilist.UserEmail,
+            productThumbnail: productWhilist.productThumbnail,
+            productDescription: productWhilist.productDescription
+        })
+        await wishlist_reponse.save()
+
+        res.json({ message: "The Item is added in wishlist" })
+    } catch (error) {
+        return res.json({ message: error.message })
+
     }
-    console.log(productWhilist)
-    res.json({ message: "Adding the data in DB", Products: productWhilist })
 })
 
 

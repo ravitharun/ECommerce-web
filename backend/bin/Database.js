@@ -28,13 +28,7 @@ const UserCart = new mongoose.Schema({
   ProductsQuantity: { type: Number, require: true },
   useremailAdded: { type: String, require: true }
 })
-// Country: India
-// |
-// State: Telangana
-// |
-// City: Hyderabad
-// |
-// Postcode: 500082
+
 const UserLocation = new mongoose.Schema({
   USerEmail: { type: String, required: true },
   Country: { type: String, required: true },
@@ -43,10 +37,19 @@ const UserLocation = new mongoose.Schema({
   PostCode: { type: Number, required: true }
 })
 
+const Wishlist = new mongoose.Schema({
+  ProductId: { type: Number },
+  productPrice: { type: Number },
+  productTitle: { type: String },
+  UserEmail: { type: String },
+  productThumbnail: { type: String },
+  productDescription: { type: String },
 
+})
 // Create User model
 const User = mongoose.model("User", userSchema);
 const LocationUSer = mongoose.model("UserLocation", UserLocation);
 const cart = mongoose.model('Cart', UserCart)
+const wishlist = mongoose.model('Wishlist', Wishlist)
 // ✅ Correct export
-module.exports = { User, cart, LocationUSer };
+module.exports = { User, cart, LocationUSer,wishlist };
