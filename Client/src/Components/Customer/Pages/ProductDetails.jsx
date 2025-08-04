@@ -338,7 +338,7 @@ function ProductDetails() {
   return (
     <>
       <Navbar />
-      <Toaster position="top-center" reverseOrder={false} />
+      <Toaster position="bottom-center" reverseOrder={false} />
       {Loader ? (
         <SpinnerLoader />
       ) : (

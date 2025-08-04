@@ -45,7 +45,7 @@ function CheckUser() {
     checkProfile();
   }, []);
 
-  return <Toaster position="top-center" reverseOrder={false} />;
+  return <Toaster position="bottom-center" reverseOrder={false} />;
 }
 
 export default CheckUser;

@@ -90,7 +90,7 @@ function AddCart() {
       <div className="sticky top-0 z-50 bg-white shadow">
         <Navbar />
       </div>
-      <Toaster position="top-right" reverseOrder={false} />
+      <Toaster position="bottom-center" reverseOrder={false} />
 
       {/* Main Section */}
       <div className="p-4 sm:p-8 bg-gray-100 min-h-screen">

@@ -10,36 +10,7 @@ import SpinnerLoader from "../Loaders/SpinnerLoader";
 import CheckUser from "../../Auth/CheckUser";
 import send from "../CartUser/Add";
 
-const products = [
-  {
-    id: 1,
-    name: "POCO C75 5G (Enchanted Green, 64 GB)",
-    img: "https://rukminim2.flixcart.com/image/312/312/xif0q/mobile/4/r/g/-original-imagyptze6jrkfae.jpeg?q=70",
-    rating: 4.3,
-    reviews: "79,432",
-    price: 7699,
-    originalPrice: 10999,
-    discount: "30% off",
-    brand: "POCO",
-    features: [
-      "4 GB RAM | 64 GB ROM | Expandable Upto 1 TB",
-      "50MP Rear Camera | 5MP Front Camera",
-      "5160 mAh Battery",
-    ],
-  },
-  {
-    id: 2,
-    name: "Motorola Edge 50 Fusion (256 GB)",
-    img: "https://rukminim2.flixcart.com/image/312/312/xif0q/mobile/g/6/v/-original-imahyhfjz8qmdyfw.jpeg?q=70",
-    rating: 4.4,
-    reviews: "1,55,283",
-    price: 20999,
-    originalPrice: 27999,
-    discount: "25% off",
-    brand: "MOTOROLA",
-    features: ["12 GB RAM | 256 GB ROM", "Full HD+ Display", "Turbo Charging"],
-  },
-];
+
 
 
 
@@ -132,7 +103,7 @@ export default function ProductPage() {
     <>
       <Navbar />
       <CheckUser></CheckUser>
-      <Toaster position="top-center" reverseOrder={true} />{" "}
+      <Toaster position="bottom-center" reverseOrder={true} />{" "}
       <div className="flex flex-col lg:flex-row p-4 gap-4 bg-gray-100 min-h-screen">
         {/* Sidebar Filters (UI only) */}
         <aside className="lg:w-1/4 w-full bg-white p-4 rounded-xl shadow-md mb-6">

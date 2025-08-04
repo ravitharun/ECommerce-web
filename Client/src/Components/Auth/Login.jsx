@@ -62,7 +62,7 @@ function Login() {
     <>
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-white px-4">
         <div className="bg-white shadow-lg rounded-xl w-full max-w-sm p-4 sm:p-6">
-          <Toaster position="top-center" reverseOrder={true} />
+          <Toaster position="bottom-center" reverseOrder={true} />
           {/* Header */}
           <div className="text-center mb-4">
             <h1 className="text-2xl font-bold text-blue-600">

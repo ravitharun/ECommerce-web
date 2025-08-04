@@ -209,7 +209,7 @@ function Location() {
               Add Address
             </button>
           </div>
-          <Toaster position="top-center" reverseOrder={false} />
+          <Toaster position="bottom-center"reverseOrder={false} />
         </div>
       </div>
 
