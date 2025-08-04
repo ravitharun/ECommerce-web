@@ -15,6 +15,7 @@ import AdminProducts from "./Components/Admin/AdminProducts.jsx";
 import AddCart from "./Components/Customer/CartUser/AddCart.jsx";
 import Wishlist from "./Components/Customer/CartUser/Wishlist.jsx";
 import ContactPage from "./Components/Customer/Pages/Contact";
+import UserProfile from "./Components/Customer/Profile/UserProfile.jsx";
 
 const role = localStorage.getItem("ROLE");
 const isLoggedIn = !!localStorage.getItem("token");
@@ -39,6 +40,14 @@ createRoot(document.getElementById("root")).render(
           element={
             <ProtectedRoute user={user} allowedRoles={["customer"]}>
               <Products />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute user={user} allowedRoles={["customer"]}>
+              <UserProfile />
             </ProtectedRoute>
           }
         />
