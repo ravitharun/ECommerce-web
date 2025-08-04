@@ -68,43 +68,49 @@ router.delete("/ProductDelete", async (req, res) => {
 
 })
 
-{
-    UserEmail: 'tr565003@gmail.com',
-        id: 78,
-            productTitle: "The MacBook Pro 14 Inch in Space Grey is a powerful and sleek laptop, featuring Apple's M1 Pro chip for exceptional performance and a stunning Retina display.",
-                productPrice: 'Apple MacBook Pro 14 Inch Space Grey',
-                    productDescription: 1999.99,
-                        productThumbnail: 'https://cdn.dummyjson.com/product-images/laptops/apple-macbook-pro-14-inch-space-grey/thumbnail.webp'
-}
 // whilist router
 
 router.post('/whilist', async (req, res) => {
     try {
         const { productWhilist } = req.body
-        if (!productWhilist) {
-            return res.json({ message: "Product is empty" })
-        }
+        console.log('productWhilist', productWhilist)
         const Ispresent_product = await wishlist.findOne({ ProductId: productWhilist.id })
-        if (!Ispresent_product) {
+        if (Ispresent_product) {
+            console.log('item is in exits ')
             return res.json({ message: "The item is already Added in the wishlist" })
         }
 
         const wishlist_reponse = await new wishlist({
             ProductId: productWhilist.id,
-            productPrice: productWhilist.productPrice,
+            productPrice: productWhilist.productDescription,
             productTitle: productWhilist.productTitle,
             UserEmail: productWhilist.UserEmail,
             productThumbnail: productWhilist.productThumbnail,
-            productDescription: productWhilist.productDescription
+            productDescription: productWhilist.productPrice
         })
         await wishlist_reponse.save()
 
         res.json({ message: "The Item is added in wishlist" })
     } catch (error) {
+        console.log(error.message)
         return res.json({ message: error.message })
 
     }
 })
+
+// rmv the wishlist router from db
+router.get("/wishlist/All", async (req, res) => {
+    try {
+        const { Email } = req.query
+        console.log('useremail for whilist products', Email)
+        const reponse = await wishlist.find({ UserEmail:Email })
+        console.log(reponse)
+        res.json({ message: reponse })
+    } catch (error) {
+        return res.json({ message: error.message })
+    }
+})
+
 
 
 router.post('/Location/new', async (req, res) => {

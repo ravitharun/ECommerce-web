@@ -82,7 +82,7 @@ function AddCart() {
       console.log(error.message);
     }
   };
-  console.log(cartData, "cartData");
+
 
   return (
     <>

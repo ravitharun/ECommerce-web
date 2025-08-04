@@ -162,7 +162,6 @@ function Location() {
     }
   };
   const locations = useLocation();
-  console.log(locations, "locations");
 
   return (
     <>
