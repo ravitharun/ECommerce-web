@@ -92,14 +92,11 @@ router.get("/profile", verifyToken, (req, res) => {
     res.json({ message: "Protected content", user: req.user });
 });
 
-
-
-
 // get the user profile data
 router.get("/GetUser/Data", async (req, res) => {
     try {
         const { UserEmail } = req.query
-        if (UserEmail=='') { return res.json({ message: "email is not Found" }) }
+        if (UserEmail == '') { return res.json({ message: "email is not Found" }) }
         const Get_User = await User.findOne({ email: UserEmail })
         console.log(Get_User, 'Get_User')
         res.json({ message: Get_User })
@@ -107,4 +104,5 @@ router.get("/GetUser/Data", async (req, res) => {
         res.json({ message: error.message })
     }
 })
+
 module.exports = router;

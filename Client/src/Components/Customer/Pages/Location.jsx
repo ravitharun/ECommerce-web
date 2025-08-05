@@ -53,11 +53,23 @@ function Location() {
 
   const getLocation = async () => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showPosition, showError, {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 0,
-      });
+      navigator.geolocation.getCurrentPosition(
+        showPosition,
+        (error) => {
+          if (error.code === error.PERMISSION_DENIED) {
+            toast.error(
+              "📍 Location access denied. Please allow location permission from your browser settings and try again."
+            );
+          } else {
+            console.log("Geolocation error:", error.message);
+          }
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0,
+        }
+      );
     } else {
       toast.error("Geolocation is not supported by this browser.");
     }
@@ -93,6 +105,7 @@ function Location() {
         toast.success("📍 Location fetched successfully!");
       } catch (err) {
         toast.error("❌ Failed to fetch location");
+        // console.log(object);
       }
     }
 
@@ -209,7 +222,7 @@ function Location() {
               Add Address
             </button>
           </div>
-          <Toaster position="bottom-center"reverseOrder={false} />
+          <Toaster position="bottom-center" reverseOrder={false} />
         </div>
       </div>
 
