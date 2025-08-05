@@ -220,7 +220,7 @@ function Location() {
       <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-xl shadow-md">
         <div className="flex items-center gap-2 mb-4 text-blue-800">
           <FaMapMarkerAlt className="text-blue-600 text-lg" />
-          <h2 className="font-semibold text-md">User Location</h2>
+          <h2 className="font-semibold text-md">Manage Addresses</h2>
         </div>
         {locations.length === 0 ? (
           <div className="text-sm text-gray-600 font-medium">
