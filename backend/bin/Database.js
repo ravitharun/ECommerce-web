@@ -46,10 +46,25 @@ const Wishlist = new mongoose.Schema({
   productDescription: { type: String },
 
 })
+const Userprofile = new mongoose.Schema({
+  name: { type: String },
+  email: { type: String },
+  PhoneNumber: { type: String },
+  gender: { type: String, default: "other" },
+  state: { type: String },
+  pincode: { type: Number },
+  country: { type: String },
+  city: { type: String },
+  LoginEmail: { type: String }, 
+}, {
+  timestamps: true  // ⏱ Adds createdAt & updatedAt automatically
+})
+
 // Create User model
 const User = mongoose.model("User", userSchema);
+const userDetails = mongoose.model("userMeta", Userprofile);
 const LocationUSer = mongoose.model("UserLocation", UserLocation);
 const cart = mongoose.model('Cart', UserCart)
 const wishlist = mongoose.model('Wishlist', Wishlist)
 // ✅ Correct export
-module.exports = { User, cart, LocationUSer,wishlist };
+module.exports = { User, cart, LocationUSer, wishlist, userDetails };

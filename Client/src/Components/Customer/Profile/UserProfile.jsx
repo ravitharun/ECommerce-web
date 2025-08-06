@@ -23,45 +23,90 @@ import {
   FaLocationArrow,
   FaSearchLocation,
 } from "react-icons/fa";
+import toast, { Toaster } from "react-hot-toast";
+
 import Navbar from "../Navbar";
 import { MdOutlineLocationOn } from "react-icons/md";
-
-import toast from "react-hot-toast";
 import axios from "axios";
 import useUserLocation from "../CustomerLocation/useUserLocation";
 import { useRef } from "react";
 
 import UserEmail from "../Getemail";
+import { useEffect } from "react";
 const UserProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
+  const [Errormsg, setErrormsg] = useState("");
+  const [Profile, setProfile] = useState([]);
   const UserName = useRef();
   const Email = useRef();
+  const [userGender, setUserGender] = useState("");
   const UserPhonenumber = useRef();
-  const UserGender = useRef();
   const country = useRef();
   const state = useRef();
   const city = useRef();
   const postcode = useRef();
   const loginUserEmail = UserEmail;
   const { locationData, getLocation } = useUserLocation(); // auto-fetch enabled by default
-  const Send = () => {
+  const Send = async (e) => {
+    e.preventDefault(); // Prevent form from doing GET request with query params
+
     const data = {
       Name: UserName.current.value,
       Email: Email.current.value,
       PhoneNumber: UserPhonenumber.current.value,
-      Gender: UserGender.current.value,
+      Gender: userGender,
       country: country.current.value,
       state: state.current.value,
       city: city.current.value,
       postcode: postcode.current.value,
       LoginEmail: loginUserEmail,
     };
-    console.table(data);
+    const response = await axios.post(
+      "http://localhost:3000/api/e-com/Userprofile",
+      { UserMeta: data }
+    );
+    console.log(response.data.message, "response.data.message");
+    if (response.data.message == "This email address is already in use.") {
+      toast.error(response.data.message);
+      setErrormsg(response.data.message);
+    } else if (response.data.message == "Fill the required Data") {
+      toast.error("Fill the required Data");
+    }
+    setTimeout(() => {
+      setErrormsg("");
+    }, 5500);
   };
+  const isprofile = [
+    {
+      Name: "Ravi Tharun",
+      Email: "tharunravi672@gmail.com",
+      PhoneNumber: "07396994383",
+      Gender: "other",
+      country: "India",
+      state: "Andhra Pradesh",
+      city: "Anantapur",
+      postcode: "515001",
+      LoginEmail: "tr565003@gmail.com",
+    },
+  ];
+
+  // get Profile data
+  useEffect(() => {
+    const getProfileData = async () => {
+      const pfData = await axios.get(
+        "http://localhost:3000/api/e-com/GetPfData",
+        { params: { PfEmail: UserEmail } }
+      );
+      console.log(pfData.data.message);
+      setProfile(pfData.data.message);
+    };
+    getProfileData();
+  }, []);
+
   return (
     <>
       <Navbar />
-
+      <Toaster position="top-center" reverseOrder="true"></Toaster>
       <div className="bg-gradient-to-br from-blue-50 via-white to-gray-100 min-h-[100vh] pb-16 font-mono">
         <div className="max-w-5xl mx-auto px-4 pt-10 space-y-10">
           {isEditing ? (
@@ -132,36 +177,24 @@ const UserProfile = () => {
                       Gender
                     </label>
                     <div className="flex items-center space-x-6">
-                      <label className="flex items-center space-x-2">
-                        <input
-                          type="radio"
-                          name="gender"
-                          value="male"
-                          className="text-blue-600"
-                          ref={UserGender}
-                        />
-                        <span className="text-gray-700">Male</span>
-                      </label>
-                      <label className="flex items-center space-x-2">
-                        <input
-                          type="radio"
-                          name="gender"
-                          value="female"
-                          ref={UserGender}
-                          className="text-blue-600"
-                        />
-                        <span className="text-gray-700">Female</span>
-                      </label>
-                      <label className="flex items-center space-x-2">
-                        <input
-                          type="radio"
-                          name="gender"
-                          value="other"
-                          ref={UserGender}
-                          className="text-blue-600"
-                        />
-                        <span className="text-gray-700">Other</span>
-                      </label>
+                      {["male", "female", "other"].map((gender) => (
+                        <label
+                          key={gender}
+                          className="flex items-center space-x-2"
+                        >
+                          <input
+                            type="radio"
+                            name="gender"
+                            value={gender}
+                            checked={userGender === gender}
+                            onChange={(e) => setUserGender(e.target.value)}
+                            className="text-blue-600"
+                          />
+                          <span className="text-gray-700 capitalize">
+                            {gender}
+                          </span>
+                        </label>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -260,12 +293,18 @@ const UserProfile = () => {
               {/* Profile Card */}
               <div className="bg-white shadow-lg rounded-2xl p-6 flex flex-col sm:flex-row items-center gap-6">
                 <img
+                  src={
+                    Profile.ProfilePicture == ""
+                      ? Profile.ProfilePicture
+                      : "https://up.yimg.com/ib/th/id/OIP.7O4_GREtLbxqPdJCTmfatQHaHa?pid=Api&rs=1&c=1&qlt=95&w=121&h=121"
+                  }
                   alt="User Avatar"
                   className="w-24 h-24 rounded-full border-4 border-blue-200 shadow"
                 />
                 <div className="flex-1 flex flex-col gap-2 items-center sm:items-start">
                   <h1 className="text-3xl font-bold text-gray-800 flex items-center gap-2">
                     <FaUser className="text-blue-500" />
+                    {Profile.name}
                   </h1>
                   <div className="flex gap-4 flex-wrap text-gray-600 text-sm">
                     <span className="flex items-center gap-1">
@@ -273,22 +312,41 @@ const UserProfile = () => {
                     </span>
                     <span className="flex items-center gap-1">
                       <FaPhoneAlt className="text-green-500" />
+                      {Profile.PhoneNumber}
                     </span>
                     <span className="flex items-center gap-1">
-                      <FaMapMarkerAlt className="text-pink-500" />{" "}
+                      <FaMapMarkerAlt className="text-pink-500" />
+                      {Profile.state},{Profile.country}
                     </span>
                   </div>
                   <span className="flex items-center gap-2 text-xs text-gray-400 mt-1">
-                    <FaClock /> Joined on
+                    <FaClock /> Joined on{" "}
+                    {new Date(Profile.updatedAt).toLocaleString("en-IN", {
+                      timeZone: "Asia/Kolkata",
+                      dateStyle: "medium",
+                      timeStyle: "short",
+                    })}
                   </span>
                 </div>
-                <ActionButton
-                  label="Edit Profile"
-                  icon={<FaEdit />}
-                  onClick={() => setIsEditing(true)}
-                />
+                {isprofile.length === 0 ? (
+                  "Create your Profile"
+                ) : (
+                  <ActionButton
+                    label="Edit Profile"
+                    icon={<FaEdit />}
+                    onClick={() => setIsEditing(true)}
+                  />
+                )}
               </div>
-
+              {Errormsg && (
+                <div
+                  className="bg-blue-100 border border-blue-300 text-blue-800 px-4 py-3 rounded-md"
+                  role="status"
+                >
+                  <strong className="font-medium">Info: </strong>
+                  <span className="block sm:inline">{Errormsg}</span>
+                </div>
+              )}
               {/* Action Sections */}
               <div className="grid md:grid-cols-2 gap-6">
                 <Section title="Orders & Payments" icon={<FaBoxOpen />}>

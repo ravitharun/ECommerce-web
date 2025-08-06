@@ -1,5 +1,5 @@
 const express = require('express');
-const { User } = require('../bin/Database');
+const { User, userDetails } = require('../bin/Database');
 const router = express.Router()
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -92,17 +92,51 @@ router.get("/profile", verifyToken, (req, res) => {
     res.json({ message: "Protected content", user: req.user });
 });
 
-// get the user profile data
-router.get("/GetUser/Data", async (req, res) => {
+
+// save the user profile data
+router.post("/Userprofile", async (req, res) => {
     try {
-        const { UserEmail } = req.query
-        if (UserEmail == '') { return res.json({ message: "email is not Found" }) }
-        const Get_User = await User.findOne({ email: UserEmail })
-        console.log(Get_User, 'Get_User')
-        res.json({ message: Get_User })
+        const { UserMeta } = req.body
+        if (UserMeta.Email == '' || UserMeta.PhoneNumber == '' || UserMeta.state == '' || UserMeta.city == '' || UserMeta.pincode == '' || UserMeta.country == '') {
+            console.log('Fill the required Data')
+            return res.json({ message: "Fill the required Data" })
+
+        }
+        console.log(UserMeta, 'UserMeta')
+        const ischeck = await userDetails.findOne({ email: UserMeta.Email })
+        if (ischeck) { return res.json({ message: "the email is already Used" }) }
+        const Profile_user = await new userDetails(
+            {
+                gender: UserMeta.Gender,
+                name: UserMeta.Name,
+                email: UserMeta.Email,
+                PhoneNumber: UserMeta.PhoneNumber,
+                state: UserMeta.state,
+                pincode: UserMeta.postcode,
+                country: UserMeta.country,
+                city: UserMeta.city,
+
+                LoginEmail: UserMeta.LoginEmail
+            })
+        await Profile_user.save()
+        res.json({ message: Profile_user })
+
     } catch (error) {
         res.json({ message: error.message })
     }
+})
+//  GET THE USER PROFILE DATA AND SEND IT TO UI 
+router.get('/GetPfData', async (req, res) => {
+    const { PfEmail } = req.query
+    if (!PfEmail) {
+        return res.json({ message: "The email is not found from the Profile " })
+    }
+    const getPfdata_Email = await userDetails.findOne({ LoginEmail: 'tr565003@gmail.com' })
+    if (!getPfdata_Email) {
+        return res.json({ message: "that there's no Profile " })
+
+    }
+    res.json({ message: getPfdata_Email })
 })
 
 module.exports = router;
