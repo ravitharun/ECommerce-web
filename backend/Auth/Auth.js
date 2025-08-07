@@ -119,7 +119,7 @@ router.post("/Userprofile", async (req, res) => {
                 LoginEmail: UserMeta.LoginEmail
             })
         await Profile_user.save()
-        res.json({ message: Profile_user })
+        res.json({ message: 'the profile has created' })
 
     } catch (error) {
         res.json({ message: error.message })
@@ -131,12 +131,13 @@ router.get('/GetPfData', async (req, res) => {
     if (!PfEmail) {
         return res.json({ message: "The email is not found from the Profile " })
     }
-    const getPfdata_Email = await userDetails.findOne({ LoginEmail: 'tr565003@gmail.com' })
+    const getPfdata_Email = await userDetails.findOne({ LoginEmail: PfEmail })
     if (!getPfdata_Email) {
-        return res.json({ message: "that there's no Profile " })
+        console.log("that there's no Profile")
+        return res.json({ message: "that there is no Profile" })
 
     }
-    res.json({ message: getPfdata_Email })
+    res.json({ getPfdata_Email, message: "The profile is created" })
 })
 
 module.exports = router;

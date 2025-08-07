@@ -66,29 +66,22 @@ const UserProfile = () => {
       { UserMeta: data }
     );
     console.log(response.data.message, "response.data.message");
-    if (response.data.message == "This email address is already in use.") {
-      toast.error(response.data.message);
+    if (response.data.message == "the email is already Used") {
+      setIsEditing(false);
       setErrormsg(response.data.message);
     } else if (response.data.message == "Fill the required Data") {
       toast.error("Fill the required Data");
+    } else if (response.data.message === "the profile has created") {
+      toast.success(response.data.message.toUpperCase());
+      setErrormsg(response.data.message);
+      setIsEditing(false);
     }
+
     setTimeout(() => {
       setErrormsg("");
-    }, 5500);
+    }, 3500);
   };
-  const isprofile = [
-    {
-      Name: "Ravi Tharun",
-      Email: "tharunravi672@gmail.com",
-      PhoneNumber: "07396994383",
-      Gender: "other",
-      country: "India",
-      state: "Andhra Pradesh",
-      city: "Anantapur",
-      postcode: "515001",
-      LoginEmail: "tr565003@gmail.com",
-    },
-  ];
+
 
   // get Profile data
   useEffect(() => {
@@ -97,8 +90,12 @@ const UserProfile = () => {
         "http://localhost:3000/api/e-com/GetPfData",
         { params: { PfEmail: UserEmail } }
       );
-      console.log(pfData.data.message);
-      setProfile(pfData.data.message);
+      console.log(pfData.data.getPfdata_Email);
+      if (pfData.data.message === "that there is no Profile") {
+        console.log(pfData.data.message, "pfData.data.message");
+        setIsEditing(true);
+      }
+      setProfile(pfData.data.getPfdata_Email);
     };
     getProfileData();
   }, []);
@@ -111,9 +108,13 @@ const UserProfile = () => {
         <div className="max-w-5xl mx-auto px-4 pt-10 space-y-10">
           {isEditing ? (
             <div className="max-w-md mx-auto bg-white shadow-md rounded-lg p-6 space-y-6">
-              <h2 className="text-2xl font-bold text-gray-800">
-                Edit Your Profile
-              </h2>
+              {isEditing ? (
+                "Create Your Profile "
+              ) : (
+                <h2 className="text-2xl font-bold text-gray-800">
+                  {isEditing} Edit Your Profile
+                </h2>
+              )}
 
               <form className="space-y-4">
                 {/* Profile Image Upload */}
@@ -328,7 +329,7 @@ const UserProfile = () => {
                     })}
                   </span>
                 </div>
-                {isprofile.length === 0 ? (
+                {Profile.length === 0 ? (
                   "Create your Profile"
                 ) : (
                   <ActionButton
