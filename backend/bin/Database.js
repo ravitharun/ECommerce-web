@@ -50,7 +50,7 @@ const Userprofile = new mongoose.Schema({
   name: { type: String },
   email: { type: String },
   PhoneNumber: { type: String },
-  gender: { type: String, default: "other" },
+  gender: { type: String, default: "other" },   
   state: { type: String },
   pincode: { type: Number },
   country: { type: String },
