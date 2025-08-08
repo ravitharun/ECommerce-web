@@ -16,6 +16,7 @@ import AddCart from "./Components/Customer/CartUser/AddCart.jsx";
 import Wishlist from "./Components/Customer/CartUser/Wishlist.jsx";
 import ContactPage from "./Components/Customer/Pages/Contact";
 import UserProfile from "./Components/Customer/Profile/UserProfile.jsx";
+import UpdatePassword from "./Components/Auth/UpdatePassword.jsx";
 
 const role = localStorage.getItem("ROLE");
 const isLoggedIn = !!localStorage.getItem("token");
@@ -32,6 +33,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/" element={<App />} />
         <Route path="/login" element={<Login />} />
         <Route path="/SignUp" element={<Sigin />} />
+        <Route path="/UpdatePassword" element={<UpdatePassword />} />
         <Route path="/not-authorized" element={<Notauth />} />
 
         {/* ✅ Customer Protected Routes */}

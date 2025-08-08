@@ -33,6 +33,7 @@ import { useRef } from "react";
 
 import UserEmail from "../Getemail";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 const UserProfile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [Errormsg, setErrormsg] = useState("");
@@ -81,7 +82,6 @@ const UserProfile = () => {
       setErrormsg("");
     }, 3500);
   };
-
 
   // get Profile data
   useEffect(() => {
@@ -370,7 +370,9 @@ const UserProfile = () => {
                     icon={<FaEdit />}
                     onClick={() => setIsEditing(true)}
                   />
-                  <ActionButton label="Change Password" icon={<FaLock />} />
+                  <Link to="/UpdatePassword">
+                    <ActionButton label="Change Password" icon={<FaLock />} />
+                  </Link>
                   <ActionButton
                     label="Notification Preferences"
                     icon={<FaBell />}
@@ -379,8 +381,12 @@ const UserProfile = () => {
                 </Section>
 
                 <Section title="Quick Access" icon={<FaHeart />}>
-                  <ActionButton label="Wishlist" icon={<FaHeart />} />
-                  <ActionButton label="Cart" icon={<FaShoppingCart />} />
+                  <Link to="/user/wishlist">
+                    <ActionButton label="Wishlist" icon={<FaHeart />} />
+                  </Link>
+                  <Link to="/Add/cart">
+                    <ActionButton label="Cart" icon={<FaShoppingCart />} />
+                  </Link>
                   <ActionButton
                     label="Logout"
                     icon={<FaSignOutAlt />}

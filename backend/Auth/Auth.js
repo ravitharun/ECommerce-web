@@ -3,7 +3,6 @@ const { User, userDetails } = require('../bin/Database');
 const router = express.Router()
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
 const saltRounds = 10;
 const SECRET_KEY = "7f8e2aef0e5d4e3a9d79f82c36b98b7ed8b12e754b53ee61d93acbd1089987cf";
 // it is used to check the Login user is valid or not 
@@ -88,10 +87,27 @@ router.post("/new", async (req, res) => {
         return res.json({ message: error.message });
     }
 });
+
+
 router.get("/profile", verifyToken, (req, res) => {
     res.json({ message: "Protected content", user: req.user });
 });
 
+router.patch('/change-password', verifyToken, async (req, res) => {
+    try {
+        const { useremail, userUpdatepassword } = req.body;
+        const hashedPassword = await bcrypt.hash(userUpdatepassword, 10);
+        const update_passowrd = await User.findOneAndUpdate({ email: useremail }, { password: hashedPassword }, { new: true })
+        console.log(update_passowrd)
+        if (!update_passowrd) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        // and here we will send email that email has updated alert
+        res.json({ message: `hey ${update_passowrd.name}your password has been updated` })
+    } catch (error) {
+        console.log(error)
+    }
+});
 
 // save the user profile data
 router.post("/Userprofile", async (req, res) => {

@@ -2,39 +2,56 @@ import React, { useRef, useState } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import UserEmail from "../Customer/Getemail";
+import { useNavigate } from "react-router-dom";
 
 function UpdatePassword() {
   const passwordRef = useRef();
   const [isSending, setIsSending] = useState(false);
   const [showPass, setShowPass] = useState(false);
-
+  const navigate = useNavigate("");
   const handleForgetPassword = async () => {
     const Password = passwordRef.current.value;
-    if (! Password) {
+    if (!Password) {
       toast.warning("Please enter a valid email address.");
       return;
     }
 
     try {
       setIsSending(true);
-      const res = await axios.post("http://localhost:3000/api/ForgotPassword", {
-         Password,
-      });
-      toast.success("Password reset link sent to your email.");
-      console.log(res.data.message);
+      console.log(passwordRef.current.value);
+      const token = localStorage.getItem("token");
+      const email = localStorage.getItem("email");
+      const passowrd = passwordRef.current.value;
+      const res = await axios.patch(
+        "http://localhost:3000/api/e-com/change-password",
+        { useremail: email, userUpdatepassword: passowrd }, // request body
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // ✅ send token here
+          },
+        }
+      );
+      if (
+        res.data.message ==
+        "hey tr565003@gmail.comyour password has been updated"
+      ) {
+        toast.success("Password reset link sent to your email.");
+        setTimeout(() => {
+          navigate("/");
+        }, 2500);
+      }
       passwordRef.current.value("");
     } catch (error) {
-      toast.error("Failed to send reset email.");
-      console.log(error.message);
+      toast.error(error.messag);
+      // console.log(error.message);
     } finally {
       setIsSending(false);
     }
   };
 
   return (
-
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-white px-4">
-     
       <ToastContainer />
       <div className="w-full max-w-md bg-white shadow-md rounded-lg p-6">
         <h2 className="text-2xl font-bold text-center mb-6 text-blue-600">
