@@ -3,7 +3,6 @@
 [![Made with MERN](https://img.shields.io/badge/Made%20with-MERN-green?style=for-the-badge)](https://www.mongodb.com/mern-stack)
 [![React](https://img.shields.io/badge/Frontend-React.js-blue?style=for-the-badge&logo=react)](https://react.dev)
 [![TailwindCSS](https://img.shields.io/badge/Styled%20With-TailwindCSS-38B2AC?style=for-the-badge&logo=tailwindcss)](https://tailwindcss.com)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
 
 An **E-Commerce Website** built using the **MERN stack**  
 **(MongoDB 🗄 + Express.js ⚙ + React.js ⚛ + Node.js 🌐)** with a **modern UI** powered by **Tailwind CSS 🎨**.
