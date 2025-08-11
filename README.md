@@ -13,8 +13,13 @@ An **E-Commerce Website** built using the **MERN stack**
 This project showcases **full-stack development skills**, including user authentication, product management, cart features, and order handling with secure backend APIs. It is designed to be **mobile-responsive** and optimized for a smooth **shopping experience**.
 
 ---
-
 ## 🚀 Features
+-
+-
+-
+-
+-
+-
 
 ### 🎨 Frontend (React.js + Tailwind CSS)
 - 📱 **Responsive UI** for all devices
