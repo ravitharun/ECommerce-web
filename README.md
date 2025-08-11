@@ -72,10 +72,13 @@ npm install
 
 ### 4️⃣ Start the Development Servers
 **Backend**
+<br>
 cd backend
 <br>
 npx nodemon
+
 **Frontend**
+<br>
 cd client
 <br>
 npm run dev
