@@ -62,21 +62,24 @@ git clone https://github.com/ravitharun/ECommerce-web.git
 
 ### 2️⃣ Install Backend Dependencies
 cd backend
-
+<br>
 npm install
 
 ### 3️⃣ Install Frontend Dependencies
 cd client
 
+<br>
 npm install
 
 ### 4️⃣ Start the Development Servers
 **Backend**
 cd backend
+<br>
 
 npx nodemon
 **Frontend**
 cd client
+<br>
 
 npm run dev
 
