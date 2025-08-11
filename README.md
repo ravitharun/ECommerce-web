@@ -33,12 +33,13 @@ This project showcases **full-stack development skills**, including user authent
 - 🛒 **Cart Management** – Add, Remove, Update quantity
 - 🔐 **User Authentication** – Sign Up / Login / Logout (JWT)
 - 💳 **Order Checkout** with payment integration
+-📍 **User Location** – Users can add and manage their location for accurate delivery information.
 - 👤 **User Profile** with past order history
 
 ### ⚙ Backend (Node.js + Express.js)
 
-- 🌐 **REST API** with JWT authentication
-- ✏️ **CRUD** for products, orders, and users
+- 🌐 **REST API** with JWT authentication and PaymentIntegration
+- ✏️ **CRUD** for products, orders,UserLocation and users 
 - 🔒 Secure password hashing with **bcrypt**
 - 🛡 **Middleware** for authentication & error handling
 
@@ -49,9 +50,17 @@ This project showcases **full-stack development skills**, including user authent
 - 👥 **Users Collection**: Roles (Admin/Customer) and profile
 
 ---
+## ⏳ Upcoming Features
+
+- 📊 **Real-Time Sales Analytics (Admin Only)** – Live dashboard showing sales per product, per region, and revenue growth.
+- 💳 **Multiple Payment Gateways** – More payment options for global users *(Razorpay currently in test mode)*.
+- 🔔 **Push Notifications** – Instant alerts and email updates for orders, special offers, and important account activity.
+- 🎟 **Coupons & Discount Codes** – Create and apply promo codes at checkout.
+- 📄 **Invoice Generation (PDF)** – Downloadable receipts for every order.
+- 📦 **Inventory Management (Admin Only)** – Real-time stock updates and low-stock alerts.
+- 🛡 **Two-Factor Authentication (2FA)** – Secure login with an OTP sent to email or phone for extra protection.
 
 ## 🛠 Tech Stack
-
 **Frontend:** ⚛ React.js • 🎨 Tailwind CSS • 🌍 Axios • 🛤 React Router DOM  
 **Backend:** 🌐 Node.js • ⚙ Express.js • 🔑 JWT • 🔒 Bcrypt.js • 🖼 Multer  
 **Database:** 🗄 MongoDB • 📦 Mongoose
