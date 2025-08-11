@@ -11,7 +11,20 @@ function Login() {
   console.log(role);
   const Email = useRef();
   const passwordRef = useRef();
-
+  const [ErrorRef, seterror] = useState("");
+  const Password = () => {
+    if (passwordRef.current.value.length >= 5) {
+      passwordRef.current.style.borderColor = "green";
+      seterror(
+        `✔ The password satisfies the required length of ${passwordRef.current.value.length} characters`
+      );
+      console.log("ture");
+    } else {
+      passwordRef.current.style.borderColor = "red";
+      console.log("false");
+      seterror(``);
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     const User_info = {
@@ -112,9 +125,16 @@ function Login() {
               <input
                 ref={passwordRef}
                 type={showPass ? "text" : "password"}
+                onChange={() => Password()}
                 placeholder="••••••••"
                 className="w-full px-3 py-1.5 pr-10 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm"
               />
+
+              {ErrorRef && (
+                <p className="text-green-700 bg-green-100 border border-green-400 rounded-lg px-3 py-1 shadow-sm font-medium text-sm mt-4 ">
+                  {ErrorRef}
+                </p>
+              )}
               <button
                 type="button"
                 onClick={() => setShowPass(!showPass)}
