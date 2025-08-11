@@ -61,6 +61,7 @@ function UpdatePassword() {
         <p className="text-xs text-gray-400 text-center mb-2">
           Password must be at least 6 characters long for enhanced security.
         </p>
+        <a href=""></a>
         <div className="relative">
           <label className="block text-sm text-gray-700 mb-1">Password</label>
           <input
