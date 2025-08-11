@@ -67,7 +67,6 @@ npm install
 
 ### 3️⃣ Install Frontend Dependencies
 cd client
-
 <br>
 npm install
 
@@ -75,12 +74,10 @@ npm install
 **Backend**
 cd backend
 <br>
-
 npx nodemon
 **Frontend**
 cd client
 <br>
-
 npm run dev
 
 ---
