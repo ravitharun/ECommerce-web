@@ -14,12 +14,12 @@ This project showcases **full-stack development skills**, including user authent
 
 ---
 ## 🚀 Features
--
--
--
--
--
--
+-1
+-2
+-3
+-4
+-5
+-6
 
 ### 🎨 Frontend (React.js + Tailwind CSS)
 - 📱 **Responsive UI** for all devices
