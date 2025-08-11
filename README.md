@@ -14,12 +14,12 @@ This project showcases **full-stack development skills**, including user authent
 
 ---
 ## 🚀 Features
--1
--2
--3
--4
--5
--6
+### 🔑 Role-Based Access Control (RBAC)
+
+| Role  | Use Case | Description |
+|-------|----------|-------------|
+| **User** | Browse and search products | Can view all products, search, filter, and view product details |
+| **Admin** | Manage products | Can create, read, update, and delete products, and view all orders |
 
 ### 🎨 Frontend (React.js + Tailwind CSS)
 - 📱 **Responsive UI** for all devices
