@@ -10,18 +10,23 @@ An **E-Commerce Website** built using the **MERN stack**
 ---
 
 ## 📖 Overview
+
 This project showcases **full-stack development skills**, including user authentication, product management, cart features, and order handling with secure backend APIs. It is designed to be **mobile-responsive** and optimized for a smooth **shopping experience**.
 
 ---
+
 ## 🚀 Features
+
 ### 🔑 Role-Based Access Control (RBAC)
 
 | Role  | Use Case | Description |
 |-------|----------|-------------|
-| **User** | Browse and search products | Can view all products, search, filter, and view product details |
-| **Admin** | Manage products | Can create, read, update, and delete products, and view all orders |
+| **User** | Shop and manage account | Can view all products, search, filter, and view product details. Can create and manage their profile, add products to cart, save items to wishlist, and add their location for delivery. |
+| **Admin** | Full product and order management | Can create, read, update, and delete products, manage inventory, and view all orders. Also has access to sales analytics, including monthly product sales, revenue breakdown by region, and top-selling products. Can export all data to Excel for reporting. *(Currently basic data — real-time analytics coming soon!)* |
+                                                                                     |
 
 ### 🎨 Frontend (React.js + Tailwind CSS)
+
 - 📱 **Responsive UI** for all devices
 - 🔍 **Product Search, Filtering, and Sorting**
 - 📄 **Detailed Product Pages** with images, price, and description
@@ -31,12 +36,14 @@ This project showcases **full-stack development skills**, including user authent
 - 👤 **User Profile** with past order history
 
 ### ⚙ Backend (Node.js + Express.js)
+
 - 🌐 **REST API** with JWT authentication
 - ✏️ **CRUD** for products, orders, and users
 - 🔒 Secure password hashing with **bcrypt**
 - 🛡 **Middleware** for authentication & error handling
 
 ### 🗄 Database (MongoDB + Mongoose)
+
 - 📦 **Products Collection**: Images, stock, category, and price
 - 📜 **Orders Collection**: User info, payment status, shipping details
 - 👥 **Users Collection**: Roles (Admin/Customer) and profile
@@ -47,14 +54,14 @@ This project showcases **full-stack development skills**, including user authent
 
 **Frontend:** ⚛ React.js • 🎨 Tailwind CSS • 🌍 Axios • 🛤 React Router DOM  
 **Backend:** 🌐 Node.js • ⚙ Express.js • 🔑 JWT • 🔒 Bcrypt.js • 🖼 Multer  
-**Database:** 🗄 MongoDB • 📦 Mongoose  
+**Database:** 🗄 MongoDB • 📦 Mongoose
 
 ---
 
 ## 📸 Screenshots
 
-| 🏠 Home Page | 📄 Product Page | 🛒 Cart Page |
-| ------------ | --------------- | ------------ |
+| 🏠 Home Page                  | 📄 Product Page                     | 🛒 Cart Page                  |
+| ----------------------------- | ----------------------------------- | ----------------------------- |
 | ![Home](screenshots/home.png) | ![Product](screenshots/product.png) | ![Cart](screenshots/cart.png) |
 
 ---
@@ -62,19 +69,23 @@ This project showcases **full-stack development skills**, including user authent
 ## 📦 Installation & Setup
 
 ### 1️⃣ Clone the Repository
+
 git clone https://github.com/ravitharun/ECommerce-web.git
 
 ### 2️⃣ Install Backend Dependencies
+
 cd backend
 <br>
 npm install
 
 ### 3️⃣ Install Frontend Dependencies
+
 cd client
 <br>
 npm install
 
 ### 4️⃣ Start the Development Servers
+
 **Backend**
 <br>
 cd backend
@@ -91,13 +102,13 @@ npm run dev
 
 ## 🔗 API Endpoints
 
-| Method | Endpoint             | Description            |
-| ------ | -------------------- | ---------------------- |
-| GET    | `/api/products`      | Fetch all products     |
-| GET    | `/api/products/:id`  | Fetch product by ID    |
-| POST   | `/api/users/login`   | Login user             |
-| POST   | `/api/users`         | Register new user      |
-| POST   | `/api/orders`        | Create new order       |
+| Method | Endpoint            | Description         |
+| ------ | ------------------- | ------------------- |
+| GET    | `/api/products`     | Fetch all products  |
+| GET    | `/api/products/:id` | Fetch product by ID |
+| POST   | `/api/users/login`  | Login user          |
+| POST   | `/api/users`        | Register new user   |
+| POST   | `/api/orders`       | Create new order    |
 
 ---
 
@@ -109,4 +120,3 @@ npm run dev
 🔗 [GitHub](https://github.com/ravitharun) • [LinkedIn](https://www.linkedin.com/in/ravitharun07/)
 
 ---
-
