@@ -294,11 +294,7 @@ const UserProfile = () => {
               {/* Profile Card */}
               <div className="bg-white shadow-lg rounded-2xl p-6 flex flex-col sm:flex-row items-center gap-6">
                 <img
-                  src={
-                    Profile.ProfilePicture == ""
-                      ? Profile.ProfilePicture
-                      : "https://up.yimg.com/ib/th/id/OIP.7O4_GREtLbxqPdJCTmfatQHaHa?pid=Api&rs=1&c=1&qlt=95&w=121&h=121"
-                  }
+                  src=""
                   alt="User Avatar"
                   className="w-24 h-24 rounded-full border-4 border-blue-200 shadow"
                 />

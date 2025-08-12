@@ -12,6 +12,7 @@ const useLocation = () => {
           params: { UserEmail },
         });
         setLocations(response.data.message); // Assuming response.data.message is an array
+        // console.log(response.data.message); // Assuming response.data.message is an array
       } catch (error) {
         console.error("Error fetching locations:", error);
       }
@@ -19,6 +20,7 @@ const useLocation = () => {
 
     GetLocation();
   }, []);
+  console.log(locations,'locations from uselocations.js file')
 
   return locations;
 };

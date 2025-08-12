@@ -103,7 +103,7 @@ router.get("/wishlist/All", async (req, res) => {
     try {
         const { Email } = req.query
         console.log('useremail for whilist products', Email)
-        const reponse = await wishlist.find({ UserEmail:Email })
+        const reponse = await wishlist.find({ UserEmail: Email })
         console.log(reponse)
         res.json({ message: reponse })
     } catch (error) {
@@ -115,6 +115,7 @@ router.get("/wishlist/All", async (req, res) => {
 
 router.post('/Location/new', async (req, res) => {
     const { UserNewLocationData } = req.body;
+    console.log('UserNewLocationData', UserNewLocationData)
     if (UserNewLocationData.email == '') {
 
         return res.json({ message: "email is not found Please Try again logout and try to login in again" })
@@ -129,7 +130,7 @@ router.post('/Location/new', async (req, res) => {
     }
     const saveDataLocation = new LocationUSer({
         USerEmail: UserNewLocationData.email,
-        Country: UserNewLocationData.country,
+        Country: UserNewLocationData.Country,
         State: UserNewLocationData.State,
         City: UserNewLocationData.City,
         PostCode: UserNewLocationData.PostCode
@@ -140,6 +141,7 @@ router.post('/Location/new', async (req, res) => {
 
 router.get('/Get/Location', async (req, res) => {
     const { UserEmail } = req.query
+    console.log(UserEmail, 'UserEmail')
     if (!UserEmail) { return res.json({ message: "No email Is required" }) }
     const response_Location = await LocationUSer.find({ USerEmail: UserEmail })
     if (response_Location.length === 0) {

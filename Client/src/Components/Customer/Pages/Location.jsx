@@ -175,7 +175,7 @@ function Location() {
     }
   };
   const locations = useLocation();
-
+  console.log(locations=="Oops! We couldn't find your location. Please add it to get started.")
   return (
     <>
       {}
@@ -235,12 +235,12 @@ function Location() {
           <FaMapMarkerAlt className="text-blue-600 text-lg" />
           <h2 className="font-semibold text-md">Manage Addresses</h2>
         </div>
-        {locations.length === 0 ? (
+        {locations== "Oops! We couldn't find your location. Please add it to get started." ? (
           <div className="text-sm text-gray-600 font-medium">
             No location added.
           </div>
         ) : (
-          locations.map((data, index) => (
+          locations?.map((data, index) => (
             <label
               key={index}
               className="flex items-start gap-3 p-4 mb-3 bg-white rounded-lg border border-blue-200 shadow-sm hover:shadow-md transition-all cursor-pointer"
