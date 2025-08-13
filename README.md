@@ -71,8 +71,9 @@ This project showcases **full-stack development skills**, including user authent
 
 | 🏠 Home Page                  | 📄 Product Page                     | 🛒 Cart Page                  |
 | ----------------------------- | ----------------------------------- | ----------------------------- |
-| <img width="1354" height="698" alt="image" src="https://github.com/user-attachments/assets/af5ff835-bf5f-461d-b3f8-a477773bbc2f" tittle='home page' />| | <img width="1366" height="645" alt="image" src="https://github.com/user-attachments/assets/c6fcfc68-7ed4-44a6-8e53-4390b81a1ab6" />|
- | <img width="1348" height="642" alt="image" src="https://github.com/user-attachments/assets/c8072e31-c134-477e-aa06-c168fb938ddc" />|
+| <img width="1354" height="698" alt="image" src="https://github.com/user-attachments/assets/af5ff835-bf5f-461d-b3f8-a477773bbc2f" tittle='home page' />
+| <img width="1366" height="645" alt="image" src="https://github.com/user-attachments/assets/c6fcfc68-7ed4-44a6-8e53-4390b81a1ab6" />|
+  <img width="1348" height="642" alt="image" src="https://github.com/user-attachments/assets/c8072e31-c134-477e-aa06-c168fb938ddc" />|
 
 ---
 
