@@ -39,11 +39,14 @@ function AddCart() {
     };
     cart_get();
   }, []);
-  const total = cartData.map((data) => data.productPrice);
-  const sum = total.reduce(
-    (previousValue, currentValue) => previousValue + currentValue,
-    0
+  const total = cartData.map((data) =>
+    data.productPrice == undefined
+      ? 0
+      : data.productPrice * (data.ProductsQuantity || 1)
   );
+  const sum = total.reduce((acc, curr) => acc + curr, 0);
+  console.log(sum, "totalSum");
+  // let sum=0
   const handelRemove = async (id) => {
     try {
       const response = await axios.delete(
@@ -52,7 +55,7 @@ function AddCart() {
           params: { ProductId: id },
         }
       );
-      console.log(response.data.message);
+
       if (response.data.message === "Your Product has been deleted") {
         setCartData((prev) => prev.filter((item) => item._id !== id));
 
@@ -82,7 +85,7 @@ function AddCart() {
       console.log(error.message);
     }
   };
-
+  console.log(cartData, "cartData");
 
   return (
     <>
@@ -216,9 +219,9 @@ function AddCart() {
                         </td>
                         <td
                           className="px-4 py-3 text-sm"
-                          title={item.productPrice.toLocaleString()}
+                          title={item.productPrice?.toLocaleString()}
                         >
-                          ₹{item.productPrice.toLocaleString()}
+                          ₹{item.productPrice?.toLocaleString()}
                         </td>
                         <td className="px-4 py-3 text-sm text-center ">
                           {item.ProductsQuantity == null
@@ -232,7 +235,7 @@ function AddCart() {
                             ? (
                                 item.ProductsQuantity * item.productPrice
                               ).toLocaleString()
-                            : item.productPrice.toLocaleString()}
+                            : item.productPrice?.toLocaleString()}
                         </td>
                         <td className="px-4 py-3">
                           <button

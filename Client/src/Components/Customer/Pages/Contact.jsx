@@ -3,6 +3,8 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../Navbar";
+import { SkeletonCard } from "../Loaders/SkeletonCard";
+import { SkeletonDemo } from "../Loaders/SkeletonDemo";
 
 function ContactPage() {
   const nameRef = useRef();
@@ -32,6 +34,7 @@ function ContactPage() {
       emailRef.current.value = "";
       messageRef.current.value = "";
     } catch (err) {
+      console.error(err);
       toast.error("Failed to send message. Please try again.");
     } finally {
       setIsSending(false);
@@ -96,6 +99,10 @@ function ContactPage() {
               "Send Message"
             )}
           </button>
+          <div>
+            hey
+          </div>
+
         </div>
       </div>
     </>

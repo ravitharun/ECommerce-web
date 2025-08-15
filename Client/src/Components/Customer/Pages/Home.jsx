@@ -7,6 +7,7 @@ import SpinnerLoader from "../Loaders/SpinnerLoader";
 import { useNavigate } from "react-router-dom";
 import CheckUser from "../../Auth/CheckUser";
 import Marquee from "../Marquee";
+import { SkeletonCard } from "../Loaders/SkeletonCard";
 
 function Home() {
   const [categories, setCategories] = useState({});
@@ -14,7 +15,7 @@ function Home() {
   const [Dealsoffurniture, BestofDealsoffurniture] = useState([]);
   const scrollRef = useRef(null);
   const [open, setOpen] = useState(null);
-  const [Isloadingpage, Setisloadingpage] = useState(false);
+  const [Isloadingpage, Setisloadingpage] = useState({});
   //
   const navigate = useNavigate("");
   useEffect(() => {
@@ -125,7 +126,12 @@ function Home() {
   useEffect(() => {
     const best = async () => {
       try {
-        Setisloadingpage(true);
+        const initialState = {};
+
+        Deals.forEach((item) => {
+          initialState[item.id] = false;
+        });
+        Setisloadingpage(initialState);
         const reponse = await axios.get(
           "https://dummyjson.com/products/category/laptops"
         );
@@ -164,8 +170,6 @@ function Home() {
     navigate("/ProductDetails", { state: id });
   };
 
-
-  
   return (
     <>
       {/* Navbar */}
@@ -300,89 +304,40 @@ function Home() {
 
       {/* Toast and Deals */}
 
-      {Isloadingpage ? (
-        <SpinnerLoader />
-      ) : (
-        <div>
-          {/* Electronics Deals */}
-          <div className="mt-5 p-5">
-            <h3 className="text-xl font-semibold mb-4">Best of Electronics</h3>
-            <div className="overflow-x-auto py-4 px-2">
-              <div className="flex gap-4 justify-center">
-                {Deals.length > 0 ? (
-                  Deals.map((DealsData, index) => (
-                    <div
-                      key={index}
-                      className="relative min-w-[200px] max-w-[200px] bg-white rounded shadow p-3 text-center cursor-pointer"
-                      onClick={() => fetchCategoryProducts(DealsData.id)}
-                    >
-                      <img
-                        src={DealsData.thumbnail}
-                        alt={DealsData.brand}
-                        className="h-40 w-full object-contain rounded"
-                      />
-                      <p className="text-sm font-medium mt-2">
-                        {DealsData.brand}
-                      </p>
-                      <p className="text-green-600 font-semibold">
-                        ₹{DealsData.price.toLocaleString()}
-                      </p>
-                      {DealsData.discountPercentage > 5 && (
-                        <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-[1px] rounded shadow-lg z-10">
-                          {DealsData.discountPercentage}% OFF
-                        </div>
-                      )}
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-center text-gray-500 w-full">
-                    No electronics deals found.
-                  </p>
-                )}
-              </div>
+      <div className="flex gap-4 justify-center">
+        {Isloadingpage ? (
+          Array(6) // number of loaders you want
+            .fill()
+            .map((_, i) => <SkeletonCard key={i} />)
+        ) : Deals.length > 0 ? (
+          Deals.map((DealsData, index) => (
+            <div
+              key={index}
+              className="relative min-w-[200px] max-w-[200px] bg-white rounded shadow p-3 text-center cursor-pointer"
+              onClick={() => fetchCategoryProducts(DealsData.id)}
+            >
+              <img
+                src={DealsData.thumbnail}
+                alt={DealsData.brand}
+                className="h-40 w-full object-contain rounded"
+              />
+              <p className="text-sm font-medium mt-2">{DealsData.brand}</p>
+              <p className="text-green-600 font-semibold">
+                ₹{DealsData.price.toLocaleString()}
+              </p>
+              {DealsData.discountPercentage > 5 && (
+                <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-[1px] rounded shadow-lg z-10">
+                  {DealsData.discountPercentage}% OFF
+                </div>
+              )}
             </div>
-          </div>
-
-          {/* Furniture Deals */}
-          <div className="mt-5 p-5">
-            <h3 className="text-xl font-semibold mb-4">Furniture Deals</h3>
-            <div className="overflow-x-auto py-4 px-2">
-              <div className="flex gap-4 justify-center">
-                {Dealsoffurniture.length > 0 ? (
-                  Dealsoffurniture.map((DealsData, index) => (
-                    <div
-                      key={index}
-                      onClick={() => fetchCategoryProducts(DealsData.id)}
-                      className="relative min-w-[200px] max-w-[200px] bg-white rounded shadow p-3 text-center cursor-pointer"
-                    >
-                      {DealsData.discountPercentage >= 5 && (
-                        <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-[1px] rounded shadow-lg z-10">
-                          {DealsData.discountPercentage}% OFF
-                        </div>
-                      )}
-                      <img
-                        src={DealsData.thumbnail}
-                        alt={DealsData.brand}
-                        className="h-40 w-full object-contain rounded"
-                      />
-                      <p className="text-sm font-medium mt-2">
-                        {DealsData.brand}
-                      </p>
-                      <p className="text-green-600 font-semibold">
-                        ₹{DealsData.price.toLocaleString()}
-                      </p>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-center text-gray-500 w-full">
-                    No Furniture deals found.
-                  </p>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+          ))
+        ) : (
+          <p className="text-center text-gray-500 w-full">
+            No electronics deals found.
+          </p>
+        )}
+      </div>
     </>
   );
 }
