@@ -12,6 +12,7 @@ import { SkeletonCard } from "../Loaders/SkeletonCard";
 function Home() {
   const [categories, setCategories] = useState({});
   const [Deals, BestofDeals] = useState([]);
+  const [DropDown, Setdropdown] = useState([]);
   const [Dealsoffurniture, BestofDealsoffurniture] = useState([]);
   const scrollRef = useRef(null);
   const [open, setOpen] = useState(null);
@@ -170,11 +171,36 @@ function Home() {
     navigate("/ProductDetails", { state: id });
   };
 
-  // SearchProductQuery 
-  const SearchProductQuery=(ProductName)=>{
+  // SearchProductQuery
+  const SearchProductQuery = (ProductName) => {
     console.log(ProductName, "SearchProductQuery");
     navigate("/Products", { state: ProductName });
-  }
+  };
+
+  // to show dropdown products
+  const ShowDropDownProducts = async (value) => {
+    try {
+      console.log(value == "", "ShowDropDownProducts");
+      if (value.trim() === "") {
+        Setdropdown([]);
+        return;
+      }
+      const response = await axios.get(
+        `https://dummyjson.com/products/search?q=${value}`
+      );
+      const products = response.data.products;
+      console.log(products, "products");
+      if (products.length === 0) {
+        toast.error("No products found for this search term.");
+        return;
+      }
+      Setdropdown(products);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      toast.error("Failed to fetch products. Please try again later.");
+    }
+  };
+
   return (
     <>
       {/* Navbar */}
@@ -185,26 +211,49 @@ function Home() {
 
       <CheckUser></CheckUser>
       {/* Centered Form Section */}
-      <div className="w-full px-4 py-6">
-        <label
-          htmlFor="search"
-          className="block text-gray-800 font-medium mb-2"
-        >
-          Search for Products
-        </label>
-        <input
-          type="text"
-          id="search"
-          placeholder="Search for phones, fashion, electronics..."
-          ref={SearchProduct}
-          onKeyDown={(event) => {
-            if (event.key === "Enter") {
-              Search_product();
-            }
-          }}
-          className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
-        />
-      </div>
+     <div className="relative w-full px-4 py-6">
+  <label htmlFor="search" className="block text-gray-800 font-medium mb-2">
+    Search for Products
+  </label>
+  <input
+    type="text"
+    id="search"
+    placeholder="Search for phones, fashion, electronics..."
+    ref={SearchProduct}
+    onChange={(event) => ShowDropDownProducts(event.target.value)}
+    onKeyDown={(event) => {
+      if (event.key === "Enter") Search_product();
+    }}
+    className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
+  />
+
+  {DropDown.length > 0 && (
+    <div className="absolute mt-2 w-full bg-white shadow-lg rounded-xl border border-gray-200 z-50">
+      <ul className="max-h-64 overflow-y-auto divide-y divide-gray-100">
+        {DropDown.map((product) => (
+          <li
+            key={product.id}
+            className="flex items-center gap-3 px-4 py-2 hover:bg-gray-50 cursor-pointer transition"
+            onClick={() => {
+              fetchCategoryProducts(product.id);
+              Setdropdown([]);
+            }}
+          >
+            <img
+              src={product.thumbnail}
+              alt={product.title}
+              className="w-12 h-12 object-contain rounded"
+            />
+            <div className="flex-1">
+              <p className="text-sm font-medium">{product.title}</p>
+              <p className="text-xs text-gray-500">₹{product.price}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+</div>
 
       {/* Category Scroll Section */}
       <div className="px-4 py-6 bg-gray-50 relative">
@@ -262,7 +311,7 @@ function Home() {
           {categories.genral?.map((category, index) => (
             <div
               key={index}
-              onClick={()=>SearchProductQuery(category.name)}
+              onClick={() => SearchProductQuery(category.name)}
               className="flex flex-col items-center min-w-[90px] hover:scale-105 transition-transform"
             >
               <img
