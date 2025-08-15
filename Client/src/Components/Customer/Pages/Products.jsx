@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaStar } from "react-icons/fa";
+import { FaClosedCaptioning, FaStar } from "react-icons/fa";
 import Navbar from "../Navbar";
 import axios from "axios";
 import { FaHeart } from "react-icons/fa";
@@ -9,11 +9,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import SpinnerLoader from "../Loaders/SpinnerLoader";
 import CheckUser from "../../Auth/CheckUser";
 import send from "../CartUser/Add";
-
-
-
-
-
+import { IoMdClose } from "react-icons/io";
 
 export default function ProductPage() {
   const location = useLocation();
@@ -24,14 +20,17 @@ export default function ProductPage() {
   const [QuerrProduct, setquerryProduct] = useState("phones");
   const [Rangeshow, setrangeShow] = useState(500);
   const [ProductDisplayui, setDisplayProducts] = useState([]);
-
+  let [productName, setproductName] = useState(location.state);
   useEffect(() => {
     const getproducts = async () => {
       try {
         setisloader(true);
         const reponse_Products = await axios.get(
-          `https://dummyjson.com/products/category/laptops`
+          `https://dummyjson.com/products/category/${
+            productName == null ? "laptops" : productName
+          }`
         );
+        console.log(productName, "productName from the getProducts");
         setDisplayProducts(reponse_Products.data.products);
         setAllProducts(reponse_Products.data.products);
       } catch (error) {
@@ -98,6 +97,18 @@ export default function ProductPage() {
 
   const resetFilters = () => {
     setDisplayProducts(allProducts);
+  };
+
+  //  ShowDefaultProduct
+  const ShowDefaultProduct = () => {
+    productName = null;
+    setproductName(null);
+    setTimeout(() => {
+      window.location.reload();
+      window.scrollTo(0, 0);
+      navigate("/Products", { state: null });
+    }, 100);
+ 
   };
   return (
     <>
@@ -230,9 +241,16 @@ export default function ProductPage() {
             </div>
           </div>
 
-          {/* Product List */}
-          {/* Product List */}
-
+          {productName && (
+            <button
+              onClick={() => ShowDefaultProduct(productName)}
+              className="flex items-center space-x-0.5 px-2 py-1 text-sm bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200"
+            >
+              <IoMdClose className="text-xs" />
+              <span>{productName}</span>
+            </button>
+          )}
+          <br />
           {Loader ? (
             <SpinnerLoader />
           ) : (
@@ -259,7 +277,7 @@ export default function ProductPage() {
                     <FaHeart
                       onClick={() =>
                         send(
-                           localStorage.getItem("email"),
+                          localStorage.getItem("email"),
                           product.id,
                           product.description,
                           product.title,

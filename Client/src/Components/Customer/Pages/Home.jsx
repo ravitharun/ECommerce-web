@@ -170,6 +170,11 @@ function Home() {
     navigate("/ProductDetails", { state: id });
   };
 
+  // SearchProductQuery 
+  const SearchProductQuery=(ProductName)=>{
+    console.log(ProductName, "SearchProductQuery");
+    navigate("/Products", { state: ProductName });
+  }
   return (
     <>
       {/* Navbar */}
@@ -257,6 +262,7 @@ function Home() {
           {categories.genral?.map((category, index) => (
             <div
               key={index}
+              onClick={()=>SearchProductQuery(category.name)}
               className="flex flex-col items-center min-w-[90px] hover:scale-105 transition-transform"
             >
               <img
