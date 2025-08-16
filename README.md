@@ -11,11 +11,16 @@ An **E-Commerce Website** built using the **MERN stack**
 
 ## 📖 Overview
 
-This project showcases **MERN development skills**, including user authentication, product management, cart functionality, and order handling with secure backend APIs. It is fully **mobile-responsive** and optimized to deliver a smooth **shopping experience**.  
+<p>
+  This project showcases <b>MERN development skills</b>, including <b>user authentication</b>, <b>product management</b>, <b>cart functionality</b>, and <b>order handling</b> with secure backend APIs. It is fully <b>mobile-responsive</b> and optimized to deliver a smooth <b>shopping experience</b>.
+</p>
+<p>
+  In addition, the project implements an <span style="color:#d11a2a;font-weight:700;">Auto Fetch Location</span> feature that automatically detects the user’s current location. Users can save up to <b>two locations</b> in the database (shown on the website) and can <b>edit</b> or <b>delete</b> those locations, enabling full <b>CRUD operations</b>.
+</p>
+<p>
+  The application also integrates an <span style="color:#0b7dda;font-weight:700;">Email Notification System</span> that sends automated emails to users during important actions such as <b>account creation</b> and <b>password updates</b>, improving communication and enhancing the overall user experience.
+</p>
 
-In addition, the project implements an <b className='text-red-500 font-mono text-xl'>Auto Fetch Location</b>feature that automatically detects the user’s current location. Users can save up to **two locations** in the database, which are displayed on the website, and they have the ability to edit or delete these locations, enabling full **CRUD operations**.  
-
-The application also integrates an **Email Notification System** that sends automated emails to users during important actions such as **account creation** and **password updates**, improving communication and enhancing the overall user experience. 
 
 ---
 
