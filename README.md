@@ -11,7 +11,11 @@ An **E-Commerce Website** built using the **MERN stack**
 
 ## 📖 Overview
 
-This project showcases **full-stack development skills**, including user authentication, product management, cart features, and order handling with secure backend APIs. It is designed to be **mobile-responsive** and optimized for a smooth **shopping experience**.
+This project showcases **MERN development skills**, including user authentication, product management, cart functionality, and order handling with secure backend APIs. It is fully **mobile-responsive** and optimized to deliver a smooth **shopping experience**.  
+
+In addition, the project implements an **Auto Fetch Location** feature that automatically detects the user’s current location. Users can save up to **two locations** in the database, which are displayed on the website, and they have the ability to edit or delete these locations, enabling full **CRUD operations**.  
+
+The application also integrates an **Email Notification System** that sends automated emails to users during important actions such as **account creation** and **password updates**, improving communication and enhancing the overall user experience. 
 
 ---
 
@@ -42,6 +46,7 @@ This project showcases **full-stack development skills**, including user authent
 - ✏️ **CRUD** for products, orders,UserLocation and users 
 - 🔒 Secure password hashing with **bcrypt**
 - 🛡 **Middleware** for authentication & error handling
+- ✉  **Email Integration** for sending automated notifications during account creation and password changes.
 
 ### 🗄 Database (MongoDB + Mongoose)
 
@@ -62,7 +67,7 @@ This project showcases **full-stack development skills**, including user authent
 
 ## 🛠 Tech Stack
 **Frontend:** ⚛ React.js • 🎨 Tailwind CSS • 🌍 Axios • 🛤 React Router DOM  
-**Backend:** 🌐 Node.js • ⚙ Express.js • 🔑 JWT • 🔒 Bcrypt.js • 🖼 Multer  
+**Backend:** 🌐 Node.js • ⚙ Express.js • 🔑 JWT • 🔒 Bcrypt.js 
 **Database:** 🗄 MongoDB • 📦 Mongoose
 
 ---
