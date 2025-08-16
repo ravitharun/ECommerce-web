@@ -5,9 +5,16 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const saltRounds = 10;
 const SECRET_KEY = "7f8e2aef0e5d4e3a9d79f82c36b98b7ed8b12e754b53ee61d93acbd1089987cf";
+const nodemailer = require("nodemailer");
+require('dotenv').config();
+let transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
 // it is used to check the Login user is valid or not 
-
-
 const verifyToken = (req, res, next) => {
     const authHeader = req.headers["authorization"];
     if (!authHeader) return res.status(401).json({ message: "Token missing" });
@@ -79,9 +86,56 @@ router.post("/new", async (req, res) => {
                 role: User_info.Role,
                 password: hash
             })
+            // console.log(Newuser.email,'email')
             await Newuser.save()
-            res.json({ message: "data saved" })
+            let mailOptions = {
+                from: process.env.EMAIL_USER,
+                to: Newuser.email, // recipient's email
+                subject: "🎉 Welcome to ShopZone!",
+                text: `Hey ${Newuser.name}, you created a new account in ShopZone!`, // fallback for plain text
+                html: `
+    <div style="font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f4;">
+      <div style="max-width: 600px; margin: auto; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+        
+        <div style="background-color: #4CAF50; padding: 15px; text-align: center; color: white;">
+          <h1>Welcome to ShopZone! 🛍️</h1>
+        </div>
+
+        <div style="padding: 20px; text-align: center;">
+          <h2>Hey ${Newuser.name || "there"} 👋</h2>
+          <p style="font-size: 16px; color: #555;">
+            Your account has been successfully created in <b>ShopZone</b>.  
+            We’re excited to have you with us!
+          </p>
+          <p style="font-size: 16px; color: #555;">
+            Start exploring amazing deals and offers today.
+          </p>
+
+          <a href="https://shopzone.com" style="display: inline-block; padding: 12px 20px; margin-top: 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px; font-size: 16px;">
+            Visit ShopZone
+          </a>
+        </div>
+
+        <div style="background-color: #f4f4f4; padding: 10px; text-align: center; font-size: 14px; color: #777;">
+          &copy; ${new Date().getFullYear()} ShopZone. All rights reserved.
+        </div>
+
+      </div>
+    </div>
+  `
+            };
+
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.log("Error:", error);
+                } else {
+                    console.log("Email sent:", info.response);
+                }
+            });
+
         });
+        res.json({ message: "data saved" })
+
     } catch (error) {
         console.log(error.message, 'error.message')
         return res.json({ message: error.message });

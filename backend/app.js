@@ -11,6 +11,7 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 const cors = require("cors");
+require('dotenv').config();
 
 app.use(cors({
   origin: "http://localhost:5173",  // or whatever port React uses

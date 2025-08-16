@@ -2,6 +2,14 @@ import axios from "axios";
 import React, { useRef, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
+import {
+  AlertTriangle,
+  AlertTriangleIcon,
+  CheckCircle2,
+  X,
+} from "lucide-react";
+
 function Sigin() {
   const [role, setRole] = useState("customer");
   const [showPass, setShowPass] = useState(false);
@@ -22,9 +30,90 @@ function Sigin() {
       User_info: User_info,
     });
     console.log("User_infos:", response.data.message);
+    if (response.data.message == "data saved") {
+      return toast.custom(
+        (t) => (
+          <div
+            role="status"
+            aria-live="polite"
+            className={`pointer-events-auto flex items-start gap-3 rounded-2xl border border-zinc-800 bg-zinc-900/95 p-3 text-zinc-100 shadow-2xl backdrop-blur ${
+              t.visible
+                ? "animate-in fade-in zoom-in-95"
+                : "animate-out fade-out zoom-out-95"
+            }`}
+          >
+            <CheckCircle2 className="mt-0.5 h-5 w-5 flex-none" />
+            <div className="min-w-[220px]">
+              <p className="text-sm font-semibold">Account created 🎉</p>
+              <p className="text-xs text-zinc-300">
+                Welcome to <span className="font-medium">ShopZone</span>
+                {User_info.Email ? ` — signed in as ${User_info.Email}` : ""}.
+              </p>
+            </div>
+            <Link to="/login">
+              <a className="ml-2 rounded-xl border border-zinc-700 px-2 py-1 text-xs hover:bg-zinc-800">
+                Now Login Your account
+              </a>
+            </Link>
+
+            <button
+              onClick={() => toast.dismiss(t.id)}
+              className="ml-1 rounded-lg p-1 hover:bg-zinc-800"
+              aria-label="Dismiss"
+              title="Dismiss"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+        )
+      );
+    }
+    toast.custom((t) => (
+      <div
+        role="alert"
+        aria-live="assertive"
+        className={`pointer-events-auto flex items-start gap-3 rounded-2xl border border-red-700 bg-red-950/95 p-3 text-red-100 shadow-2xl backdrop-blur ${
+          t.visible
+            ? "animate-in fade-in zoom-in-95"
+            : "animate-out fade-out zoom-out-95"
+        }`}
+      >
+        <AlertTriangleIcon className="mt-0.5 h-5 w-5 flex-none text-yellow-400" />
+        <div className="min-w-[220px]">
+          <p className="text-sm font-semibold">User Already Exists</p>
+          <p className="text-xs text-red-200">
+            {User_info.Email
+              ? `An account with ${User_info.Email} already exists.`
+              : "Please try logging in instead."}
+          </p>
+        </div>
+
+        <a
+          href="/login"
+          className="ml-2 rounded-xl border border-red-700 px-2 py-1 text-xs hover:bg-red-800"
+        >
+          Login
+        </a>
+
+        <button
+          onClick={() => toast.dismiss(t.id)}
+          className="ml-1 rounded-lg p-1 hover:bg-red-800"
+          aria-label="Dismiss"
+          title="Dismiss"
+        >
+          <X className="h-4 w-4" />
+        </button>
+      </div>
+    ));
   };
   return (
     <>
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 5000,
+        }}
+      />
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-white px-4">
         <div className="bg-white shadow-lg rounded-xl w-full max-w-sm p-4 sm:p-6">
           {/* Header */}
