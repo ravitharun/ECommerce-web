@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../Navbar";
 import { SkeletonCard } from "../Loaders/SkeletonCard";
 import { SkeletonDemo } from "../Loaders/SkeletonDemo";
+import Footer from "./Footer";
 
 function ContactPage() {
   const nameRef = useRef();
@@ -52,6 +53,10 @@ function ContactPage() {
           <h2 className="text-2xl font-semibold mb-4 text-blue-700">
             Contact Us
           </h2>
+          {/* Add some info or instructions */}
+          <p className="mb-4 text-gray-600 text-sm">
+            Have questions or feedback? Fill out the form below and we'll get back to you!
+          </p>
           <div className="mb-4">
             <label className="block font-medium text-gray-700 mb-1">Name</label>
             <input
@@ -100,11 +105,14 @@ function ContactPage() {
             )}
           </button>
           <div>
-            hey
-          </div>
+            <p className="text-xl text-red-400 mt-4 text-center font-mono">
+              its is in construction will be fixed soon. We usually respond within 24 hours.
 
+            </p>
+          </div>
         </div>
       </div>
+      <Footer></Footer>
     </>
   );
 }

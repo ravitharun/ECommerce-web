@@ -11,6 +11,7 @@ import RelatedProduct from "./RelatedProduct";
 import Navbar from "../Navbar";
 import { MdLocationPin } from "react-icons/md";
 import send from "../CartUser/Add";
+import Footer from "./Footer";
 
 function ProductDetails() {
   const location = useLocation();
@@ -538,6 +539,7 @@ function ProductDetails() {
         </div>
       )}
       <RelatedProduct Products={catedories} />
+      
     </>
   );
 }

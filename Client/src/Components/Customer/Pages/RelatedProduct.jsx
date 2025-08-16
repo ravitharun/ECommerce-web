@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import SpinnerLoader from "../Loaders/SpinnerLoader";
 import { useNavigate } from "react-router-dom";
+import Footer from "./Footer";
 
 function RelatedProduct({ Products }) {
   const [Categories, setCategories] = useState([]);
@@ -27,6 +28,7 @@ function RelatedProduct({ Products }) {
     fetchRelatedProducts();
   }, [Products]);
   return (
+    <>
     <div className="py-6 px-4 md:px-10">
       <h3 className="text-xl md:text-2xl font-semibold mb-6 text-center">
         Related Products in <span className="text-blue-600">{Products}</span>
@@ -71,7 +73,10 @@ function RelatedProduct({ Products }) {
           ))}
         </div>
       )}
+          
     </div>
+<Footer></Footer>
+</>
   );
 }
 

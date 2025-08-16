@@ -2,7 +2,7 @@ import { SkeletonDemo } from "../Loaders/SkeletonDemo";
 
 export function SkeletonCard() {
   return (
-    <div className="flex flex-col space-y-3 max-w-sm p-4 border rounded-lg shadow-sm">
+    <div className="flex flex-col space-y-3 max-w-sm p-4 border-gray-200 border-1 rounded-lg shadow-sm">
       {/* Image placeholder */}
       <SkeletonDemo className="h-[150px] w-full rounded-xl p-5" />
       {/* Title placeholder */}

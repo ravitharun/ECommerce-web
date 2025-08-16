@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import CheckUser from "../../Auth/CheckUser";
 import Marquee from "../Marquee";
 import { SkeletonCard } from "../Loaders/SkeletonCard";
+import Footer from "./Footer";
 
 function Home() {
   const [categories, setCategories] = useState({});
@@ -393,6 +394,46 @@ function Home() {
           </p>
         )}
       </div>
+      <br />
+git innu
+      <br />
+      <div className="flex gap-4 justify-center">
+        {Isloadingpage ? (
+          Array(6) // number of loaders you want
+            .fill()
+            .map((_, i) => <SkeletonCard key={i} />)
+        ) : Dealsoffurniture.length > 0 ? (
+          Dealsoffurniture.map((DealsData, index) => (
+            <div
+              key={index}
+              className="relative min-w-[200px] max-w-[200px] bg-white rounded shadow p-3 text-center cursor-pointer"
+              onClick={() => fetchCategoryProducts(DealsData.id)}
+            >
+              <img
+                src={DealsData.thumbnail}
+                alt={DealsData.brand}
+                className="h-40 w-full object-contain rounded"
+              />
+              <p className="text-sm font-medium mt-2">{DealsData.brand}</p>
+              <p className="text-green-600 font-semibold">
+                ₹{DealsData.price.toLocaleString()}
+              </p>
+              {DealsData.discountPercentage > 5 && (
+                <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-[1px] rounded shadow-lg z-10">
+                  {DealsData.discountPercentage}% OFF
+                </div>
+              )}
+            </div>
+          ))
+        ) : (
+          <p className="text-center text-gray-500 w-full">
+            No furniture deals found.
+          </p>
+        )}
+      </div>
+      <br />
+      <br className="" />
+      <Footer></Footer>
     </>
   );
 }
