@@ -1,7 +1,6 @@
 [build]
-  base = "Client"                           # 👈 run build inside /Client
   command = "npm install --legacy-peer-deps && npm run build"
-  publish = "dist"                          # 👈 since base=Client, dist is relative
+  publish = "Client/dist"
 
 [build.environment]
-  NODE_VERSION = "20.17.0"
+  NODE_VERSION = "18.20.3"
