@@ -2,12 +2,9 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [tailwindcss(), react()],
-  build: {
-    rollupOptions: {
-      external: ["react-is"], // 👈 prevents bundling/react-is resolution error
-    },
+  optimizeDeps: {
+    include: ["react-is"],   // ✅ force bundling of react-is
   },
 })

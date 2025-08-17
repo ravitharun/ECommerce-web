@@ -14,7 +14,11 @@ const cors = require("cors");
 require('dotenv').config();
 
 app.use(cors({
-  origin: "http://localhost:5173",  // or whatever port React uses
+  origin: [
+    "http://localhost:5173",   // dev
+    "http://localhost:4173",   // preview
+    "https://e-commerce-mernwebsite.netlify.app" // production
+  ],
   credentials: true
 }));
 // view engine setup

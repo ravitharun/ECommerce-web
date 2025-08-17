@@ -66,7 +66,6 @@ const UserProfile = () => {
       "http://localhost:3000/api/e-com/Userprofile",
       { UserMeta: data }
     );
-    console.log(response.data.message, "response.data.message");
     if (response.data.message == "the email is already Used") {
       setIsEditing(false);
       setErrormsg(response.data.message);
@@ -90,7 +89,6 @@ const UserProfile = () => {
         "http://localhost:3000/api/e-com/GetPfData",
         { params: { PfEmail: UserEmail } }
       );
-      console.log(pfData.data.getPfdata_Email);
       if (pfData.data.message === "that there is no Profile") {
         console.log(pfData.data.message, "pfData.data.message");
         setIsEditing(true);
