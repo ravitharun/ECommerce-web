@@ -9,6 +9,7 @@ import CheckUser from "../../Auth/CheckUser";
 import Marquee from "../Marquee";
 import { SkeletonCard } from "../Loaders/SkeletonCard";
 import Footer from "./Footer";
+import CustomAlert from "../QuickAlert/CustomAlert";
 
 function Home() {
   const [categories, setCategories] = useState({});
@@ -209,53 +210,55 @@ function Home() {
         <Navbar />
         <Marquee></Marquee>
       </div>
-
-      <CheckUser></CheckUser>
+      <CustomAlert></CustomAlert>
+      {/* <CheckUser></CheckUser> */}
       {/* Centered Form Section */}
-     <div className="relative w-full px-4 py-6">
-  <label htmlFor="search" className="block text-gray-800 font-medium mb-2">
-    Search for Products
-  </label>
-  <input
-    type="text"
-    id="search"
-    placeholder="Search for phones, fashion, electronics..."
-    ref={SearchProduct}
-    onChange={(event) => ShowDropDownProducts(event.target.value)}
-    onKeyDown={(event) => {
-      if (event.key === "Enter") Search_product();
-    }}
-    className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
-  />
+      <div className="relative w-full px-4 py-6">
+        <label
+          htmlFor="search"
+          className="block text-gray-800 font-medium mb-2"
+        >
+          Search for Products
+        </label>
+        <input
+          type="text"
+          id="search"
+          placeholder="Search for phones, fashion, electronics..."
+          ref={SearchProduct}
+          onChange={(event) => ShowDropDownProducts(event.target.value)}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") Search_product();
+          }}
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
+        />
 
-  {DropDown.length > 0 && (
-    <div className="absolute mt-2 w-full bg-white shadow-lg rounded-xl border border-gray-200 z-50">
-      <ul className="max-h-64 overflow-y-auto divide-y divide-gray-100">
-        {DropDown.map((product) => (
-          <li
-            key={product.id}
-            className="flex items-center gap-3 px-4 py-2 hover:bg-gray-50 cursor-pointer transition"
-            onClick={() => {
-              fetchCategoryProducts(product.id);
-              Setdropdown([]);
-            }}
-          >
-            <img
-              src={product.thumbnail}
-              alt={product.title}
-              className="w-12 h-12 object-contain rounded"
-            />
-            <div className="flex-1">
-              <p className="text-sm font-medium">{product.title}</p>
-              <p className="text-xs text-gray-500">₹{product.price}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )}
-</div>
-
+        {DropDown.length > 0 && (
+          <div className="absolute mt-2 w-full bg-white shadow-lg rounded-xl border border-gray-200 z-50">
+            <ul className="max-h-64 overflow-y-auto divide-y divide-gray-100">
+              {DropDown.map((product) => (
+                <li
+                  key={product.id}
+                  className="flex items-center gap-3 px-4 py-2 hover:bg-gray-50 cursor-pointer transition"
+                  onClick={() => {
+                    fetchCategoryProducts(product.id);
+                    Setdropdown([]);
+                  }}
+                >
+                  <img
+                    src={product.thumbnail}
+                    alt={product.title}
+                    className="w-12 h-12 object-contain rounded"
+                  />
+                  <div className="flex-1">
+                    <p className="text-sm font-medium">{product.title}</p>
+                    <p className="text-xs text-gray-500">₹{product.price}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
       {/* Category Scroll Section */}
       <div className="px-4 py-6 bg-gray-50 relative">
         {/* Arrows */}
@@ -357,9 +360,7 @@ function Home() {
           )}
         </div>
       </div>
-
       {/* Toast and Deals */}
-
       <div className="flex gap-4 justify-center">
         {Isloadingpage ? (
           Array(6) // number of loaders you want
@@ -395,7 +396,7 @@ function Home() {
         )}
       </div>
       <br />
-git innu
+      git innu
       <br />
       <div className="flex gap-4 justify-center">
         {Isloadingpage ? (
