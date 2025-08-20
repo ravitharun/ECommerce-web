@@ -2,56 +2,42 @@ import React, { useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
 function CustomAlert() {
-  const successMessages = [
-    "✅ Item added to cart successfully!",
-    "🛍️ Enjoy your shopping journey!",
-    "🎉 Thanks for choosing us — happy shopping!",
-    "🚚 Order placed successfully!",
-    "🌟 Have a great shopping experience!",
+  const alertPopup = [
+    { message: "🔥 Big Sale! Get 50% off on Electronics.", type: "info" },
+    { message: "🛒 Don't forget to check your cart!", type: "warn" },
+    { message: "🚚 Free delivery on orders above ₹999.", type: "success" },
+    { message: "💳 Secure payments with cashback offers.", type: "info" },
+    { message: "🎁 Flat ₹200 off on your first order!", type: "success" },
+    { message: "⏰ Limited-time deal: 70% off on Fashion.", type: "warn" },
+    { message: "⭐ New arrivals just landed in Store!", type: "info" },
+    { message: "📦 Track your order in real-time.", type: "info" },
+    { message: "💥 Flash Sale ends in 2 hours!", type: "warn" },
+    { message: "🏷️ Buy 1 Get 1 Free on selected items.", type: "success" },
+    { message: "🔒 100% secure checkout guaranteed.", type: "info" },
+    { message: "🌍 Now shipping internationally!", type: "success" },
   ];
-  let randomMessage=''
-  while (!randomMessage) {
-    randomMessage = successMessages[Math.floor(Math.random() * successMessages.length)];
-    }
-  console.log(randomMessage);
-  useEffect(() => {
-    toast.custom(
-      (t) => (
-        <div
-          className={`${
-            t.visible ? "animate-enter" : "animate-leave"
-          } max-w-sm w-full bg-white border border-green-500 shadow-xl rounded-2xl p-4 flex items-start gap-4`}
-        >
-          {/* Icon */}
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
-            <svg
-              className="h-6 w-6 text-green-600"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
-          </div>
 
-          {/* Content */}
-          <div className="flex-1">
-            <p className="text-sm font-semibold text-gray-900">
-              {randomMessage}
-            </p>
-          </div>
-        </div>
-      ),
-      { id: "success-toast" }
-    );
+  useEffect(() => {
+    // Show first toast immediately
+    let firstIndex = Math.floor(Math.random() * alertPopup.length);
+    toast(alertPopup[firstIndex].message);
+
+    // Set interval for every 1 min
+    const intervalId = setInterval(() => {
+      let randomIndex = Math.floor(Math.random() * alertPopup.length);
+      let { message, type } = alertPopup[randomIndex];
+
+      // pick toast style based on type
+      if (type === "success") toast.success(message);
+      else if (type === "warn") toast.error(message);
+      else toast(message); // default info
+    }, 60000); // 1 minute interval
+
+    // cleanup interval on unmount
+    return () => clearInterval(intervalId);
   }, []);
 
-  return <>  <Toaster position="top-center" reverseOrder={true} /></>;
+  return <Toaster position="top-center" reverseOrder={true} />;
 }
 
 export default CustomAlert;
