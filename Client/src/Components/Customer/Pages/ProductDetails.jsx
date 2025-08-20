@@ -139,8 +139,6 @@ function ProductDetails() {
       } else if (Prodcut_info.Productsqt == "") {
         alert(Productsqt, "qt check ");
       }
-
-      setisloader(true);
       const cart_response = await axios.post(
         "http://localhost:3000/api/cart/add",
         { product: Prodcut_info }

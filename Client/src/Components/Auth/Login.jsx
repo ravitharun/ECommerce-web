@@ -12,21 +12,22 @@ function Login() {
   const Email = useRef();
   const passwordRef = useRef();
   const [ErrorRef, seterror] = useState("");
-  const Password = () => {
+  const Password = (e) => {
+    event.preventDefault();
     if (passwordRef.current.value.length >= 5) {
       passwordRef.current.style.borderColor = "green";
       seterror(
         `✔ The password satisfies the required length of ${passwordRef.current.value.length} characters`
       );
-      console.log("ture");
+      handleSubmit();
     } else {
       passwordRef.current.style.borderColor = "red";
-      console.log("false");
       seterror(``);
     }
   };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  
+  const handleSubmit = async () => {
+    
     const User_info = {
       email: Email.current.value,
       role: role,
