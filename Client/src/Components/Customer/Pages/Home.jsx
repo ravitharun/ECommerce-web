@@ -210,9 +210,6 @@ function Home() {
         <Navbar />
         <Marquee></Marquee>
       </div>
-      <CustomAlert></CustomAlert>
-      {/* <CheckUser></CheckUser> */}
-      {/* Centered Form Section */}
       <div className="relative w-full px-4 py-6">
         <label
           htmlFor="search"
@@ -337,6 +334,7 @@ function Home() {
               {categories.mens?.map((data, index) => (
                 <div
                   key={index}
+                  onClick={()=>SearchProductQuery(data.name)}
                   className="flex items-center gap-2 hover:bg-gray-100 px-2 py-1 rounded cursor-pointer"
                 >
                   <img src={data.img} alt={data.name} className="w-6 h-6" />
@@ -350,6 +348,8 @@ function Home() {
               {categories.womens?.map((data, index) => (
                 <div
                   key={index}
+                                    onClick={()=>SearchProductQuery(data.name)}
+
                   className="flex items-center gap-2 hover:bg-gray-100 px-2 py-1 rounded cursor-pointer"
                 >
                   <img src={data.img} alt={data.name} className="w-6 h-6" />
@@ -360,8 +360,13 @@ function Home() {
           )}
         </div>
       </div>
+
       {/* Toast and Deals */}
       <div className="flex gap-4 justify-center">
+        <div className="flex items-center gap-2 mb-4">
+          {" "}
+          <h1 className="text-xl text-red-500"> Electronics Deals</h1>
+        </div>
         {Isloadingpage ? (
           Array(6) // number of loaders you want
             .fill()
@@ -396,9 +401,13 @@ function Home() {
         )}
       </div>
       <br />
-      git innu
+      {/* git innu */}
       <br />
       <div className="flex gap-4 justify-center">
+          <div className="flex items-center gap-2 mb-4">
+          {" "}
+          <h1 className="text-xl text-red-500"> Furniture Deals</h1>
+        </div>
         {Isloadingpage ? (
           Array(6) // number of loaders you want
             .fill()
