@@ -17,6 +17,7 @@ import Wishlist from "./Components/Customer/CartUser/Wishlist.jsx";
 import ContactPage from "./Components/Customer/Pages/Contact";
 import UserProfile from "./Components/Customer/Profile/UserProfile.jsx";
 import UpdatePassword from "./Components/Auth/UpdatePassword.jsx";
+import TwoFactor from "./Components/Auth/TwoFactor.jsx";
 
 const role = localStorage.getItem("ROLE");
 const isLoggedIn = !!localStorage.getItem("token");
@@ -35,6 +36,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/SignUp" element={<Sigin />} />
         <Route path="/UpdatePassword" element={<UpdatePassword />} />
         <Route path="/not-authorized" element={<Notauth />} />
+        <Route path="/TwoFactorAuth" element={<TwoFactor />} />
 
         {/* ✅ Customer Protected Routes */}
         <Route

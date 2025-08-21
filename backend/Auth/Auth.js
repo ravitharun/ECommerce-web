@@ -14,6 +14,8 @@ let transporter = nodemailer.createTransport({
         pass: process.env.EMAIL_PASS
     }
 });
+const otpGenerator = require('otp-generator')
+
 // it is used to check the Login user is valid or not 
 const verifyToken = (req, res, next) => {
     const authHeader = req.headers["authorization"];
@@ -35,23 +37,105 @@ const verifyToken = (req, res, next) => {
 
 router.get("/login", async (req, res) => {
     try {
-        const { email, password, role } = req.query;
-        console.log(email, "role")
+        const { email, password, role, otp } = req.query;
+        let ServerOtp = otpGenerator.generate(5, { upperCaseAlphabets: false, specialChars: false, lowerCaseAlphabets: false, digits: true });
+        if (ServerOtp == '') {
+            return res.json({ message: "otp sent to your email" })
+
+        }
+
+        // checking for email, password, and role
         if (email == "" && password == "" && role == "") {
             return res.json({ fillMessage: "Please fill all required fields" });
         }
+        // checking the user is already created or not
         const Is_Created_User = await User.findOne({ email: email });
-        console.log(Is_Created_User)
+        console.log(Is_Created_User, 'Is_Created_User')
+
         if (Is_Created_User == null) {
             return res.status(404).json({ message: "User not found" });
         }
+
         // Compare password
         bcrypt.compare(password, Is_Created_User.password, (err, result) => {
             if (err) {
                 return res.status(500).json({ message: "Error comparing password" });
             }
-
             if (result && role === Is_Created_User.role) {
+                let mailOptions = {
+                    from: process.env.EMAIL_USER,
+                    to: Is_Created_User.email, // recipient's email
+                    subject: "🎉 Welcome to ShopZone!",
+                    text: `Hey ${Is_Created_User.name}, you created a new account in ShopZone!`, // fallback for plain text
+                    html: `
+  <div style="margin:0;padding:0;background:#f5f7fb;font-family:Arial,Helvetica,sans-serif;">
+    <div style="max-width:640px;margin:0 auto;padding:24px;">
+      <!-- Card -->
+      <div style="background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,0.08);">
+        
+        <!-- Header -->
+        <div style="background:linear-gradient(135deg,#4CAF50,#2e7d32);padding:20px 24px;text-align:center;color:#ffffff;">
+          <div style="font-size:22px;font-weight:700;letter-spacing:0.3px;">ShopZone Security</div>
+          <div style="font-size:13px;opacity:0.95;">Two-Factor Authentication</div>
+        </div>
+
+        <!-- Body -->
+        <div style="padding:24px 28px;">
+          <h2 style="margin:0 0 8px 0;font-size:20px;color:#111;">
+            Hi ${Is_Created_User?.name || "there"} 👋
+          </h2>
+          <p style="margin:0 0 14px 0;font-size:14px;line-height:1.6;color:#444;">
+            Use the One-Time Password (OTP) below to complete your sign-in to <b>ShopZone</b>.
+            This code helps us confirm it’s really you.
+          </p>
+
+          <!-- OTP Box -->
+          <div style="margin:18px 0;padding:16px;border:1px dashed #dfe3ea;border-radius:10px;background:#fafbff;text-align:center;">
+            <div style="font-size:28px;font-weight:700;letter-spacing:10px;color:#111;">
+              ${ServerOtp}
+            </div>
+            <div style="margin-top:8px;font-size:12px;color:#5f6b7a;">
+              Expires in <b>10 minutes</b>. Don’t share this code with anyone.
+            </div>
+          </div>
+
+          <!-- CTA Button (optional deep link) -->
+          <div style="text-align:center;margin:18px 0 6px;">
+            <a href="#"
+               style="display:inline-block;padding:12px 22px;border-radius:10px;background:#4CAF50;color:#fff;text-decoration:none;font-size:14px;font-weight:700;">
+              Verify & Sign In
+            </a>
+          </div>
+
+          <!-- Tips / Security -->
+          <ul style="margin:14px 0 0 18px;padding:0;color:#555;font-size:13px;line-height:1.6;">
+            <li>If you didn’t request this, you can ignore this email.</li>
+            <li>For your security, the code becomes invalid after one use or expiry.</li>
+          </ul>
+        </div>
+
+        <!-- Footer -->
+        <div style="background:#f7f9fc;padding:14px 20px;text-align:center;font-size:12px;color:#6b7280;">
+          © ${new Date().getFullYear()} ShopZone · Need help? Contact
+          <a href="mailto:support@shopzone.com" style="color:#4CAF50;text-decoration:none;">support@shopzone.com</a>
+        </div>
+      </div>
+
+      <!-- Secondary Footer -->
+      <div style="text-align:center;font-size:11px;color:#8a94a6;margin-top:10px;">
+        You’re receiving this because a login was requested for your account.
+      </div>
+    </div>
+  </div>
+`
+                };
+                transporter.sendMail(mailOptions, (error, info) => {
+                    if (error) {
+                        console.log("Error:", error);
+                    } else {
+                        console.log("Email sent:", info.response);
+                    }
+                });
                 const token = jwt.sign(
                     { email: Is_Created_User.email, role: Is_Created_User.role },
                     SECRET_KEY,

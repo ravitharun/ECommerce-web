@@ -299,7 +299,7 @@ const UserProfile = () => {
                 <div className="flex-1 flex flex-col gap-2 items-center sm:items-start">
                   <h1 className="text-3xl font-bold text-gray-800 flex items-center gap-2">
                     <FaUser className="text-blue-500" />
-                    {Profile.name}
+                    {Profile.Name}
                   </h1>
                   <div className="flex gap-4 flex-wrap text-gray-600 text-sm">
                     <span className="flex items-center gap-1">

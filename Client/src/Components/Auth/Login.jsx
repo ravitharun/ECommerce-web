@@ -25,9 +25,8 @@ function Login() {
       seterror(``);
     }
   };
-  
+
   const handleSubmit = async () => {
-    
     const User_info = {
       email: Email.current.value,
       role: role,
@@ -47,7 +46,7 @@ function Login() {
             params: User_info,
           }
         );
-        console.log(response.data.message);
+        navigate("/TwoFactorAuth");
         if (response.data.fillMessage == "Please fill all required fields") {
           toast.error(response.data.fillMessage);
         }

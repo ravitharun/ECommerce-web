@@ -10,6 +10,7 @@ import Marquee from "../Marquee";
 import { SkeletonCard } from "../Loaders/SkeletonCard";
 import Footer from "./Footer";
 import CustomAlert from "../QuickAlert/CustomAlert";
+import TwoFactor from "../../Auth/TwoFactor";
 
 function Home() {
   const [categories, setCategories] = useState({});
@@ -209,6 +210,9 @@ function Home() {
       <div className="sticky top-0 z-50 bg-white shadow">
         <Navbar />
         <Marquee></Marquee>
+      </div>
+      <div>
+        {/* <TwoFactor></TwoFactor> */}
       </div>
       <div className="relative w-full px-4 py-6">
         <label
