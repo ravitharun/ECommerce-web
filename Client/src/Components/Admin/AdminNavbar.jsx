@@ -33,7 +33,7 @@ const AdminNavbar = () => {
         {/* Desktop Menu */}
         <ul className="hidden md:flex gap-6 text-sm font-medium items-center cursor-pointer">
           <li>
-            <Link to="/admin" className="hover:text-red-400 flex items-center gap-1">
+            <Link to="/" className="hover:text-red-400 flex items-center gap-1">
               <FaTachometerAlt /> Dashboard
             </Link>
           </li>

@@ -212,7 +212,7 @@ function Home() {
         <Marquee></Marquee>
       </div>
       <div>
-        {/* <TwoFactor></TwoFactor> */}
+        {/* <TwoFacd c  cdw;g,w;h4mclsctor></TwoFactor> */}
       </div>
       <div className="relative w-full px-4 py-6">
         <label
