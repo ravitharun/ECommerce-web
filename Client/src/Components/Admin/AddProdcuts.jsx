@@ -4,47 +4,92 @@ import { PlusCircle } from "lucide-react";
 import axios from "axios";
 
 function AddProduct() {
-  const [isAddingCategory, setnewProductsType] = useState("");
-  const [isAddingPoupCategory, PoupnewProductsType] = useState(false);
-  const [isadding, Setisadding] = useState(false);
-
-  // adding the item in array
-  const [Category, setCategroy] = useState([
+  const [isAddingCategory, setNewCategory] = useState("");
+  const [showCategoryForm, setShowCategoryForm] = useState(false);
+  const [categories, setCategories] = useState([
     "Electronics",
     "Clothing",
     "Books",
     "Beauty",
     "Home & Kitchen",
   ]);
-  // getting the value of the input
-  const addNow = (value) => {
-    setnewProductsType(value);
-    console.log(value);
-  };
-  // adding them get form of input:text
-  const AddCategory = (e) => {
+
+  // refs
+  const title = useRef("");
+  const price = useRef("");
+  const brand = useRef("");
+  const stock = useRef("");
+  const discountPercentage = useRef("");
+  const rating = useRef("");
+  const sku = useRef("");
+  const weight = useRef("");
+  const width = useRef("");
+  const height = useRef("");
+  const depth = useRef("");
+  const warrantyInformation = useRef("");
+  const shippingInformation = useRef("");
+  const availabilityStatus = useRef("");
+  const returnPolicy = useRef("");
+  const minimumOrderQuantity = useRef("");
+  const tags = useRef("");
+  const description = useRef("");
+  const highlights = useRef("");
+  const images = useRef("");
+  const thumbnail = useRef("");
+
+  // add category
+  const handleAddCategory = (e) => {
     e.preventDefault();
-    if (!isAddingPoupCategory) {
-      PoupnewProductsType(true);
+    if (!isAddingCategory.trim()) {
+      return alert("Please enter a category name");
     }
-    Setisadding((prev) => !prev); // toggles between true/false
+    setCategories([...categories, isAddingCategory]);
+    setNewCategory("");
+    alert("Category added successfully");
   };
 
-  const AddgetnewAddingCategory = (e) => {
+  // submit product
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // let check =  ? alert("add some") : null;
-    if (isAddingCategory == "") {
-      return alert("add some");
-    }
+    const newProduct = {
+      title: title.current.value,
+      description: description.current.value,
+      category: categories[0], // just taking first for now, can bind selected
+      price: parseFloat(price.current.value),
+      discountPercentage: parseFloat(discountPercentage.current.value),
+      rating: parseFloat(rating.current.value),
+      stock: parseInt(stock.current.value),
+      tags: tags.current.value.split(",").map((tag) => tag.trim()),
+      brand: brand.current.value,
+      sku: sku.current.value,
+      weight: parseFloat(weight.current.value),
+      dimensions: {
+        width: parseFloat(width.current.value),
+        height: parseFloat(height.current.value),
+        depth: parseFloat(depth.current.value),
+      },
+      warrantyInformation: warrantyInformation.current.value,
+      shippingInformation: shippingInformation.current.value,
+      availabilityStatus: availabilityStatus.current.value,
+      returnPolicy: returnPolicy.current.value,
+      minimumOrderQuantity: parseInt(minimumOrderQuantity.current.value),
+      images: [images.current.value],
+      thumbnail: thumbnail.current.value,
+    };
+    console.log(newProduct);
 
-    setCategroy([...Category, isAddingCategory]);
-    alert("added the new Category");
+    try {
+      const response = await axios.post(
+        "https://dummyjson.com/products/add",
+        newProduct,
+        { headers: { "Content-Type": "application/json" } }
+      );
+      console.log(response.data, "Product added!");
+    } catch (error) {
+      console.log(error);
+    }
   };
-  // console.log("Category", Category);
-const AddProducts=async()=>{
-  const response=await axios.post('https://dummyjson.com/products/add')
-  console.log(response,'response from the api AddProducts ')
-}
+
   return (
     <>
       <div className="sticky top-0 z-50 bg-white shadow">
@@ -57,145 +102,172 @@ const AddProducts=async()=>{
           Add New Product
         </h2>
 
-        <form className="space-y-6">
+        <form className="space-y-6" onSubmit={handleSubmit}>
           {/* Product Name */}
-          <FormField
-            label="Product Name"
-            type="text"
-            placeholder="Enter product name"
-          />
+          <InputField label="Product Name" type="text" refField={title} />
 
-          {/* Price */}
-          <FormField label="Price (₹)" type="number" placeholder="e.g. 999" />
+          {/* Price + Discount + Rating */}
+          <div className="grid grid-cols-3 gap-4">
+            <InputField label="Price (₹)" type="number" refField={price} />
+            <InputField
+              label="Discount (%)"
+              type="number"
+              refField={discountPercentage}
+            />
+            <InputField label="Rating" type="number" refField={rating} />
+          </div>
 
           {/* Category */}
           <div>
-            <Label text="Category" />
+            <label className="block mb-1 text-sm font-medium text-gray-700">
+              Category
+            </label>
             <select className="input">
               <option value="" disabled>
                 Select category
               </option>
-              {Category.map((data, index) => (
+              {categories.map((data, index) => (
                 <option key={index}>{data}</option>
               ))}
             </select>
-            <div className="p-4">
-              {isadding && (
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                  }}
-                  className="bg-white shadow-md rounded-xl p-4 flex flex-col gap-3 w-full max-w-md border border-gray-200"
-                >
-                  <label
-                    htmlFor="newCategory"
-                    className="text-gray-700 font-medium"
-                  >
-                    Add New Category
-                  </label>
-                  <input
-                    id="newCategory"
-                    type="text"
-                    placeholder="Enter category name..."
-                    name="AddNewCategory"
-                    onChange={(event) => addNow(event.target.value)}
-                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-                  />
-                  <button
-                    type="submit"
-                    onClick={AddgetnewAddingCategory}
-                    className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition"
-                  >
-                    Add Category
-                  </button>
-                </form>
-              )}
 
-              <button
-                onClick={AddCategory}
-                className={`mt-4 py-2 px-6 rounded-lg shadow-md font-medium transition 
-      ${
-        isadding
-          ? "bg-red-500 text-white hover:bg-red-600"
-          : "bg-green-500 text-white hover:bg-green-600"
-      }`}
+            {showCategoryForm && (
+              <form
+                onSubmit={handleAddCategory}
+                className="bg-white shadow-md rounded-xl p-4 flex flex-col gap-3 mt-3 border border-gray-200"
               >
-                {isadding ? "Close" : "Add Category"}
-              </button>
-            </div>
+                <input
+                  type="text"
+                  placeholder="Enter category name..."
+                  value={isAddingCategory}
+                  onChange={(e) => setNewCategory(e.target.value)}
+                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <button
+                  type="submit"
+                  className="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700"
+                >
+                  Add Category
+                </button>
+              </form>
+            )}
+
+            <button
+              type="button"
+              onClick={() => setShowCategoryForm(!showCategoryForm)}
+              className={`mt-4 py-2 px-6 rounded-lg shadow-md font-medium transition 
+                ${
+                  showCategoryForm
+                    ? "bg-red-500 text-white hover:bg-red-600"
+                    : "bg-green-500 text-white hover:bg-green-600"
+                }`}
+            >
+              {showCategoryForm ? "Close" : "Add Category"}
+            </button>
           </div>
 
-          {/* Brand */}
-          <FormField label="Brand" type="text" placeholder="e.g. Nike, Apple" />
+          {/* Brand + SKU + Stock */}
+          <div className="grid grid-cols-3 gap-4">
+            <InputField label="Brand" type="text" refField={brand} />
+            <InputField label="SKU Code" type="text" refField={sku} />
+            <InputField label="Stock Qty" type="number" refField={stock} />
+          </div>
 
-          {/* Stock + Discount */}
-          <div className="flex gap-4">
-            <FormField label="Stock Qty" type="number" placeholder="e.g. 100" />
-            <FormField
-              label="Discount (%)"
+          {/* Weight + Min Order Qty */}
+          <div className="grid grid-cols-2 gap-4">
+            <InputField label="Weight (kg)" type="number" refField={weight} />
+            <InputField
+              label="Min Order Qty"
               type="number"
-              placeholder="e.g. 10"
+              refField={minimumOrderQuantity}
             />
           </div>
 
-          {/* SKU + Availability */}
-          <div className="flex gap-4">
-            <FormField label="SKU Code" type="text" placeholder="e.g. SKU123" />
-            <div className="flex-1">
-              <Label text="Availability" />
-              <select className="input">
+          {/* Dimensions */}
+          <div>
+            <label className="block mb-1 text-sm font-medium text-gray-700">
+              Dimensions
+            </label>
+            <div className="grid grid-cols-3 gap-4">
+              <InputField label="Width" type="number" refField={width} />
+              <InputField label="Height" type="number" refField={height} />
+              <InputField label="Depth" type="number" refField={depth} />
+            </div>
+          </div>
+
+          {/* Warranty + Shipping + Availability */}
+          <div className="grid grid-cols-3 gap-4">
+            <InputField
+              label="Warranty Information"
+              type="text"
+              refField={warrantyInformation}
+            />
+            <InputField
+              label="Shipping Info"
+              type="text"
+              refField={shippingInformation}
+            />
+            <div>
+              <label className="block mb-1 text-sm font-medium text-gray-700">
+                Availability
+              </label>
+              <select className="input" ref={availabilityStatus}>
                 <option>In Stock</option>
                 <option>Out of Stock</option>
               </select>
             </div>
           </div>
 
-          {/* Shipping Info + Tags */}
-          <div className="flex gap-4">
-            <FormField
-              label="Shipping Info"
-              type="text"
-              placeholder="e.g. Free Shipping"
-            />
-            <FormField
-              label="Tags"
-              type="text"
-              placeholder="e.g. phone, smart, android"
-            />
-          </div>
+          {/* Return Policy */}
+          <InputField
+            label="Return Policy"
+            type="text"
+            refField={returnPolicy}
+          />
+
+          {/* Tags */}
+          <InputField
+            label="Tags (comma separated)"
+            type="text"
+            refField={tags}
+          />
 
           {/* Description */}
-          <div>
-            <Label text="Description" />
-            <textarea
-              rows="3"
-              placeholder="Write product description..."
-              className="input resize-none"
-            ></textarea>
-          </div>
+          <TextAreaField
+            label="Description"
+            rows={3}
+            placeholder="Write product description..."
+            refField={description}
+          />
 
           {/* Highlights */}
-          <div>
-            <Label text="Highlights" />
-            <textarea
-              rows="2"
-              placeholder="e.g. Waterproof, 1-year warranty"
-              className="input resize-none"
-            ></textarea>
-          </div>
+          <TextAreaField
+            label="Highlights"
+            rows={2}
+            placeholder="e.g. Waterproof, 1-year warranty"
+            refField={highlights}
+          />
 
           {/* Product Images */}
-          <div>
-            <Label text="Product Images" />
-            <input type="file" multiple accept="image/*" className="w-full" />
-          </div>
+          <InputField
+            label="Image URL"
+            type="text"
+            refField={images}
+            placeholder="Paste image URL"
+          />
+
+          {/* Thumbnail */}
+          <InputField
+            label="Thumbnail URL"
+            type="text"
+            refField={thumbnail}
+            placeholder="Paste thumbnail URL"
+          />
 
           {/* Submit Button */}
           <button
             type="submit"
-
-            onClick={AddProducts}
-            className="w-full py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition"
+            className="w-full py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700"
           >
             Add Product
           </button>
@@ -207,17 +279,32 @@ const AddProducts=async()=>{
 
 export default AddProduct;
 
-// Reusable Input Component
-const FormField = ({ label, type, placeholder }) => (
-  <div className="flex-1">
-    <Label text={label} />
-    <input type={type} placeholder={placeholder} className="input" />
+// ✅ Reusable InputField
+const InputField = ({ label, type, refField, placeholder }) => (
+  <div>
+    <label className="block mb-1 text-sm font-medium text-gray-700">
+      {label}
+    </label>
+    <input
+      type={type}
+      ref={refField}
+      placeholder={placeholder}
+      className="input"
+    />
   </div>
 );
 
-// Label with styling
-const Label = ({ text }) => (
-  <label className="block mb-1 text-sm font-medium text-gray-700">{text}</label>
+// ✅ Reusable TextAreaField
+const TextAreaField = ({ label, rows, refField, placeholder }) => (
+  <div>
+    <label className="block mb-1 text-sm font-medium text-gray-700">
+      {label}
+    </label>
+    <textarea
+      rows={rows}
+      ref={refField}
+      placeholder={placeholder}
+      className="input resize-none"
+    ></textarea>
+  </div>
 );
-
-// Add this CSS in your global/tailwind or index.css:

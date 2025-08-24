@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import AdminNavbar from "./AdminNavbar";
-import ReactPaginate from "react-paginate";
 
 export default function AdminProducts() {
-  const productsPerPage = 5; // You can change this number
-  const sampleProducts = [
+  const items = [
     {
       id: 1,
+      name: "Wireless Headphones",
+      category: "Electronics",
+      price: "₹2,499",
+      stock: 34,
+      sku: "WH-2345",
+      image:
+        "https://cdn.pixabay.com/photo/2020/03/06/17/44/headphones-4906901_1280.jpg",
+    },
+    {
+      id: 10,
       name: "Wireless Headphones",
       category: "Electronics",
       price: "₹2,499",
@@ -56,15 +64,17 @@ export default function AdminProducts() {
         "https://cdn.pixabay.com/photo/2017/03/10/00/02/music-2137444_1280.jpg",
     },
   ];
+  const [sampleProducts, setsampleProducts] = useState(items);
 
-  const [currentPage, setCurrentPage] = useState(0);
-
-  const offset = currentPage * productsPerPage;
-  const currentItems = sampleProducts.slice(offset, offset + productsPerPage);
-  const pageCount = Math.ceil(sampleProducts.length / productsPerPage);
-
-  const handlePageClick = ({ selected }) => {
-    setCurrentPage(selected);
+  const SkuCode = useRef("");
+  const SkuCodeOnCheck = () => {
+    let check = sampleProducts.filter(
+      (SKU) => SKU.sku === SkuCode.current.value
+    );
+    setsampleProducts(check);
+    if (check.length === 0) {
+      setsampleProducts(items);
+    }
   };
 
   return (
@@ -82,6 +92,8 @@ export default function AdminProducts() {
             <input
               type="text"
               placeholder="Search by name or SKU"
+              ref={SkuCode}
+              onChange={SkuCodeOnCheck}
               className="px-4 py-2 border border-gray-300 rounded w-full sm:w-64"
             />
             <select className="px-4 py-2 border border-gray-300 rounded w-full sm:w-48">
@@ -126,9 +138,9 @@ export default function AdminProducts() {
               </tr>
             </thead>
             <tbody>
-              {currentItems.map((product, index) => (
+              {sampleProducts.map((product, index) => (
                 <tr key={product.id} className="border-b hover:bg-gray-50">
-                  <td className="px-4 py-3 text-sm">{offset + index + 1}</td>
+                  <td className="px-4 py-3 text-sm">{index + 1}</td>
                   <td className="px-4 py-3 text-sm flex items-center gap-3">
                     <img
                       src={product.image}
@@ -166,24 +178,6 @@ export default function AdminProducts() {
               ))}
             </tbody>
           </table>
-        </div>
-
-        {/* Pagination */}
-        <div className="mt-6 flex justify-center">
-          <ReactPaginate
-            breakLabel="..."
-            nextLabel="Next >"
-            onPageChange={handlePageClick}
-            pageRangeDisplayed={3}
-            pageCount={pageCount}
-            previousLabel="< Prev"
-            containerClassName="flex items-center gap-2 text-sm"
-            pageClassName="px-3 py-1 border rounded hover:bg-gray-100"
-            activeClassName="bg-blue-500 text-white"
-            previousClassName="px-3 py-1 border rounded hover:bg-gray-100"
-            nextClassName="px-3 py-1 border rounded hover:bg-gray-100"
-            breakClassName="px-2"
-          />
         </div>
       </div>
     </>
