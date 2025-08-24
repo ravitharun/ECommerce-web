@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import AdminNavbar from "./AdminNavbar";
+import { Link } from "react-router-dom";
 
 export default function AdminProducts() {
   const items = [
@@ -69,14 +70,13 @@ export default function AdminProducts() {
   const SkuCode = useRef("");
   const SkuCodeOnCheck = () => {
     let check = sampleProducts.filter(
-      (SKU) => SKU.sku === SkuCode.current.value
+      (SKU) => SKU.sku === SkuCode.current.value.toUpperCase()
     );
     setsampleProducts(check);
     if (check.length === 0) {
       setsampleProducts(items);
     }
   };
-
   return (
     <>
       <div className="sticky top-0 z-50 bg-white shadow">
@@ -102,9 +102,11 @@ export default function AdminProducts() {
               <option value="Footwear">Footwear</option>
               <option value="Clothing">Clothing</option>
             </select>
+            <Link to="/admin/add-product">
             <button className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full sm:w-auto">
               + Add Product
             </button>
+            </Link>
           </div>
         </div>
 
