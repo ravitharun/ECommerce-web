@@ -9,7 +9,7 @@ An **E-Commerce Website** built using the **MERN stack**
 
 ---
 
-## 📖 Overview
+## 📖 Overview of the project 
 
 <p>
   This project showcases <b>MERN development skills</b>, including <b>user authentication</b>, <b>product management</b>, <b>cart functionality</b>, and <b>order handling</b> with secure backend APIs. It is fully <b>mobile-responsive</b> and optimized to deliver a smooth <b>shopping experience</b>.
